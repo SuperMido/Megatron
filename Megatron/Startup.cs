@@ -1,4 +1,5 @@
 using Megatron.Data;
+using Megatron.Data.DBInit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,13 +33,18 @@ namespace Megatron
                     Configuration.GetConnectionString("SqlServerDocker")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                    .AddDefaultUI()
+                    .AddDefaultTokenProviders()
+                    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddScoped<IDbInitializer, DbInitializer>();
+
             services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -51,6 +57,9 @@ namespace Megatron
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            dbInitializer.Initialize();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
