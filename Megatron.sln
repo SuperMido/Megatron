@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megatron", "Megatron\Megatron.csproj", "{86066900-312C-4F90-8DFD-2BC5248D79C4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{86066900-312C-4F90-8DFD-2BC5248D79C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86066900-312C-4F90-8DFD-2BC5248D79C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86066900-312C-4F90-8DFD-2BC5248D79C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86066900-312C-4F90-8DFD-2BC5248D79C4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8AF545D2-EA06-41A1-BAD8-FE3AFB3C52ED}
+	EndGlobalSection
+EndGlobal
