@@ -15,7 +15,6 @@ namespace Megatron.Data
         }
 
         public DbSet<Article> Articles { get; set; }
-        public DbSet<ArticleFaculty> ArticleFaculties { get; set; }
         public DbSet<CommentArticle> CommentArticles { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
         public DbSet<Semester> Semesters { get; set; }

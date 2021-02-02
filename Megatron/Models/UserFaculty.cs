@@ -26,7 +26,7 @@ namespace Megatron.Models
         [ForeignKey("FacultyId")]
         public virtual Faculty Faculty { get; set; }
 
-        public DateTime CreateAt { get; set; }
+        private DateTime CreateAt { get; }
         public DateTime UpdateAt { get; set; }
 
         public UserFaculty()

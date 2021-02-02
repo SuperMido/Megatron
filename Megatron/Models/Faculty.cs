@@ -16,7 +16,7 @@ namespace Megatron.Models
         public string FacultyName { get; set; }
 
         public string Description { get; set; }
-        public DateTime CreateAt { get; set; }
+        private DateTime CreateAt { get; }
         public DateTime UpdateAt { get; set; }
 
         public Faculty()
