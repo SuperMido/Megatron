@@ -8,7 +8,7 @@ namespace Megatron.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public DateTime CreateAt { get; set; }
+        private DateTime CreateAt { get; }
         public DateTime UpdateAt { get; set; }
 
         public ApplicationUser()
