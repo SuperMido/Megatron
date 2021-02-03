@@ -1,0 +1,59 @@
+﻿@model Megatron.ViewModels.ArticleFacultyViewModel
+
+@{
+    ViewData["Title"] = "Create Article";
+}
+
+<div>
+    <form asp-action="SubmitArticle">
+        <partial name="_StatusMessage" model="@ViewData["Message"]" />
+        <div>
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="Article.Title" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="Article.Title" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="Article.Content" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    @Html.TextAreaFor(a => a.Article.Content, new { @id = "editor" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="Article.FacultyId" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <select asp-for="@Model.Article.FacultyId" asp-items="@Model.Faculties.Select(f => new SelectListItem() { Text = f.FacultyName.ToString(), Value = f.Id.ToString()})" class="form-control"></select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-5 offset-2">
+                    <input type="submit" class="btn btn-info form-control" value="Submit" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script src="~/lib/ckeditor/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .then(editor => {
+                console.log(editor);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+}
