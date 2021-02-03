@@ -13,6 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Megatron.Services;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Megatron
 {
@@ -39,6 +41,8 @@ namespace Megatron
                     .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddScoped<IDbInitializer, DbInitializer>();
+
+            services.AddScoped<IAdminRepository, AdminRepository>();
 
             services.AddControllersWithViews();
         }
