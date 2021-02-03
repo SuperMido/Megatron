@@ -21,11 +21,12 @@ namespace Megatron.Models
         public DateTime SemesterEndDate { get; set; }
 
         private DateTime CreateAt { get; }
-        public DateTime UpdateAt { get; set; }
+        public DateTime? UpdateAt { get; set; }
 
         public Semester()
         {
             CreateAt = DateTime.Now;
+            UpdateAt = DateTime.Now;
         }
     }
 }

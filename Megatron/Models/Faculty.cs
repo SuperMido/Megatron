@@ -17,11 +17,12 @@ namespace Megatron.Models
 
         public string Description { get; set; }
         private DateTime CreateAt { get; }
-        public DateTime UpdateAt { get; set; }
+        public DateTime? UpdateAt { get; set; }
 
         public Faculty()
         {
             CreateAt = DateTime.Now;
+            UpdateAt = DateTime.Now;
         }
     }
 }

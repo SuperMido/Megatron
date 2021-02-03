@@ -27,11 +27,12 @@ namespace Megatron.Models
         public virtual Faculty Faculty { get; set; }
 
         private DateTime CreateAt { get; }
-        public DateTime UpdateAt { get; set; }
+        public DateTime? UpdateAt { get; set; }
 
         public UserFaculty()
         {
             CreateAt = DateTime.Now;
+            UpdateAt = DateTime.Now;
         }
     }
 }
