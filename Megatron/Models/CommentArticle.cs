@@ -27,11 +27,12 @@ namespace Megatron.Models
         public virtual ApplicationUser ApplicationUser { get; set; }
 
         private DateTime CreateAt { get; }
-        public DateTime UpdateAt { get; set; }
+        public DateTime? UpdateAt { get; set; }
 
         public CommentArticle()
         {
             CreateAt = DateTime.Now;
+            UpdateAt = DateTime.Now;
         }
     }
 }
