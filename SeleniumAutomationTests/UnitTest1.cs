@@ -34,7 +34,12 @@ namespace SeleniumAutomationTests
                     {
                         driver.Url = url;
                         driver.Navigate().GoToUrl(driver.Url);
-                        Console.WriteLine("Success");
+                        string item = driver.FindElement(By.XPath("/html/body/div/main/div/p")).Text;
+                        //if (item.Equals("Welcome")) {
+                        //    throw new Exception("Success");
+                        //}
+                        //else Console.WriteLine("Failed");
+                        Assert.Equals(item, ("Welcome"));
                         break;
                     }
                     catch
@@ -44,7 +49,7 @@ namespace SeleniumAutomationTests
                 }
                 
                 //driver.Navigate().GoToUrl("https://google.com");
-                driver.Quit();
+                //driver.Quit();
             }
             
             
