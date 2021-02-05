@@ -11,7 +11,7 @@ namespace SeleniumAutomationTests
         [TestMethod]
         public void TestLoginMethod()
         {
-            string url = "https://0.0.0.0:5001";
+            string url = "https://localhost:5001";
             try
             {
                 IWebDriver driver = new ChromeDriver("C:/WebDriver/bin/");
@@ -28,11 +28,12 @@ namespace SeleniumAutomationTests
                 IWebDriver driver = new ChromeDriver("/usr/local/bin/",options);
                 //driver.Url = url;
                 int count = 0;
-                while (count <= 5)
+                while (count <= 1)
                 {
                     try
                     {
-                        driver.Navigate().GoToUrl("https://0.0.0.0:5001");
+                        driver.Url = url;
+                        driver.Navigate().GoToUrl(driver.Url);
                         break;
                     }
                     catch
