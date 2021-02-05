@@ -21,7 +21,11 @@ namespace SeleniumAutomationTests
             }
             catch
             {
-                IWebDriver driver = new ChromeDriver("/usr/local/bin/");
+                var options = new ChromeOptions();
+                options.SetLoggingPreference(LogType.Driver, LogLevel.All);
+                options.AddAdditionalCapability("useAutomationExtension", false);
+                options.AddArguments("--no-sandbox");
+                IWebDriver driver = new ChromeDriver("/usr/local/bin/",options);
                 driver.Url = url;
                 driver.Navigate().GoToUrl(url);
                 driver.Quit();
