@@ -23,7 +23,7 @@ jobs:
     - name: Setup chromedriver
       uses: nanasess/setup-chromedriver@master
     - name: Add Chrome Driver permission
-      run: sudo chmod +x chromedriver
+      run: sudo chmod +x /usr/local/bin/chromedriver
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
