@@ -11,7 +11,7 @@ namespace SeleniumAutomationTests
         [TestMethod]
         public void TestLoginMethod()
         {
-            string url = "http://localhost:5000";
+            string url = "https://localhost:5001";
             try
             {
                 IWebDriver driver = new ChromeDriver("C:/WebDriver/bin/");
