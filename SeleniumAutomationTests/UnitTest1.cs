@@ -33,7 +33,7 @@ namespace SeleniumAutomationTests
                         driver.Url = url;
                         driver.Navigate().GoToUrl(driver.Url);
                         string item = driver.FindElement(By.XPath("/html/body/div/main/div/p")).Text;
-                        Assert.Equals(item, ("Welcome"));
+                        Assert.Equals(item, ("none"));
                         
                     }
                     catch
