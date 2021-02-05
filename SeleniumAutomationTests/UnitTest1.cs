@@ -17,6 +17,9 @@ namespace SeleniumAutomationTests
                 IWebDriver driver = new ChromeDriver("C:/WebDriver/bin/");
                 driver.Url = url;
                 driver.Navigate().GoToUrl(url);
+                string item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
+                //Console.WriteLine(item);
+                Assert.AreEqual( ("Welcome"),item);
                 driver.Quit();
             }
             catch
@@ -27,22 +30,12 @@ namespace SeleniumAutomationTests
                 options.AddArguments("--disable-dev-shm-usage");
                 IWebDriver driver = new ChromeDriver("/usr/local/bin/",options);
                 //driver.Url = url;
-                
-                    try
-                    {
-                        driver.Url = url;
+                driver.Url = url;
                         driver.Navigate().GoToUrl(driver.Url);
-                        string item = driver.FindElement(By.XPath("/html/body/div/main/div/p")).Text;
-                        Assert.Equals(item, ("none"));
-                        
-                    }
-                    catch
-                    {
-                        Exception e;
-                    }    
-                
-                
-                //driver.Navigate().GoToUrl("https://google.com");
+                        string item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
+                        Assert.AreEqual( ("Welcome"),item);
+
+                        //driver.Navigate().GoToUrl("https://google.com");
                 //driver.Quit();
             }
             
