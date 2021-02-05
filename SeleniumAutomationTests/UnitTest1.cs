@@ -8,48 +8,39 @@ namespace SeleniumAutomationTests
     [TestClass]
     public class TestLogin
     {
+        private readonly IOsPlatform _osPlatform;
+        private const string Url = "https://localhost:5001";
+
+        public TestLogin(IOsPlatform osPlatform)
+        {
+            _osPlatform = osPlatform;
+        }
+
         [TestMethod]
         public void TestLoginMethod()
         {
-            string url = "https://localhost:5001";
-            IWebDriver driver = new ChromeDriver("C:/WebDriver/bin/");
-            try
+
+            IWebDriver driver = null;
+            if (_osPlatform.isWindows())
             {
-                driver.Url = url;
-                driver.Navigate().GoToUrl(url);
-                string item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
+                driver = new ChromeDriver("C:/WebDriver/bin/") {Url = Url};
+                driver.Navigate().GoToUrl(Url);
+                var item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
                 //Console.WriteLine(item);
                 Assert.AreEqual( ("Welcome"),item);
                 driver.Quit();
             }
-            catch
+            else
             {
                 var options = new ChromeOptions();
                 options.AddArguments("--headless");
                 options.AddArguments("--no-sandbox");
                 options.AddArguments("--disable-dev-shm-usage");
-                driver = new ChromeDriver("/usr/local/bin/",options);
-                //driver.Url = url;
-                
-                    try
-                    {
-                        driver.Url = url;
-                        driver.Navigate().GoToUrl(driver.Url);
-                        string item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
-                        Assert.AreEqual( ("Welcome"),item);
-                        
-                    }
-                    catch
-                    {
-                        Exception e;
-                    }    
-                
-                
-                //driver.Navigate().GoToUrl("https://google.com");
-                //driver.Quit();
+                driver = new ChromeDriver("/usr/local/bin/", options) {Url = Url};
+                driver.Navigate().GoToUrl(driver.Url);
+                var item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
+                Assert.AreEqual( ("Welcome"),item);
             }
-            
-            
         }
     }
 
