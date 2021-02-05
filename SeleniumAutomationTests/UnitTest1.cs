@@ -21,7 +21,7 @@ namespace SeleniumAutomationTests
             }
             catch
             {
-                IWebDriver driver = new ChromeDriver("/usr/local/bin/chromedriver");
+                IWebDriver driver = new ChromeDriver("/usr/local/bin/");
                 driver.Url = url;
                 driver.Navigate().GoToUrl(url);
                 driver.Quit();
