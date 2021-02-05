@@ -12,7 +12,34 @@ namespace SeleniumAutomationTests
         public void TestLoginMethod()
         {
             string url = "https://localhost:5001";
+            
             try
+            {
+                var options = new ChromeOptions();
+                options.AddArguments("--headless");
+                options.AddArguments("--no-sandbox");
+                options.AddArguments("--disable-dev-shm-usage");
+                IWebDriver driver = new ChromeDriver("/usr/local/bin/",options);
+                //driver.Url = url;
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+                    //try
+                    //{
+                        driver.Url = url;
+                        driver.Navigate().GoToUrl(driver.Url);
+                        string item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
+                        Assert.AreEqual( ("Welcome"),item);
+                        
+                  //  }
+                  //  catch
+                  //  {
+                  //      Exception e;
+                  //  }    
+                
+                
+                //driver.Navigate().GoToUrl("https://google.com");
+                //driver.Quit();
+            }
+            catch
             {
                 IWebDriver driver = new ChromeDriver("C:/WebDriver/bin/");
                 driver.Url = url;
@@ -22,33 +49,6 @@ namespace SeleniumAutomationTests
                 Assert.AreEqual( ("Welcome"),item);
                 driver.Quit();
             }
-            catch
-            {
-                var options = new ChromeOptions();
-                options.AddArguments("--headless");
-                options.AddArguments("--no-sandbox");
-                options.AddArguments("--disable-dev-shm-usage");
-                IWebDriver driver = new ChromeDriver("/usr/local/bin/",options);
-                //driver.Url = url;
-                
-                    try
-                    {
-                        driver.Url = url;
-                        driver.Navigate().GoToUrl(driver.Url);
-                        string item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
-                        Assert.AreEqual( ("Welcome"),item);
-                        
-                    }
-                    catch
-                    {
-                        Exception e;
-                    }    
-                
-                
-                //driver.Navigate().GoToUrl("https://google.com");
-                //driver.Quit();
-            }
-            
             
         }
     }
