@@ -9,7 +9,7 @@ namespace SeleniumAutomationTests
     public class TestLogin
     {
         private readonly IOsPlatform _osPlatform = new OsPlatform();
-        private const string Url = "http://localhost:5000/wd/hub";
+        private const string Url = "https://localhost:5001";
 
         [TestMethod]
         public void TestLoginMethod()
