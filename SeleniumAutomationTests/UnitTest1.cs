@@ -18,7 +18,8 @@ namespace SeleniumAutomationTests
             IWebDriver driver = null;
             if (_osPlatform.isWindows())
             {
-                driver = new ChromeDriver("C:/WebDriver/bin") {Url = Url};
+                driver = new ChromeDriver("C:/WebDriver/bin");
+                driver.Url = Url;
                 driver.Navigate().GoToUrl(Url);
                 var item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
                 //Console.WriteLine(item);
@@ -30,7 +31,8 @@ namespace SeleniumAutomationTests
                 options.AddArguments("--headless");
                 options.AddArguments("--no-sandbox");
                 options.AddArguments("--disable-dev-shm-usage");
-                driver = new ChromeDriver("/usr/local/bin", options) {Url = Url};
+                driver = new ChromeDriver("/usr/local/bin", options);
+                driver.Url = Url;
                 driver.Navigate().GoToUrl(driver.Url);
                 var item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
                 Assert.AreEqual( ("Welcome"),item);
