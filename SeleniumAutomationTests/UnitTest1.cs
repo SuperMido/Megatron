@@ -11,7 +11,7 @@ namespace SeleniumAutomationTests
         [TestMethod]
         public void TestLoginMethod()
         {
-            string url = "https://localhost:5001";
+            string url = "https://0.0.0.0:5001";
             try
             {
                 IWebDriver driver = new ChromeDriver("C:/WebDriver/bin/");
@@ -27,7 +27,7 @@ namespace SeleniumAutomationTests
                 options.AddArguments("--disable-dev-shm-usage");
                 IWebDriver driver = new ChromeDriver("/usr/local/bin/",options);
                 //driver.Url = url;
-                driver.Navigate().GoToUrl("https://localhost:5001");
+                driver.Navigate().GoToUrl("https://0.0.0.0:5001");
                 driver.Quit();
             }
             
