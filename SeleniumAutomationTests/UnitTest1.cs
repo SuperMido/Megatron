@@ -27,7 +27,21 @@ namespace SeleniumAutomationTests
                 options.AddArguments("--disable-dev-shm-usage");
                 IWebDriver driver = new ChromeDriver("/usr/local/bin/",options);
                 //driver.Url = url;
-                driver.Navigate().GoToUrl("https://google.com");
+                int count = 0;
+                while (count <= 5)
+                {
+                    try
+                    {
+                        driver.Navigate().GoToUrl("https://0.0.0.0:5001");
+                        break;
+                    }
+                    catch
+                    {
+                        count+=1;
+                    }    
+                }
+                
+                //driver.Navigate().GoToUrl("https://google.com");
                 driver.Quit();
             }
             
