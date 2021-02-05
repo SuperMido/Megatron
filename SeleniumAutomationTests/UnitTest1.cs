@@ -34,6 +34,7 @@ namespace SeleniumAutomationTests
                     {
                         driver.Url = url;
                         driver.Navigate().GoToUrl(driver.Url);
+                        Console.WriteLine("Success");
                         break;
                     }
                     catch
