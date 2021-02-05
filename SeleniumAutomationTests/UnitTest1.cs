@@ -9,7 +9,7 @@ namespace SeleniumAutomationTests
     public class TestLogin
     {
         private readonly IOsPlatform _osPlatform = new OsPlatform();
-        private const string Url = "https://localhost:5001";
+        private const string Url = "https://localhost:5001/wd/hub";
 
         [TestMethod]
         public void TestLoginMethod()
@@ -23,7 +23,6 @@ namespace SeleniumAutomationTests
                 var item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
                 //Console.WriteLine(item);
                 Assert.AreEqual( ("Welcome"),item);
-                driver.Quit();
             }
             else if (_osPlatform.isMacOs())
             {
@@ -47,6 +46,7 @@ namespace SeleniumAutomationTests
                 var item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
                 Assert.AreEqual( ("Welcome"),item);
             }
+            driver.Quit();
         }
     }
 
