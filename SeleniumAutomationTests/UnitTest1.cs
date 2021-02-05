@@ -12,9 +12,9 @@ namespace SeleniumAutomationTests
         public void TestLoginMethod()
         {
             string url = "https://localhost:5001";
+            IWebDriver driver = new ChromeDriver("C:/WebDriver/bin/");
             try
             {
-                IWebDriver driver = new ChromeDriver("C:/WebDriver/bin/");
                 driver.Url = url;
                 driver.Navigate().GoToUrl(url);
                 string item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
@@ -28,7 +28,7 @@ namespace SeleniumAutomationTests
                 options.AddArguments("--headless");
                 options.AddArguments("--no-sandbox");
                 options.AddArguments("--disable-dev-shm-usage");
-                IWebDriver driver = new ChromeDriver("/usr/local/bin/",options);
+                driver = new ChromeDriver("/usr/local/bin/",options);
                 //driver.Url = url;
                 
                     try
