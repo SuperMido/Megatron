@@ -22,10 +22,11 @@ jobs:
         dotnet-version: 5.0.x
     - name: Setup chromedriver
       uses: nanasess/setup-chromedriver@master
+      run: sudo chmod +x chromedriver
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: sudo chmod +x chromedriver ; dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal
       
