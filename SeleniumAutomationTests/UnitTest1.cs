@@ -8,13 +8,8 @@ namespace SeleniumAutomationTests
     [TestClass]
     public class TestLogin
     {
-        private readonly IOsPlatform _osPlatform;
+        private readonly IOsPlatform _osPlatform = new OsPlatform();
         private const string Url = "https://localhost:5001";
-
-        public TestLogin(IOsPlatform osPlatform)
-        {
-            _osPlatform = osPlatform;
-        }
 
         [TestMethod]
         public void TestLoginMethod()
