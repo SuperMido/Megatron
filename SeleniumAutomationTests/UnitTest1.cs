@@ -23,6 +23,7 @@ namespace SeleniumAutomationTests
             {
                 var options = new ChromeOptions();
                 options.AddArguments("--no-sandbox");
+                options.AddArguments("--disable-dev-shm-usage");
                 IWebDriver driver = new ChromeDriver("/usr/local/bin/",options);
                 driver.Url = url;
                 driver.Navigate().GoToUrl(url);
