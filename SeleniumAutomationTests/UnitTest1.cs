@@ -24,24 +24,13 @@ namespace SeleniumAutomationTests
                 //Console.WriteLine(item);
                 Assert.AreEqual( ("Welcome"),item);
             }
-            else if (_osPlatform.isMacOs())
-            {
-                var options = new ChromeOptions();
-                options.AddArguments("--headless");
-                options.AddArguments("--no-sandbox");
-                options.AddArguments("--disable-dev-shm-usage");
-                driver = new ChromeDriver("/usr/local/bin", options) {Url = Url};
-                driver.Navigate().GoToUrl(driver.Url);
-                var item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
-                Assert.AreEqual( ("Welcome"),item);
-            }
             else
             {
                 var options = new ChromeOptions();
                 options.AddArguments("--headless");
                 options.AddArguments("--no-sandbox");
                 options.AddArguments("--disable-dev-shm-usage");
-                driver = new ChromeDriver("/usr/local/bin/chromedriver", options) {Url = Url};
+                driver = new ChromeDriver("/usr/local/bin", options) {Url = Url};
                 driver.Navigate().GoToUrl(driver.Url);
                 var item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
                 Assert.AreEqual( ("Welcome"),item);
