@@ -22,6 +22,7 @@ jobs:
         dotnet-version: 5.0.x
     - name: Setup chromedriver
       uses: nanasess/setup-chromedriver@master
+    - name: Add Chrome Driver permission
       run: sudo chmod +x chromedriver
     - name: Restore dependencies
       run: dotnet restore
