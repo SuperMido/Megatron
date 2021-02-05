@@ -22,6 +22,7 @@ namespace SeleniumAutomationTests
             catch
             {
                 var options = new ChromeOptions();
+                options.AddArguments("--headless");
                 options.AddArguments("--no-sandbox");
                 options.AddArguments("--disable-dev-shm-usage");
                 IWebDriver driver = new ChromeDriver("/usr/local/bin/",options);
