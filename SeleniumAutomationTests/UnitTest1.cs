@@ -20,7 +20,7 @@ namespace SeleniumAutomationTests
             {
                 driver = new ChromeDriver("C:/WebDriver/bin");
                 driver.Navigate().GoToUrl(Url);
-                var item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
+                var item = driver.FindElement(By.XPath("//h1[@class=display-4]")).Text;
                 //Console.WriteLine(item);
                 Assert.AreEqual( ("Welcome"),item);
             }
@@ -32,7 +32,7 @@ namespace SeleniumAutomationTests
                 options.AddArguments("--disable-dev-shm-usage");
                 driver = new ChromeDriver("/usr/local/bin", options);
                 driver.Navigate().GoToUrl(driver.Url);
-                var item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
+                var item = driver.FindElement(By.XPath("//h1[@class=display-4]")).Text;
                 Assert.AreEqual( ("Welcome"),item);
             }
             driver.Quit();
