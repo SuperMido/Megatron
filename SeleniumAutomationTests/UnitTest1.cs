@@ -26,14 +26,11 @@ namespace SeleniumAutomationTests
             }
             else
             {
-                var options = new ChromeOptions();
-                options.AddArguments("--headless");
-                options.AddArguments("--no-sandbox");
-                options.AddArguments("--disable-dev-shm-usage");
-                driver = new ChromeDriver("/usr/local/bin", options);
+                driver = new ChromeDriver("/usr/local/bin");
                 driver.Navigate().GoToUrl(driver.Url);
-                var item = driver.FindElement(By.XPath("//h1[@class='display-4']")).Text;
-                Assert.AreEqual( ("Welcome"),item);
+                driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(5);
+                IWebElement element = driver.FindElement(By.XPath("//h1[@class='display-4']"));
+                Assert.AreEqual( ("Welcome"),element.Text);
             }
             driver.Quit();
         }
