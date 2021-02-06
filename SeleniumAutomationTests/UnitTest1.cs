@@ -19,7 +19,8 @@ namespace SeleniumAutomationTests
                 options.AddArguments("--headless");
                 options.AddArguments("--no-sandbox");
                 options.AddArguments("--disable-dev-shm-usage");
-                IWebDriver driver = new ChromeDriver("/usr/local/bin/",options);
+                //IWebDriver driver = new ChromeDriver("/usr/local/bin/",options);
+                IWebDriver driver = new ChromeDriver(options);
                 //driver.Url = url;
                 try
                 {
@@ -31,7 +32,11 @@ namespace SeleniumAutomationTests
                 }
                 catch
                 {
-                      Exception e;
+                    driver.Url = url;
+                    driver.Navigate().GoToUrl(driver.Url);
+                    string item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
+                    Assert.AreEqual( ("Welcome"),item);
+                    driver.Quit();
                 }    
                 
                 
@@ -40,7 +45,8 @@ namespace SeleniumAutomationTests
             }
             catch
             {
-                IWebDriver driver = new ChromeDriver("C:/WebDriver/bin/");
+                //IWebDriver driver = new ChromeDriver("C:/WebDriver/bin/");
+                IWebDriver driver = new ChromeDriver();
                 driver.Url = url;
                 driver.Navigate().GoToUrl(url);
                 string item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
