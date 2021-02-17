@@ -43,9 +43,8 @@ namespace Megatron
             services.AddScoped<IDbInitializer, DbInitializer>();
 
             services.AddScoped<IAdminRepository, AdminRepository>();
-
+            services.AddScoped<ISemesterRepository, SemesterRepository>();
             services.AddScoped<IStudentRepository, StudentRepository>();
-
             services.AddControllersWithViews();
         }
 
