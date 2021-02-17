@@ -3,6 +3,35 @@
     ViewData["Title"] = "Manage Semester";
 }
 
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#semestertable').DataTable({
+                ajax: {
+                    url: '/Semester/GetSemesters',
+                    dataSrc: ''
+                },
+                columns: [
+                    { data: 'semesterName' },
+                    { data: 'semesterStartDate' },
+                    { data: 'semesterEndDate' },
+                    { data: 'updateAt' },
+                    {
+                        data: 'id',
+                        className: "center",
+                        render: function (data) {
+                            return '<a href="Semester/Edit/' + data + '"> Edit </a>' + '/' + '<a href="Semester/Delete/' + data + '"> Delete </a>';
+                        }
+
+                    }
+                ],
+                order: [1, 'asc']
+            });
+
+        });
+    </script>
+}
+
 <div class="container p-3">
     <div class="row pt-4">
         <div class="col-6">
@@ -14,10 +43,8 @@
             </a>
         </div>
     </div>
-
     <br /><br />
-
-    <table class="table table-bordered table-striped" style="width:100%">
+    <table id="semestertable" class="display" style="width:100%">
         <thead>
             <tr>
                 <th>
@@ -32,29 +59,25 @@
                 <th>
                     Update At
                 </th>
-                <th>Action</th>
+                <th>Actions</th>
             </tr>
         </thead>
-        <tbody>
-            @foreach (var s in Model)
-            {
+        <tfoot>
             <tr>
-                <td width="40%">@s.SemesterName</td>
-                <td width="20%">@s.SemesterStartDate</td>
-                <td width="20%">@s.SemesterEndDate</td>
-                <td width="20%">@s.UpdateAt</td>
-                <td class="text-center">
-                    <div class="w-75 btn-group" role="group" >
-                        <a asp-controller="Semester" asp-route-Id="@s.Id" asp-action="Edit" class="btn btn-primary mx-0">
-                            Edit
-                        </a>
-                        <a asp-controller="Semester" asp-route-Id="@s.Id" asp-action="Delete" class="btn btn-danger mx-4" >
-                            Delete
-                        </a>
-                    </div>
-                </td>
+                <th>
+                    Semester Name
+                </th>
+                <th>
+                    Semester Start
+                </th>
+                <th>
+                    Semester End
+                </th>
+                <th>
+                    Update At
+                </th>
+                <th>Actions</th>
             </tr>
-            }
-        </tbody>
+        </tfoot>
     </table>
 </div>

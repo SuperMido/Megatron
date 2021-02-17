@@ -16,7 +16,7 @@ namespace Megatron.Services
         }
         public IEnumerable<Semester> GetAllSemesters()
         {
-            return _dbContext.Semesters;
+            return _dbContext.Semesters.ToList();
         }
         public Semester GetSemesterById(int id)
         {

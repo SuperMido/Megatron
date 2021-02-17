@@ -17,7 +17,12 @@ namespace Megatron.Controllers
         }
         public IActionResult Index()
         {
-            return View(_semesterRepository.GetAllSemesters().ToList());
+            return View();
+        }
+        public IActionResult GetSemesters()
+        {
+            var semester = _semesterRepository.GetAllSemesters();
+            return new JsonResult(semester);
         }
         public ActionResult Create()
         {
