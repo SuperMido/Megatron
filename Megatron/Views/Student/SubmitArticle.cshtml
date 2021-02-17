@@ -1,0 +1,152 @@
+﻿@model Megatron.ViewModels.ArticleFacultyViewModel
+
+@{
+    ViewData["Title"] = "Create Article";
+}
+
+<div>
+    <form asp-action="SubmitArticle">
+        <partial name="_StatusMessage" model="@ViewData["Message"]" />
+        <div>
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="Article.Title" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="Article.Title" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-2">
+                    <label class="col-form-label">Type of contribution</label>
+                </div>
+                <div class="col-3">
+                    <button hidden class="btn btn-primary" type="button" data-toggle="collapse" data-target="#ImportFileCollapse" aria-expanded="false" aria-controls="ImportFileCollapse">
+                    </button>
+                    <button hidden class="btn btn-primary" type="button" data-toggle="collapse" data-target="#TextAreaCollapse" aria-expanded="false" aria-controls="TextAreaCollapse">
+                    </button>
+                    <button id="button-collapse" class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="ImportFileCollapse TextAreaCollapse">
+                        Switch to Editor
+                    </button>
+                </div>
+            </div>
+            <div id="ImportFileCollapse" class="form-group row collapse multi-collapse">
+                <div class="col-2">
+                    <label class="col-form-label">Import file</label>
+                </div>
+                <div class="input-group mb-3 col-5">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                  </div>
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile" aria-describedby="inputGroupFileAddon">
+                    <label class="custom-file-label" for="inputGroupFile">Choose file</label>
+                  </div>
+                </div>
+            </div>
+            <div id="TextAreaCollapse" class="form-group row collapse multi-collapse">
+                <div class="col-2">
+                    <label asp-for="Article.Content" class="col-form-label"></label>
+                </div>
+                <div class="col-auto">
+                    @Html.TextAreaFor(a => a.Article.Content, new { @id = "editor" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="Article.FacultyId" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <select asp-for="@Model.Article.FacultyId" asp-items="@Model.Faculties.Select(f => new SelectListItem() { Text = f.FacultyName.ToString(), Value = f.Id.ToString()})" class="form-control"></select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-5 offset-2">
+                    <input type="submit" class="btn btn-info form-control" value="Submit" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script src="~/lib/ckeditor5/build/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'),{
+                ckfinder: {
+                    uploadUrl: '/Student/UploadImage'
+                },
+                toolbar: {
+                    items: [
+                        'heading',
+                        '|',
+                        'fontFamily',
+                        'fontSize',
+                        'fontColor',
+                        'bold',
+                        'italic',
+                        'link',
+                        'bulletedList',
+                        'numberedList',
+                        '|',
+                        'indent',
+                        'outdent',
+                        'alignment',
+                        '|',
+                        'imageUpload',
+                        'blockQuote',
+                        'insertTable',
+                        'mediaEmbed',
+                        'undo',
+                        'redo',
+                        '|',
+                        'exportWord',
+                        'exportPdf'
+                    ]
+                },
+                language: 'en',
+                image: {
+                    toolbar: [
+                        'imageTextAlternative',
+                        'imageStyle:full',
+                        'imageStyle:side'
+                    ]
+                },
+                table: {
+                    contentToolbar: [
+                        'tableColumn',
+                        'tableRow',
+                        'mergeTableCells'
+                    ]
+                },
+                licenseKey: '',
+            })
+            .then(editor => {
+                editor.ui.view.editable._editableElement.style.height = '500px';
+            })
+            .then(editor => {
+                console.log(editor);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+    <script>
+        $('#ImportFileCollapse').collapse({
+          toggle: true
+        })
+    </script>
+    <script>
+    $("#button-collapse").click(function () {
+        const button_text = $('#button-collapse').text();
+        if (button_text === "Switch to Import File") {
+            $("#button-collapse").text("Switch to Editor");
+        }else {
+            $("#button-collapse").text("Switch to Import File");
+        }
+    });
+    </script>
+}
