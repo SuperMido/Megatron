@@ -44,6 +44,8 @@ namespace Megatron
 
             services.AddScoped<IAdminRepository, AdminRepository>();
 
+            services.AddScoped<IStudentRepository, StudentRepository>();
+
             services.AddControllersWithViews();
         }
 
