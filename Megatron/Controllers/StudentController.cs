@@ -24,6 +24,10 @@ namespace Megatron.Controllers
             return View();
         }
 
+        public IActionResult GetAllArticles()
+        {
+            return new JsonResult(_studentRepository.GetAllArticles());
+        }
         //GET
         public IActionResult SubmitArticle()
         {

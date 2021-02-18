@@ -12,5 +12,8 @@ namespace Megatron.Services
         ArticleFacultyViewModel ArticleFacultyViewModel();
 
         ArticleFacultyViewModel SubmitArticle(ArticleFacultyViewModel articleFacultyViewModel);
+
+        IEnumerable<Article> GetAllArticles();
+
     }
 }

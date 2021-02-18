@@ -3,3 +3,41 @@
 @{
     ViewData["Title"] = "Article";
 }
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Article</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-controller="Student" asp-action="SubmitArticle" class="btn btn-primary">
+                Create New Article
+            </a>
+        </div>
+    </div>
+    <br /><br />
+    <table id="studentArticleTable" class="table table-bordered table-hover" style="width:100%">
+        <thead class="thead-light">
+        </thead>
+    </table>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#studentArticleTable').DataTable({
+                info: false,
+                ajax: {
+                    url: '/Student/GetAllArticles',
+                    dataSrc: ''
+                },
+                columns: [
+                    { data: 'title', title: 'Title' },
+                    { data: 'faculty' , title: 'Faculty'  },
+                    { data: 'updateAt', title: 'Update At'  },
+                ],
+                order: [1, 'asc']
+            });
+
+        });
+    </script>
+}

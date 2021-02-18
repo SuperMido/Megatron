@@ -17,6 +17,10 @@ namespace Megatron.Services
         {
             _dbContext = dbContext;
         }
+        public IEnumerable<Article> GetAllArticles()
+        {
+            return _dbContext.Articles.ToList();
+        }
 
         public ArticleFacultyViewModel ArticleFacultyViewModel()
         {
