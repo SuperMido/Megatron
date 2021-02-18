@@ -14,17 +14,24 @@ namespace Megatron.Models
 
         [Required]
         public string Title { get; set; }
+        
+        [Required]
+        public string Author { get; set; }
 
         public string Content { get; set; }
+        
         public string Image { get; set; }
-
+        
         [Display(Name = "Faculty")]
         public int FacultyId { get; set; }
-
+        
         [ForeignKey("FacultyId")]
         public virtual Faculty Faculty { get; set; }
-
-        private DateTime CreateAt { get; }
+        
+        public bool Status { get; set; }
+        
+        public DateTime CreateAt { get; set; }
+        
         public DateTime? UpdateAt { get; set; }
 
         public Article()
