@@ -34,5 +34,12 @@ namespace Megatron.Services
             var faculties = _dbContext.Faculties.ToList();
             return faculties;
         }
+
+        public Article GetArticleDetail(int id)
+        {
+            var article = _dbContext.Articles.FirstOrDefault(a => a.Id == id);
+
+            return article;
+        }
     }
 }

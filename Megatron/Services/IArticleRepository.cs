@@ -10,6 +10,8 @@ namespace Megatron.Services
         IEnumerable<Article> GetListArticlesByFaculty(int facultyId);
         
         IEnumerable<Faculty> GetFaculties();
-        
+
+        Article GetArticleDetail(int id);
+
     }
 }

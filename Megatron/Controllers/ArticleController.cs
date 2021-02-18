@@ -24,6 +24,11 @@ namespace Megatron.Controllers
             var listArticles = _articleRepository.GetListArticlesByFaculty(id);
             return View(listArticles);
         }
+        public IActionResult Details(int id)
+        {
+            var article = _articleRepository.GetArticleDetail(id);
+            return View(article);
+        }
         
         public IActionResult GetListArticles(int id)
         {

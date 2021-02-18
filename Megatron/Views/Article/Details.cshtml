@@ -1,0 +1,30 @@
+﻿@model Megatron.Models.Article
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+
+<div class="container">
+    <h1 class="my-4"> @Html.DisplayFor(m => m.Title)
+        <small>Author</small>
+    </h1>
+<div id="editor">
+    @Html.Raw(@Model.Content)
+</div>
+    
+</div>
+
+@section Scripts{
+    <script src="~/lib/ckeditor5/build/ckeditor.js"></script>
+    <script>
+        ClassicEditor.create(document.querySelector('#editor'))
+             .then(editor => { 
+                  console.log( editor ); 
+                  editor.isReadOnly = true;
+             } ) .catch( error => { 
+                  console.error( error ); 
+             } );
+    </script>
+}
