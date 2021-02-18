@@ -7,13 +7,46 @@
 
 
 <div class="container">
-    <h1 class="my-4"> @Html.DisplayFor(m => m.Title)
-        <small>Author</small>
-    </h1>
-<div id="editor">
-    @Html.Raw(@Model.Content)
-</div>
-    
+    <div class="block-heading text-center">
+        <h2 class="text-info">@Html.DisplayFor(m => m.Title)</h2>
+        <p>@Html.DisplayFor(m => m.Author)</p>
+    </div>
+    @if (Model.Status)
+    {
+        <div class="btn-group mb-3">
+            <div class="input-group-prepend mr-2">
+                <span class="input-group-text" id="basic-addon1">Status:</span>
+            </div>
+            <button class="btn btn-success" type="button" disabled>
+                <span role="status" aria-hidden="true"></span>
+                Active
+            </button>
+            <button class="btn btn-success" type="button" disabled>
+                <span role="status" aria-hidden="true"></span>
+                Approved
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="btn-group mb-3">
+            <div class="input-group-prepend mr-2">
+                <span class="input-group-text" id="basic-addon1">Status:</span>
+            </div>
+            <button class="btn btn-success" type="button" disabled>
+                <span role="status" aria-hidden="true"></span>
+                Active
+            </button>
+            <button class="btn btn-warning" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Waiting for approve
+            </button>
+        </div>
+    }
+    <div id="editor">
+        @Html.Raw(@Model.Content)
+    </div>
+
 </div>
 
 @section Scripts{
