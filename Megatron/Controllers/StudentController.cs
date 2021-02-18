@@ -61,9 +61,9 @@ namespace Megatron.Controllers
             var formFile = files[0];
             var upFileName = formFile.FileName;
             var fileName = Guid.NewGuid() + Path.GetExtension(upFileName);
-            var saveDir = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+            var saveDir = Path.Combine(_webHostEnvironment.WebRootPath, "articleImages");
             var savePath = Path.Combine(saveDir, fileName);
-            var previewPath = "/images/" + fileName;
+            var previewPath = "/articleImages/" + fileName;
  
             var result = true;
             try
@@ -77,7 +77,7 @@ namespace Megatron.Controllers
                 formFile.CopyTo(fs);
                 fs.Flush();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 result = false;
             }
