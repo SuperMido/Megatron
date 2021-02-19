@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Megatron.Models;
+using Megatron.ViewModels;
 
 namespace Megatron.Services
 {
@@ -11,7 +12,7 @@ namespace Megatron.Services
         
         IEnumerable<Faculty> GetFaculties();
 
-        Article GetArticleDetail(int id);
+        CommentArticleViewModel GetArticleDetail(int id);
 
     }
 }
