@@ -54,19 +54,6 @@ namespace Megatron.Services
 			return model;
 		}
 
-		//public bool EditArticle(Article article)
-		//{
-		//	var articleInDb = GetArticleById(article.Id);
-		//	if (article == null) return false;
-		//	articleInDb.Title = article.Title;
-		//	articleInDb.Image = article.Image;
-		//	articleInDb.FacultyId = article.FacultyId;
-		//	articleInDb.Faculty = article.Faculty;
-		//	articleInDb.Content = article.Content;
-		//	_dbContext.SaveChanges();
-		//	return true;
-		//}
-
 		public Article GetArticleById(int id)
 		{
 			return _dbContext.Articles.SingleOrDefault(a => a.Id == id);
@@ -101,7 +88,6 @@ namespace Megatron.Services
 			{
 				Article = article,
 				Faculties = _dbContext.Faculties.ToList(),
-				//StatusMessage = "Error: Article already exists in " + _dbContext.Faculties.SingleOrDefault(f => f.Id == article.FacultyId).FacultyName.ToString()
 			};
 			return true;
 
