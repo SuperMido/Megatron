@@ -1,4 +1,4 @@
-﻿@model Megatron.Models.Article
+﻿@model Megatron.Models.Faculty
 
 @{
     ViewData["Title"] = "Article";
@@ -32,8 +32,19 @@
                 },
                 columns: [
                     { data: 'title', title: 'Title' },
-                    { data: 'faculty' , title: 'Faculty'  },
-                    { data: 'updateAt', title: 'Update At'  },
+                    {
+                        data: 'status', title: 'Status', render: function (data) {
+                            if (data == false) {
+                                return 'Waiting for Approve';
+                            } else {
+                                return 'Approved';
+                            }
+
+                        }
+                    },
+                    {
+                        data: 'updateAt', title: 'Update At'
+                    },
                 ],
                 order: [1, 'asc']
             });
