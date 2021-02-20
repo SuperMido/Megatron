@@ -70,12 +70,13 @@ namespace Megatron.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				return View();
+				return View(article);
 			}
 			if (!_studentRepository.EditArticle(article))
 			{
-				return View();
+				throw new ArgumentException("Error");
 			}
+
 			return RedirectToAction("Index");
 		}
 
@@ -112,7 +113,7 @@ namespace Megatron.Controllers
 				formFile.CopyTo(fs);
 				fs.Flush();
 			}
-			catch (Exception ex)
+			catch (Exception )
 			{
 				result = false;
 			}

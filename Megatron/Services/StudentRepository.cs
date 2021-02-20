@@ -71,26 +71,17 @@ namespace Megatron.Services
 
 		public bool EditArticle(Article article)
 		{
-			var doesArticleExists = _dbContext.Articles.Include(a => a.Faculty)
-																									.Where(a => a.Title == article.Title && a.Faculty.Id == article.FacultyId);
+			var aritcleInDb = GetArticleById(article.Id);
+			if (aritcleInDb == null) return false;
 
-			if (doesArticleExists.Any())
-			{
-				throw new ArgumentException("Error");
-			}
-			else
-			{
-				var articleInDb = _dbContext.Articles.Find(article.Id);
-				_dbContext.Articles.Update(article);
-				_dbContext.SaveChanges();
-			}
-			ArticleFacultyViewModel model = new ArticleFacultyViewModel()
-			{
-				Article = article,
-				Faculties = _dbContext.Faculties.ToList(),
-			};
+			aritcleInDb.Title = article.Title;
+			aritcleInDb.Faculty = article.Faculty;
+			aritcleInDb.FacultyId = article.FacultyId;
+			aritcleInDb.Content = article.Content;
+			aritcleInDb.Image = article.Image;
+			_dbContext.Articles.Update(aritcleInDb);
+			_dbContext.SaveChanges();
 			return true;
-
 		}
 	}
 }
