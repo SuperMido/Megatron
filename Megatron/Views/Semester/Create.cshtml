@@ -5,41 +5,56 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<form method="post" asp-action="Create">
+    <div class="border p-3">
+        <div class="form-group row">
+            <h2 class="text-info pl-3">Add Semester</h2>
+        </div>
 
-<h4>Semester</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="SemesterName" class="control-label"></label>
-                <input asp-for="SemesterName" class="form-control" />
-                <span asp-validation-for="SemesterName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SemesterStartDate" class="control-label"></label>
-                <input asp-for="SemesterStartDate" class="form-control" />
-                <span asp-validation-for="SemesterStartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SemesterEndDate" class="control-label"></label>
-                <input asp-for="SemesterEndDate" class="form-control" />
-                <span asp-validation-for="SemesterEndDate" class="text-danger"></span>
-            </div>
+        <div class="row">
+            <div class="col-8">
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="SemesterName"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="SemesterName" class="form-control" />
+                        <span asp-validation-for="SemesterName" class="text-danger"></span>
+                    </div>
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="SemesterStartDate"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="SemesterStartDate" class="form-control" />
+                        <span asp-validation-for="SemesterStartDate" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="SemesterEndDate"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="SemesterEndDate" class="form-control" />
+                        <span asp-validation-for="SemesterEndDate" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <div class="col-8 offset-4 row">
+
+                        <div class="col">
+                            <input type="submit" class="btn btn-info w-100" value="Create" />
+                        </div>
+                        <div class="col">
+                            <a asp-action="Index" class="btn btn-danger w-100">Back To List</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+</form>

@@ -7,20 +7,22 @@
     <script>
         $(document).ready(function () {
             $('#semestertable').DataTable({
+                info: false,
                 ajax: {
                     url: '/Semester/GetSemesters',
                     dataSrc: ''
                 },
                 columns: [
-                    { data: 'semesterName' },
-                    { data: 'semesterStartDate' },
-                    { data: 'semesterEndDate' },
-                    { data: 'updateAt' },
+                    { data: 'semesterName', title: 'Semester Name' },
+                    { data: 'semesterStartDate', title: 'Semester Start' },
+                    { data: 'semesterEndDate', title: 'Semester End' },
+                    { data: 'updateAt', title: 'Update At' },
                     {
                         data: 'id',
                         className: "center",
+                        title: 'Actions',
                         render: function (data) {
-                            return '<a href="Semester/Edit/' + data + '"> Edit </a>' + '/' + '<a href="Semester/Delete/' + data + '"> Delete </a>';
+                            return '<a href="Semester/Edit/' + data + '" class="btn btn-success mr-1"> Edit </a>' + '<a href="Semester/Delete/' + data + '" class="btn btn-danger"> Delete </a>';
                         }
 
                     }
@@ -46,21 +48,6 @@
     <br /><br />
     <table id="semestertable" class="table table-bordered table-hover" style="width:100%">
         <thead class="thead-light">
-            <tr>
-                <th>
-                    Semester Name
-                </th>
-                <th>
-                    Semester Start
-                </th>
-                <th>
-                    Semester End
-                </th>
-                <th>
-                    Update At
-                </th>
-                <th>Actions</th>
-            </tr>
         </thead>
     </table>
 </div>
