@@ -9,10 +9,11 @@ namespace Megatron.Services
     public interface IFacultyRepository
     {
         IEnumerable<Faculty> GetFaculties();
+        bool checkExistFaculty(string name);
         Faculty GetFacultyById(int id);
         bool createFaculty(Faculty faculty);
         bool editFaculty(Faculty faculty);
         bool deleteFaculty(int id);
-        bool checkExistFaculty(string name);
+        
     }
 }

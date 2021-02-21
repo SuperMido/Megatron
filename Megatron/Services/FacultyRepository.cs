@@ -53,6 +53,7 @@ namespace Megatron.Services
             {
                 FacultyName = faculty.FacultyName,
                 Description = faculty.Description
+                //MarketingCoordinator
             };
             _db.Faculties.Add(newFaculty);
             _db.SaveChanges();

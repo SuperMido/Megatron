@@ -24,5 +24,7 @@ namespace Megatron.Models
             CreateAt = DateTime.Now;
             UpdateAt = DateTime.Now;
         }
+
+        //MarketingCoordinator
     }
 }

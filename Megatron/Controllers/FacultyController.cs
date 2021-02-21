@@ -33,12 +33,6 @@ namespace Megatron.Controllers
             return View();
         }
 
-        public IActionResult Details(int id)
-        {
-            var facultyById = _IFaculty.GetFacultyById(id);
-            return View(facultyById);
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Faculty faculty)
@@ -50,10 +44,16 @@ namespace Megatron.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult Details(int id)
+        {
+            var fal = _IFaculty.GetFacultyById(id);
+            return View(fal);
+        }
+
         public IActionResult Edit(int id)
         {
-            var facultyEdit = _IFaculty.GetFacultyById(id);
-            return View(facultyEdit);
+            var fal = _IFaculty.GetFacultyById(id);
+            return View(fal);
         }
 
         [HttpPost]
