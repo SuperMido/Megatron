@@ -45,6 +45,10 @@ namespace Megatron.Services
 
         bool IFacultyRepository.createFaculty(Faculty faculty)
         {
+            if (checkExistFaculty(faculty.FacultyName))
+            {
+                return false;
+            }
             var newFaculty = new Faculty
             {
                 FacultyName = faculty.FacultyName,
@@ -53,6 +57,11 @@ namespace Megatron.Services
             _db.Faculties.Add(newFaculty);
             _db.SaveChanges();
             return true;
+        }
+
+        public bool checkExistFaculty(string name)
+        {
+            return _db.Faculties.Any(p => p.FacultyName.Contains(name));
         }
     }
 }

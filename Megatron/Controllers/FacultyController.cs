@@ -1,6 +1,8 @@
 ﻿using Megatron.Data;
 using Megatron.Models;
 using Megatron.Services;
+using Megatron.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -30,6 +32,13 @@ namespace Megatron.Controllers
         {
             return View();
         }
+
+        public IActionResult Details(int id)
+        {
+            var facultyById = _IFaculty.GetFacultyById(id);
+            return View(facultyById);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Faculty faculty)
@@ -43,8 +52,8 @@ namespace Megatron.Controllers
 
         public IActionResult Edit(int id)
         {
-            var fal = _IFaculty.GetFacultyById(id);
-            return View(fal);
+            var facultyEdit = _IFaculty.GetFacultyById(id);
+            return View(facultyEdit);
         }
 
         [HttpPost]

@@ -13,5 +13,6 @@ namespace Megatron.Services
         bool createFaculty(Faculty faculty);
         bool editFaculty(Faculty faculty);
         bool deleteFaculty(int id);
+        bool checkExistFaculty(string name);
     }
 }
