@@ -78,8 +78,9 @@ namespace Megatron.Areas.Identity.Pages.Account
             {
                 var user = new ApplicationUser
                 {
-                    UserName = Input.FullName,
+                    FullName = Input.FullName,
                     Email = Input.Email,
+                    UserName = Input.Email,
                     PhoneNumber = Input.PhoneNumber
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
@@ -87,6 +88,9 @@ namespace Megatron.Areas.Identity.Pages.Account
                 {
                     switch (role)
                     {
+                        case SystemRoles.Administrator when (User.IsInRole(SystemRoles.Administrator)):
+                            await _userManager.AddToRoleAsync(user, SystemRoles.Administrator);
+                            break;
                         case SystemRoles.MarketingManager when (User.IsInRole(SystemRoles.Administrator)):
                             await _userManager.AddToRoleAsync(user, SystemRoles.MarketingManager);
                             break;
@@ -107,7 +111,7 @@ namespace Megatron.Areas.Identity.Pages.Account
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
                     }
-                    return RedirectToAction("Index", "Admin");
+                    return RedirectToAction("Index", "Home");
                 }
                 foreach (var error in result.Errors)
                 {
