@@ -18,7 +18,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Megatron.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
+    [Authorize(Roles = (SystemRoles.Administrator))]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;

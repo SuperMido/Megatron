@@ -11,6 +11,7 @@ namespace Megatron.Models
     {
         [Key]
         public int Id { get; set; }
+        public string Message { get; set; }
 
         [Required]
         [Display(Name = "Article")]
@@ -26,12 +27,13 @@ namespace Megatron.Models
         [ForeignKey("UserId")]
         public virtual ApplicationUser ApplicationUser { get; set; }
 
-        private DateTime CreateAt { get; }
-        public DateTime UpdateAt { get; set; }
+        public DateTime CreateAt { get; set; }
+        public DateTime? UpdateAt { get; set; }
 
         public CommentArticle()
         {
             CreateAt = DateTime.Now;
+            UpdateAt = DateTime.Now;
         }
     }
 }

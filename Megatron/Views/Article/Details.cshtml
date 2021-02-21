@@ -1,0 +1,109 @@
+﻿@using System.Security.Claims
+@using Megatron.Utility
+@model Megatron.ViewModels.CommentArticleViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<input id="ArticleId" type="hidden" value="@Model.Article.Id">
+<input type="hidden" id="userInput" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)"/>
+<div class="container">
+    <div class="block-heading text-center">
+        <h2 class="text-info">@Html.DisplayFor(m => m.Article.Title)</h2>
+        <p>@Html.DisplayFor(m => m.Article.Author)</p>
+    </div>
+    @if (Model.Article.Status)
+    {
+        <div class="btn-group mb-3">
+            <div class="input-group-prepend mr-2">
+                <span class="input-group-text" id="basic-addon1">Status:</span>
+            </div>
+            <button class="btn btn-success" type="button" disabled>
+                <span role="status" aria-hidden="true"></span>
+                Active
+            </button>
+            <button class="btn btn-success" type="button" disabled>
+                <span role="status" aria-hidden="true"></span>
+                Approved
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="btn-group mb-3">
+            <div class="input-group-prepend mr-2">
+                <span class="input-group-text" id="basic-addon1">Status:</span>
+            </div>
+            <button class="btn btn-success" type="button" disabled>
+                <span role="status" aria-hidden="true"></span>
+                Active
+            </button>
+            <button class="btn btn-warning" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Waiting for approve
+            </button>
+        </div>
+    }
+    <div id="editor">
+        @Html.Raw(@Model.Article.Content)
+    </div>
+    @if (User.IsInRole(SystemRoles.Administrator) || User.IsInRole(SystemRoles.Student) || User.IsInRole(SystemRoles.MarketingCoordinator))
+    {
+        <div id="MessageResult"></div>
+        <div class="d-flex flex-row add-comment-section mt-4 mb-2">
+            <img class="img-fluid img-responsive rounded-circle mr-2" src="https://i.imgur.com/qdiP4DB.jpg" width="38" alt="">
+            <input type="text" id="messageInput" class="form-control mr-3" placeholder="Add comment">
+            <button class="btn btn-primary" id="sendButton" type="button">Comment</button>
+        </div>
+    }
+    <div class="d-flex flex-row align-items-center text-left comment-top p-2 bg-white border-bottom px-4">
+
+    </div>
+    <div class="d-flex flex-column ml-3 mt-2">
+        <div class="d-flex flex-row post-title">
+            <h5>Comment:</h5>
+        </div>
+    </div>
+    @foreach (var item in Model.Comments)
+    {
+        <div class="container mt-1">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-12">
+                    <div class="card p-3 mt-1">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="user d-flex flex-row align-items-center">
+                                <img src="https://i.imgur.com/C4egmYM.jpg" width="30" class="user-img rounded-circle mr-2" alt="">
+                                <span>
+                                    <small class="font-weight-bold text-primary">@item.ApplicationUser.FullName:</small>
+                                </span>
+                            </div>
+                            <small>@item.CreateAt</small>
+                        </div>
+                        <div class="ml-4">
+                            <span>
+                                <small class="font-weight-bold">@item.Message</small>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts{
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/chat.js"></script>
+    <script src="~/lib/ckeditor5/build/ckeditor.js"></script>
+    <script>
+        ClassicEditor.create(document.querySelector('#editor'))
+             .then(editor => { 
+                  console.log( editor ); 
+                  editor.isReadOnly = true;
+             } ) .catch( error => { 
+                  console.error( error ); 
+             } );
+    </script>
+}
