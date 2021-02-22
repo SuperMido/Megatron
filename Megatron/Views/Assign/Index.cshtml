@@ -1,0 +1,44 @@
+﻿@model System.Collections.Generic.IEnumerable<Megatron.Models.UserFaculty>
+
+@{
+    ViewBag.Title = "Assign User";
+    Layout = "_Layout";
+}
+
+<div class="container p-3">
+    <div>
+        <a asp-action="AssignMc" class="btn btn-info float-right">&nbsp; Assign Marketing Manager</a>
+        <a asp-action="AssignGuest" class="btn btn-info float-right mr-2">&nbsp; Assign Guest</a>
+    </div>
+    <table class="table table-striped table-bordered dt-responsive nowrap table-hover" id="UserFacultyTable">
+        <thead class="thead-light"></thead>
+    </table>
+</div>
+
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            const userTable = $('#UserFacultyTable').DataTable({
+                processing: true,
+                fixedHeader: true,
+                ajax: {
+                    url: '/Assign/GetUserFaculty',
+                    dataSrc: ''
+                },
+                rowId: "id",
+                columns: [
+                    { data: "applicationUser.fullName", title: "Full Name" },
+                    { data: "applicationUser.email", title: "Email"},
+                    { data: "faculty.facultyName", title: "Faculty"},
+                    { data: "createAt", title: "Assign At",
+                        render: function(data){
+                        return moment(data).format("HH:mm - MM/DD/YYYY");
+                    }}
+                ],
+                order: [2, 'asc']
+            });
+        });
+    </script>
+}

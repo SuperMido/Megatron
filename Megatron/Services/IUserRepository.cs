@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Megatron.ViewModels;
+using Megatron.Models;
 
 namespace Megatron.Services
 {
@@ -10,5 +11,13 @@ namespace Megatron.Services
 
         public IEnumerable<UserRoleViewModel> GetAllUsers();
         
+
+        public IEnumerable<UserFaculty> GetUserInFaculty();
+
+        public UserFacultyViewModel GetMcInFaculty();
+        public UserFacultyViewModel GetGuestInFaculty();
+
+        public bool AssignMcToFaculty(UserFacultyViewModel model);
+        public bool AssignGuestToFaculty(UserFacultyViewModel model);
     }
 }
