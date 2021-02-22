@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-
 
 @if (!SignInManager.IsSignedIn(User))
 {

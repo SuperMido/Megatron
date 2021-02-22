@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Megatron.Data;
 using Megatron.Models;
+using Megatron.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Megatron.Services
@@ -35,11 +36,18 @@ namespace Megatron.Services
             return faculties;
         }
 
-        public Article GetArticleDetail(int id)
+        public CommentArticleViewModel GetArticleDetail(int id)
         {
             var article = _dbContext.Articles.FirstOrDefault(a => a.Id == id);
+            var listComments = _dbContext.CommentArticles.Include(u => u.ApplicationUser).Include(a => a.Article)
+                .Where(c => c.ArticleId == id);
 
-            return article;
+            var model = new CommentArticleViewModel
+            {
+                Article = article,
+                Comments = listComments
+            };
+            return model;
         }
     }
 }
