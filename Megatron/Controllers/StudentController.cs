@@ -6,9 +6,12 @@ using System;
 using System.IO;
 using Megatron.Extensions;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
+using Megatron.Utility;
 
 namespace Megatron.Controllers
 {
+	[Authorize(Roles = (SystemRoles.Administrator))]
 	public class StudentController : Controller
 	{
 		private readonly IStudentRepository _studentRepository;
