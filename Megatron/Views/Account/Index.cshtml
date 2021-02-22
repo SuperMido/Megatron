@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Megatron.Models.Account>
+
+@{
+    ViewData["Title"] = $"Account list ({Model.Count()} items)";
+}
+
+<p class="h3">List of accounts</p>
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-outline-primary">Create New</a>
+</div>
+<table class="table table-hover table-sm">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Firstname)</th>
+            <th>@Html.DisplayNameFor(model => model.Lastname)</th>
+            <th>@Html.DisplayNameFor(model => model.Falcuty)</th>
+            <th>@Html.DisplayNameFor(model => model.BirthDate)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td><a asp-route-id="@item.Id" asp-action="Details">@item.Firstname</a></td>
+                <td>@item.Lastname</td>
+                <td>@item.Falcuty</td>
+                <td>@item.BirthDate</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning">Edit</a>
+                </td>
+            </tr>
+        }
+        <tr><td colspan="5"><strong>Total: @Model.Count()</strong></td></tr>
+    </tbody>
+</table>

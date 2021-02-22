@@ -1,0 +1,15 @@
+﻿@model Megatron.Models.Account
+<div>
+    <p class="h3">@Model.Firstname @Model.Lastname</p>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2"><label asp-for="Firstname"></label></dt>
+        <dd class="col-sm-10">@Model.Firstname</dd>
+        <dt class="col-sm-2"><label asp-for="Lastname"></label></dt>
+        <dd class="col-sm-10">@Model.Lastname</dd>
+        <dt class="col-sm-2"><label asp-for="Falcuty"></label></dt>
+        <dd class="col-sm-10">@Model.Falcuty</dd>
+        <dt class="col-sm-2"><label asp-for="BirthDate"></label></dt>
+        <dd class="col-sm-10">@Model.BirthDate</dd>
+    </dl>
+</div>

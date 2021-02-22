@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Megatron.Services;
+using Megatron.Models;
 
 namespace Megatron
 {
@@ -40,6 +41,7 @@ namespace Megatron
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddControllersWithViews();
+            services.AddSingleton<AccountService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,12 @@
+﻿@model Megatron.Models.Account
+
+@{
+    ViewData["Title"] = Model.Firstname + " " + Model.Lastname;
+}
+
+<partial name="_Single" model="Model" />
+
+<hr />
+<div>
+    <a asp-action="Index" class="btn btn-sm btn-outline-secondary">Back to List</a>
+</div>
