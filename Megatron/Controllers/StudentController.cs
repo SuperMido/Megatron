@@ -11,7 +11,7 @@ using Megatron.Utility;
 
 namespace Megatron.Controllers
 {
-	[Authorize(Roles = (SystemRoles.Administrator))]
+	[Authorize(Roles = (SystemRoles.Student))]
 	public class StudentController : Controller
 	{
 		private readonly IStudentRepository _studentRepository;
