@@ -22,6 +22,13 @@ namespace Megatron.Controllers
             var faculties = _facultyRepository.GetFaculties();
             return new JsonResult(faculties);
         }
+        
+        public IActionResult Details(int id)
+        {
+            var facultyById = _facultyRepository.GetFacultyById(id);
+            return View(facultyById);
+        }
+
         public IActionResult Create()
         {
             return View();
