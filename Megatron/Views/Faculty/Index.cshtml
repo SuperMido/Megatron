@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Megatron.Models.Faculty>
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Faculty</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-controller="Faculty" asp-action="Create" class="btn btn-primary">
+                Create New Faculty
+            </a>
+        </div>
+    </div>
+    <br /><br />
+    <table id="facultyTable" class="table table-bordered table-hover"  style="width:100%">
+        <thead class="thead-light">
+        </thead>
+    </table>
+</div>
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#facultyTable').DataTable({
+                info: false,
+                ajax: {
+                url: '/Faculty/GetAllFaculty',
+                dataSrc: ''
+                },
+                columns: [
+                { data: 'facultyName', title: 'Faculty Name' },
+                    { data: 'updateAt', title: 'Update At' },
+                    {
+                        data: 'id', title: 'Action', render: function (data) {
+                            return '<a href="Faculty/Edit/' + data + '"> Edit </a> ' + '/' + '<a href="Faculty/Delete/' + data + '"> Delete </a>'; 
+                        }
+                    }
+                ],
+                order: [1, 'asc']
+            });
+        });
+    </script>
+}
