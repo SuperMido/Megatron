@@ -1,3 +1,13 @@
-﻿@{
-    Layout = "_Layout";
+﻿@using Megatron.Utility
+@using Microsoft.AspNetCore.Identity
+
+@if(User.Identity.IsAuthenticated)
+{
+    Layout = User.IsInRole(SystemRoles.Student) ? "_Student_Layout" : "_Authenticated_Layout";
+}
+else
+{
+    
+        Layout = "_Layout";
+    
 }
