@@ -24,7 +24,7 @@ namespace Megatron.Controllers
             _userRepository = userRepository;
         }
 
-        [Authorize(Roles = SystemRoles.Student)]
+        [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
         public IActionResult Index()
         {
             return View();
