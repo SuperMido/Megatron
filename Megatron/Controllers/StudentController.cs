@@ -24,11 +24,22 @@ namespace Megatron.Controllers
             _userRepository = userRepository;
         }
 
+        [Authorize(Roles = SystemRoles.Student)]
         public IActionResult Index()
         {
             return View();
         }
 
+        //GET
+        [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
+        public IActionResult GetTheirArticles()
+        {
+            var currentUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userFullname = _userRepository.GetUserFullName(currentUser).Result;
+
+            var listArticles = _studentRepository.GetTheirArticles(userFullname);
+            return new JsonResult(listArticles);
+        }
         //GET
         [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
         public IActionResult SubmitArticle()
