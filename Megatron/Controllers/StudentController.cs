@@ -8,6 +8,7 @@ using Megatron.Extensions;
 using Megatron.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Megatron.Models;
 
 namespace Megatron.Controllers
 {
@@ -16,12 +17,14 @@ namespace Megatron.Controllers
         private readonly IStudentRepository _studentRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IUserRepository _userRepository;
+        private readonly IFacultyRepository _facultyRepository;
 
-        public StudentController(IStudentRepository studentRepository, IWebHostEnvironment webHostEnvironment, IUserRepository userRepository)
+        public StudentController(IStudentRepository studentRepository, IWebHostEnvironment webHostEnvironment, IUserRepository userRepository, IFacultyRepository facultyRepository)
         {
             _studentRepository = studentRepository;
             _webHostEnvironment = webHostEnvironment;
             _userRepository = userRepository;
+            _facultyRepository = facultyRepository;
         }
 
         [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
@@ -107,5 +110,35 @@ namespace Megatron.Controllers
             };
             return Json(rUpload);
         }
+    //GET
+    [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
+    public ActionResult EditArticle(int id)
+    {
+      var articleInDb = _studentRepository.GetArticleById(id);
+      if (articleInDb == null)
+      {
+        return NotFound();
+      }
+      var articleVM = new ArticleFacultyViewModel
+      {
+        Article = articleInDb,
+        Faculties = _facultyRepository.GetFaculties()
+      };
+      return View(articleVM);
     }
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult EditArticle(Article article)
+    {
+      if (!ModelState.IsValid)
+      {
+        return View(article);
+      }
+      if (!_studentRepository.EditArticle(article))
+      {
+        throw new ArgumentException("...");
+      }
+      return RedirectToAction("Index");
+    }
+  }
 }

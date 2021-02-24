@@ -57,5 +57,26 @@ namespace Megatron.Services
 
             return model;
         }
+    public Article GetArticleById(int id)
+    {
+      return _dbContext.Articles.SingleOrDefault(a => a.Id == id);
     }
+
+    public bool EditArticle(Article article)
+    {
+      var articleInDb = GetArticleById(article.Id);
+      if (articleInDb == null) return false;
+      articleInDb.Title = article.Title;
+      articleInDb.Author = article.Author;
+      articleInDb.Content = article.Content;
+      articleInDb.FacultyId = article.FacultyId;
+      articleInDb.Faculty = article.Faculty;
+      articleInDb.Image = article.Image;
+      articleInDb.Status = article.Status;
+
+      _dbContext.Articles.Update(articleInDb);
+      _dbContext.SaveChanges();
+      return true;
+    }
+  }
 }
