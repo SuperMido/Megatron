@@ -30,6 +30,8 @@ namespace Megatron.Models
         
         public bool Status { get; set; }
         
+        public string StatusMessage { get; set; }
+        
         public DateTime CreateAt { get; set; }
         
         public DateTime? UpdateAt { get; set; }

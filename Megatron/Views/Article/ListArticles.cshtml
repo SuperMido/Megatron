@@ -2,8 +2,8 @@
 @model IEnumerable<Megatron.Models.Article>
 
 @{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
+    ViewBag.Title = "Article";
+    Layout = "_Authenticated_Layout";
 }
 <input id="facultyId" type="hidden" value="@Context.GetRouteData().Values["id"]">
 <div class="container p-3">

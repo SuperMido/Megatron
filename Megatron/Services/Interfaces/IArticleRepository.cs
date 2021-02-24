@@ -14,5 +14,6 @@ namespace Megatron.Services
 
         CommentArticleViewModel GetArticleDetail(int id);
 
+        bool UpdateArticleStatus(int id, bool status, string message);
     }
 }

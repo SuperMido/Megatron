@@ -49,5 +49,17 @@ namespace Megatron.Services
             };
             return model;
         }
+
+        public bool UpdateArticleStatus(int id, bool status, string message)
+        {
+            var articleInDb = _dbContext.Articles.FirstOrDefault(a => a.Id == id);
+            if (articleInDb == null) return false;
+            articleInDb.Status = status;
+            articleInDb.StatusMessage = message;
+            _dbContext.Articles.Update(articleInDb);
+            _dbContext.SaveChanges();
+
+            return true;
+        }
     }
 }

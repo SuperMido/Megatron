@@ -3,13 +3,49 @@
 @model Megatron.ViewModels.CommentArticleViewModel
 
 @{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
+    ViewBag.Title = "Article";
+    Layout = "_Authenticated_Layout";
 }
 
 <input id="ArticleId" type="hidden" value="@Model.Article.Id">
 <input type="hidden" id="userInput" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)"/>
 <div class="container">
+    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#reviewModal">
+        Take review
+    </button>
+    <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reviewModalLabel">Review contribution</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="MessageStatus"></div>
+                    <form>
+                        <div class="form-group">
+                            <label for="status" class="col-form-label">Status:</label>
+                            <select class="custom-select" id="status">
+                                <option selected>Select status</option>
+                                <option value="true">Approve</option>
+                                <option value="false">Decline</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="statusMessage" class="col-form-label">Message:</label>
+                            <textarea class="form-control" id="statusMessage"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="UpdateStatusButton" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="block-heading text-center">
         <h2 class="text-info">@Html.DisplayFor(m => m.Article.Title)</h2>
         <p>@Html.DisplayFor(m => m.Article.Author)</p>
@@ -105,5 +141,33 @@
              } ) .catch( error => { 
                   console.error( error ); 
              } );
+    </script>
+    <script>
+        document.getElementById("UpdateStatusButton").addEventListener("click", function (event) {
+            var status = document.getElementById("status").value;
+            var statusMessage = document.getElementById("statusMessage").value;
+            var articleId = document.getElementById("ArticleId").value;
+                $.ajax({
+                    url: '/Article/UpdateArticleStatus',
+                    type: 'POST',
+                    data: {articleId: articleId, status: status, statusMessage: statusMessage},
+                    success: function (response) {
+                        if (!response.success){
+                            $('#MessageStatus').html('<div class="d-flex flex-row mb-2 alert alert-warning alert-dismissible mt-2"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +response.message + '</div>');
+                        }
+                        else{
+                            setTimeout(function () {
+                                location.reload();
+                            },100);
+                        }
+                    },
+                    error: function () {
+    
+                    }
+                })  
+            .catch(function (err) {
+                return console.error(err.toString());
+            });
+        });
     </script>
 }
