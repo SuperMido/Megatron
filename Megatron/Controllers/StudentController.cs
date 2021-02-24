@@ -3,7 +3,10 @@ using Megatron.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
+using System.Security.Claims;
 using Megatron.Extensions;
+using Megatron.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 
 namespace Megatron.Controllers
@@ -12,11 +15,13 @@ namespace Megatron.Controllers
     {
         private readonly IStudentRepository _studentRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IUserRepository _userRepository;
 
-        public StudentController(IStudentRepository studentRepository, IWebHostEnvironment webHostEnvironment)
+        public StudentController(IStudentRepository studentRepository, IWebHostEnvironment webHostEnvironment, IUserRepository userRepository)
         {
             _studentRepository = studentRepository;
             _webHostEnvironment = webHostEnvironment;
+            _userRepository = userRepository;
         }
 
         public IActionResult Index()
@@ -25,9 +30,12 @@ namespace Megatron.Controllers
         }
 
         //GET
+        [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
         public IActionResult SubmitArticle()
         {
-            ArticleFacultyViewModel articleFacultyViewModel = _studentRepository.ArticleFacultyViewModel();
+            var currentUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userFullname = _userRepository.GetUserFullName(currentUser).Result;
+            var articleFacultyViewModel = _studentRepository.ArticleFacultyViewModel(userFullname);
             return View(articleFacultyViewModel);
         }
 
