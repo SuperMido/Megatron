@@ -1,6 +1,8 @@
 ﻿using Megatron.Data;
+using Megatron.Models;
 using Megatron.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Megatron.Services
@@ -23,6 +25,11 @@ namespace Megatron.Services
                 UserFullName = userName
             };
             return articleFacultyViewModel;
+        }
+
+        public IEnumerable<Article> GetPersonalArticles(string userName)
+        {
+            return _dbContext.Articles.Where(a => a.Author == userName).ToList();
         }
 
         public ArticleFacultyViewModel SubmitArticle(ArticleFacultyViewModel articleFacultyViewModel)

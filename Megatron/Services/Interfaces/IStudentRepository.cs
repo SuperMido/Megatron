@@ -1,4 +1,6 @@
-﻿using Megatron.ViewModels;
+﻿using Megatron.Models;
+using Megatron.ViewModels;
+using System.Collections.Generic;
 
 namespace Megatron.Services
 {
@@ -7,5 +9,7 @@ namespace Megatron.Services
         ArticleFacultyViewModel ArticleFacultyViewModel(string userName);
 
         ArticleFacultyViewModel SubmitArticle(ArticleFacultyViewModel articleFacultyViewModel);
+
+        IEnumerable<Article> GetPersonalArticles(string userName);
     }
 }
