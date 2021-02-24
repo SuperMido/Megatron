@@ -1,7 +1,11 @@
 ﻿using Megatron.Data;
+using Megatron.Models;
 using Megatron.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Megatron.Services
 {
@@ -14,13 +18,12 @@ namespace Megatron.Services
             _dbContext = dbContext;
         }
 
-        public ArticleFacultyViewModel ArticleFacultyViewModel(string userName)
+        public ArticleFacultyViewModel ArticleFacultyViewModel()
         {
-            var articleFacultyViewModel = new ArticleFacultyViewModel()
+            ArticleFacultyViewModel articleFacultyViewModel = new ArticleFacultyViewModel()
             {
                 Article = new Models.Article(),
-                Faculties = _dbContext.Faculties.OrderBy(f => f.FacultyName).Distinct().ToList(),
-                UserFullName = userName
+                Faculties = _dbContext.Faculties.OrderBy(f => f.FacultyName).Distinct().ToList()
             };
             return articleFacultyViewModel;
         }
@@ -41,7 +44,7 @@ namespace Megatron.Services
                 return null;
             }
 
-            var model = new ArticleFacultyViewModel()
+            ArticleFacultyViewModel model = new ArticleFacultyViewModel()
             {
                 Article = articleFacultyViewModel.Article,
                 Faculties = _dbContext.Faculties.ToList(),
