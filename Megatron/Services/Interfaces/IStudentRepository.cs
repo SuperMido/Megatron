@@ -10,6 +10,6 @@ namespace Megatron.Services
 
         ArticleFacultyViewModel SubmitArticle(ArticleFacultyViewModel articleFacultyViewModel);
 
-        IEnumerable<Article> GetTheirArticles(string userName);
+        IEnumerable<Article> GetPersonalArticles(string userName);
     }
 }

@@ -27,7 +27,7 @@ namespace Megatron.Services
             return articleFacultyViewModel;
         }
 
-        public IEnumerable<Article> GetTheirArticles(string userName)
+        public IEnumerable<Article> GetPersonalArticles(string userName)
         {
             return _dbContext.Articles.Where(a => a.Author == userName).ToList();
         }

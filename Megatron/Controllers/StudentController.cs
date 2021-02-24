@@ -32,12 +32,12 @@ namespace Megatron.Controllers
 
         //GET
         [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
-        public IActionResult GetTheirArticles()
+        public IActionResult GetPersonalArticles()
         {
             var currentUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var userFullname = _userRepository.GetUserFullName(currentUser).Result;
 
-            var listArticles = _studentRepository.GetTheirArticles(userFullname);
+            var listArticles = _studentRepository.GetPersonalArticles(userFullname);
             return new JsonResult(listArticles);
         }
         //GET
