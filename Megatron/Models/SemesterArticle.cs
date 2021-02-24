@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Megatron.Models
 {
@@ -26,7 +23,7 @@ namespace Megatron.Models
         [ForeignKey("ArticleId")]
         public virtual Article Article { get; set; }
 
-        private DateTime CreateAt { get; }
+        public DateTime CreateAt { get; set; }
         public DateTime? UpdateAt { get; set; }
 
         public SemesterArticle()
