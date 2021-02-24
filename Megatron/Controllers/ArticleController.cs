@@ -45,6 +45,22 @@ namespace Megatron.Controllers
         }
         
         [HttpPost]
+        [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator))]
+        public IActionResult UpdateArticleStatus(int articleId, bool status, string statusMessage)
+        {
+            if (statusMessage == null)
+            {
+                return Json(new {success = false, message = "Please add a message!"});
+            }
+            if (_articleRepository.UpdateArticleStatus(articleId, status, statusMessage))
+            {
+                return Json(new {success = true, message = "Article has been approved"});
+            }
+
+            return Json(new {success = false, message = "There are some error when approve!"});
+        }
+        
+        [HttpPost]
         [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student + "," + SystemRoles.MarketingCoordinator))]
         public async Task<IActionResult> SendMessage(int articleId, string message)
         {
