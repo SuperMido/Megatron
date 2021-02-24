@@ -1,15 +1,10 @@
-﻿using Megatron.Models;
-using Megatron.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Megatron.ViewModels;
 
 namespace Megatron.Services
 {
     public interface IStudentRepository
     {
-        ArticleFacultyViewModel ArticleFacultyViewModel();
+        ArticleFacultyViewModel ArticleFacultyViewModel(string userName);
 
         ArticleFacultyViewModel SubmitArticle(ArticleFacultyViewModel articleFacultyViewModel);
     }
