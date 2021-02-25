@@ -5,11 +5,16 @@
     Layout = "_Authenticated_Layout";
 }
 
-
-<div class="row">
+<div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <span class="text-uppercase page-subtitle">Dashboard</span>
+        <h3 class="page-title">Article in faculty Overview</h3>
+    </div>
+</div>
+<div class="row mt-1">
     @foreach (var item in Model)
     {
-        <div class="card" style="width: 18rem;">
+        <div class="mr-1 ml-1 card" style="width: 18rem;">
             <img src="https://images.goodsmile.info/cgm/images/product/20160301/5520/37871/large/045304fbd2c70eb4b749b7d9e393b4b1.jpg" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">@Html.DisplayFor(m => item.FacultyName)</h5>

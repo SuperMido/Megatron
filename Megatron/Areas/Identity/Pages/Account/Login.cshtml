@@ -1,61 +1,111 @@
 ﻿@page
 @model LoginModel
-
 @{
     ViewData["Title"] = "Log in";
+    Layout = "";
 }
 
-<div class="container mt--8 pb-5">
-  <div class="row justify-content-center">
-    <div class="col-lg-5 col-md-7">
-      <div class="card bg-secondary border-0 mb-0">
-        <div class="card-body px-lg-5 py-lg-5">
-          <div class="justify-content-center text-center">
-            <h1 class="text-blue">Login</h1>  
-            </div>
-          <form role="form" id="account" method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group mb-3">
-              <label asp-for="Input.Email"></label>
-              <div class="input-group input-group-merge input-group-alternative">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                </div>
-                <input asp-for="Input.Email" class="form-control" placeholder="Email"/>
-              </div>
-              <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-              <label asp-for="Input.Password"></label>
-              <div class="input-group input-group-merge input-group-alternative">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                </div>
-                <input asp-for="Input.Password" class="form-control" placeholder="Password"/>
-              </div>
-              <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="custom-control custom-control-alternative custom-checkbox">
-              <label asp-for="Input.RememberMe">
-                <input asp-for="Input.RememberMe"/>
-                @Html.DisplayNameFor(m => m.Input.RememberMe)
-              </label>
-            </div>
-            <div class="text-center">
-              <button type="submit" class="btn btn-primary my-4">Log in</button>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="row mt-3">
-        <div class="col-6">
-          <a id="forgot-password" asp-page="./ForgotPassword"><small>Forgot password?</small></a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<html lang="en">
+<head>
+	<title>Login V4</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="~/Login_v4/images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="~/Login_v4/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="~/Login_v4/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="~/Login_v4/fonts/iconic/css/material-design-iconic-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="~/Login_v4/vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="~/Login_v4/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="~/Login_v4/vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="~/Login_v4/vendor/select2/select2.min.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="~/Login_v4/vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="~/Login_v4/css/util.css">
+	<link rel="stylesheet" type="text/css" href="~/Login_v4/css/main.css">
+<!--===============================================================================================-->
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url(/Login_v4/images/bg-01.jpg);">
+			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+				<form id="account" method="post" class="login100-form validate-form">
+					<span class="login100-form-title p-b-49">
+						Login
+					</span>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+					<div class="wrap-input100 validate-input m-b-23" data-validate = "Username is reauired">
+						<span class="label-input100">Username</span>
+						<input class="input100" asp-for="Input.Email" placeholder="Type your username">
+						<span class="focus-input100" data-symbol="&#xf206;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Password is required">
+						<span class="label-input100">Password</span>
+						<input class="input100" asp-for="Input.Password" placeholder="Type your password">
+						<span class="focus-input100" data-symbol="&#xf190;"></span>
+					</div>
+
+					<div class="container-login100-form-btn mt-4">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button type="submit" class="login100-form-btn">
+								Login
+							</button>
+						</div>
+					</div>
+
+					<div class="txt1 text-center p-t-54 p-b-20">
+						<span>
+						</span>
+					</div>
+
+					<div class="flex-c-m">
+						<a href="#" class="login100-social-item bg1">
+							<i class="fa fa-facebook"></i>
+						</a>
+
+						<a href="#" class="login100-social-item bg2">
+							<i class="fa fa-twitter"></i>
+						</a>
+
+						<a href="#" class="login100-social-item bg3">
+							<i class="fa fa-google"></i>
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+
+	<div id="dropDownSelect1"></div>
+	
+<!--===============================================================================================-->
+	<script src="~/Login_v4/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="~/Login_v4/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="~/Login_v4/vendor/bootstrap/js/popper.js"></script>
+	<script src="~/Login_v4/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="~/Login_v4/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="~/Login_v4/vendor/daterangepicker/moment.min.js"></script>
+	<script src="~/Login_v4/vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+	<script src="~/Login_v4/vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+	<script src="~/Login_v4/js/main.js"></script>
+
+</body>
+</html>

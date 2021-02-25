@@ -5,42 +5,41 @@
     Layout = "_Authenticated_Layout";
 }
 
-<div class="container-fluid">
-    <partial name="_StatusMessage" model="@ViewData["Message"]"/>
-    <h3 class="text-dark mb-4">Assign Marketing Manager</h3>
-    <div class="card shadow">
-        <div class="card-header py-3">
-            <p class="text-primary m-0 font-weight-bold">
-                Assign Marketing Manager to Faculty
-            </p>
-        </div>
-        <div class="card-body">
-            <form method="post" asp-action="AssignMc">
-                <div class="backgroundWhite shadowNew">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group row">
-                        <div class="col-2">
-                            <label asp-for="UserFaculty.UserId" class="col-form-label"></label>
-                        </div>
-                        <div class="col-5">
-                            <select asp-for="@Model.UserFaculty.UserId" id="UserId" asp-items="Model.User.Select(u => new SelectListItem() {Text = u.FullName.ToString(), Value = u.Id})" class="form-control"></select>
-                        </div>
+
+<div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <span class="text-uppercase page-subtitle">Dashboard</span>
+        <h3 class="page-title">Assign MC to Faculty</h3>
+    </div>
+</div>
+<partial name="_StatusMessage" model="@ViewData["Message"]"/>
+<div class="card shadow">
+    <div class="card-body">
+        <form method="post" asp-action="AssignMc">
+            <div class="backgroundWhite shadowNew">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label asp-for="UserFaculty.UserId" class="col-form-label"></label>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-2">
-                            <label asp-for="UserFaculty.FacultyId" class="col-form-label"></label>
-                        </div>
-                        <div class="col-5">
-                            <select asp-for="@Model.UserFaculty.FacultyId" id="FacultyId" asp-items="Model.Faculty.Select(f => new SelectListItem() {Text = f.FacultyName.ToString(), Value = f.Id.ToString()})" class="form-control"></select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-5 offset-2">
-                            <partial name="_AssignAndBackToListButton"/>
-                        </div>
+                    <div class="col-5">
+                        <select asp-for="@Model.UserFaculty.UserId" id="UserId" asp-items="Model.User.Select(u => new SelectListItem() {Text = u.FullName.ToString(), Value = u.Id})" class="form-control"></select>
                     </div>
                 </div>
-            </form>
-        </div>
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label asp-for="UserFaculty.FacultyId" class="col-form-label"></label>
+                    </div>
+                    <div class="col-5">
+                        <select asp-for="@Model.UserFaculty.FacultyId" id="FacultyId" asp-items="Model.Faculty.Select(f => new SelectListItem() {Text = f.FacultyName.ToString(), Value = f.Id.ToString()})" class="form-control"></select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-5 offset-2">
+                        <partial name="_AssignAndBackToListButton"/>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
