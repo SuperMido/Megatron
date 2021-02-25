@@ -22,16 +22,20 @@ namespace Megatron.Controllers
         }
 
         // GET
+        [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator + "," + SystemRoles.MarketingManager))]
         public IActionResult Index()
         {
             return View(_articleRepository.GetFaculties());
         }
 
+        [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator + "," + SystemRoles.MarketingManager))]
         public IActionResult ListArticles(int id)
         {
             var listArticles = _articleRepository.GetListArticlesByFaculty(id);
             return View(listArticles);
         }
+        
+        [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator + "," + SystemRoles.MarketingManager+ "," + SystemRoles.Student))]
         public IActionResult Details(int id)
         {
             var article = _articleRepository.GetArticleDetail(id);

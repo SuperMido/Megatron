@@ -2,12 +2,12 @@
 using Megatron.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Megatron.Utility;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Megatron.Controllers
 {
+    [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.MarketingManager))]
     public class SemesterController : Controller
     {
         private readonly ISemesterRepository _semesterRepository;
@@ -24,6 +24,7 @@ namespace Megatron.Controllers
             var semester = _semesterRepository.GetAllSemesters();
             return new JsonResult(semester);
         }
+        [Authorize(Roles = (SystemRoles.Administrator))]
         public ActionResult Create()
         {
             return View();
@@ -31,6 +32,7 @@ namespace Megatron.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = (SystemRoles.Administrator))]
         public ActionResult Create(Semester semester)
         {
             if (!ModelState.IsValid)
@@ -44,6 +46,7 @@ namespace Megatron.Controllers
 
             return RedirectToAction("Index");
         }
+        [Authorize(Roles = (SystemRoles.Administrator))]
         public ActionResult Delete(int id)
         {
             if (!_semesterRepository.DeleteSemester(id))
@@ -52,6 +55,7 @@ namespace Megatron.Controllers
             }
             return RedirectToAction("Index");
         }
+        [Authorize(Roles = (SystemRoles.Administrator))]
         public ActionResult Edit(int id)
         {
             var semesterInDb = _semesterRepository.GetSemesterById(id);
@@ -63,6 +67,7 @@ namespace Megatron.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = (SystemRoles.Administrator))]
         public ActionResult Edit(Semester semester)
         {
             if (!ModelState.IsValid)

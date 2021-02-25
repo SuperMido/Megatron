@@ -12,12 +12,17 @@
         <span class="text-uppercase page-subtitle">Dashboard</span>
         <h3 class="page-title">Article Overview</h3>
     </div>
+    @if (!User.IsInRole(SystemRoles.Student))
+    {
+        <div class="col-12 mt-3">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">
+                Take review
+            </button>
+        </div>
+    }
 </div>
 <input id="ArticleId" type="hidden" value="@Model.Article.Id">
 <input type="hidden" id="userInput" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)"/>
-<button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#reviewModal">
-    Take review
-</button>
 <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -61,11 +66,11 @@
         <div class="input-group-prepend mr-2">
             <span class="input-group-text" id="basic-addon1">Status:</span>
         </div>
-        <button class="btn btn-success" type="button" disabled>
+        <button class="btn btn-success" type="button">
             <span role="status" aria-hidden="true"></span>
             Active
         </button>
-        <button class="btn btn-success" type="button" disabled>
+        <button class="btn btn-success" type="button">
             <span role="status" aria-hidden="true"></span>
             Approved
         </button>
@@ -77,7 +82,7 @@ else
         <div class="input-group-prepend mr-2">
             <span class="input-group-text" id="basic-addon1">Status:</span>
         </div>
-        <button class="btn btn-success" type="button" disabled>
+        <button class="btn btn-success" type="button">
             <span role="status" aria-hidden="true"></span>
             Active
         </button>
@@ -122,7 +127,7 @@ else
                         </div>
                         <small>@item.CreateAt</small>
                     </div>
-                    <div class="ml-4">
+                    <div class="mt-2 ml-1 d-flex justify-content-between align-items-center">
                         <span>
                             <small class="font-weight-bold">@item.Message</small>
                         </span>
