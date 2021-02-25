@@ -1,5 +1,4 @@
 ﻿@using System.Security.Claims
-@using Megatron.Utility
 @model Megatron.ViewModels.CommentArticleViewModel
 
 @{
@@ -7,9 +6,9 @@
     Layout = "_Authenticated_Layout";
 }
 
-<input id="ArticleId" type="hidden" value="@Model.Article.Id">
-<input type="hidden" id="userInput" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)"/>
-<div class="container">
+<div class="row">
+    <input id="ArticleId" type="hidden" value="@Model.Article.Id">
+    <input type="hidden" id="userInput" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)"/>
     <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#reviewModal">
         Take review
     </button>
