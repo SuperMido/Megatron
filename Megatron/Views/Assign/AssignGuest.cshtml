@@ -2,18 +2,18 @@
 
 @{
     ViewBag.Title = "Assign Guest";
-    Layout = "_Layout";
+    Layout = "_Authenticated_Layout";
 }
 
+<div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <span class="text-uppercase page-subtitle">Dashboard</span>
+        <h3 class="page-title">Assign Guest to Faculty</h3>
+    </div>
+</div>
 <div class="container-fluid">
     <partial name="_StatusMessage" model="@ViewData["Message"]"/>
-    <h3 class="text-dark mb-4">Assign Guest</h3>
     <div class="card shadow">
-        <div class="card-header py-3">
-            <p class="text-primary m-0 font-weight-bold">
-                Assign Guest to Faculty
-            </p>
-        </div>
         <div class="card-body">
             <form method="post" asp-action="AssignGuest">
                 <div class="backgroundWhite shadowNew">

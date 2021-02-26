@@ -2,81 +2,105 @@
 
 @{
     ViewData["Title"] = "Create Article";
+    Layout = "_Authenticated_Layout";
 }
 
-<div>
-    <form asp-action="SubmitArticle">
-        <partial name="_StatusMessage" model="@ViewData["Message"]"/>
-        <div>
-            <div class="form-group row">
-                <div class="col-2">
-                    <label asp-for="Article.Title" class="col-form-label"></label>
-                </div>
-                <div class="col-5">
-                    <input asp-for="Article.Title" class="form-control"/>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-2">
-                    <label asp-for="Article.Author" class="col-form-label"></label>
-                </div>
-                <div class="col-5">
-                    <input asp-for="Article.Author" class="form-control" readonly value="@Model.UserFullName"/>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-2">
-                    <label class="col-form-label">Type of contribution</label>
-                </div>
-                <div class="col-3">
-                    <button hidden class="btn btn-primary" type="button" data-toggle="collapse" data-target="#ImportFileCollapse" aria-expanded="false" aria-controls="ImportFileCollapse">
-                    </button>
-                    <button hidden class="btn btn-primary" type="button" data-toggle="collapse" data-target="#TextAreaCollapse" aria-expanded="false" aria-controls="TextAreaCollapse">
-                    </button>
-                    <button id="button-collapse" class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="ImportFileCollapse TextAreaCollapse">
-                        Switch to Editor
-                    </button>
-                </div>
-            </div>
-            <div id="ImportFileCollapse" class="form-group row collapse multi-collapse">
-                <div class="col-2">
-                    <label class="col-form-label">Import file</label>
-                </div>
-                <div class="input-group mb-3 col-5">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+<div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <span class="text-uppercase page-subtitle">Dashboard</span>
+        <h3 class="page-title">Submit Article</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-9 col-md-12">
+        <div class="card card-small mb-3">
+            <div class="card-body">
+                <form asp-action="SubmitArticle" id="SubmitForm" class="add-new-post">
+                    <input asp-for="Article.Author" hidden class="form-control" readonly value="@Model.UserFullName"/>
+                    <partial name="_StatusMessage" model="@ViewData["Message"]"/>
+                    <input asp-for="Article.Title" class="form-control form-control-lg mb-3" type="text" placeholder="Your Post Title">
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="Article.FacultyId" class="col-form-label"></label>
+                        </div>
+                        <div class="col-5">
+                            <select asp-for="@Model.Article.FacultyId" asp-items="@Model.Faculties.Select(f => new SelectListItem() {Text = f.FacultyName.ToString(), Value = f.Id.ToString()})" class="form-control"></select>
+                        </div>
                     </div>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="inputGroupFile" aria-describedby="inputGroupFileAddon">
-                        <label class="custom-file-label" for="inputGroupFile">Choose file</label>
+                    <div id="ImportFileCollapse" class="form-group row collapse multi-collapse">
+                        <div class="col-2">
+                            <label class="col-form-label">Import file</label>
+                        </div>
+                        <div class="input-group mb-3 col-auto">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                            </div>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="inputGroupFile" aria-describedby="inputGroupFileAddon">
+                                <label class="custom-file-label" for="inputGroupFile">Choose file</label>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div id="TextAreaCollapse" class="form-group row collapse multi-collapse">
-                <div class="col-2">
-                    <label asp-for="Article.Content" class="col-form-label"></label>
-                </div>
-                <div class="col-auto">
-                    @Html.TextAreaFor(a => a.Article.Content, new {@id = "editor"})
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-2">
-                    <label asp-for="Article.FacultyId" class="col-form-label"></label>
-                </div>
-                <div class="col-5">
-                    <select asp-for="@Model.Article.FacultyId" asp-items="@Model.Faculties.Select(f => new SelectListItem() {Text = f.FacultyName.ToString(), Value = f.Id.ToString()})" class="form-control"></select>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-5 offset-2">
-                    <input type="submit" class="btn btn-info form-control" value="Submit"/>
-                </div>
+                    <div id="TextAreaCollapse" class="form-group row collapse multi-collapse">
+                        <div class="col-2">
+                            <label asp-for="Article.Content" class="col-form-label"></label>
+                        </div>
+                        <div id="editor-container" class="ml-1 add-new-post__editor mb-1">
+                            @Html.TextAreaFor(a => a.Article.Content, new {@id = "editor"})
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-    </form>
+    </div>
+    <div class="col-lg-3 col-md-12">
+        <div class='card card-small mb-3'>
+            <div class="card-header border-bottom">
+                <h6 class="m-0">Actions</h6>
+            </div>
+            <div class='card-body p-0'>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item p-3">
+                        <span class="d-flex mb-2">
+                            <i class="material-icons mr-1">flag</i>
+                            <strong class="mr-1">Status:</strong> Draft
+                            <a class="ml-auto" href="#">Edit</a>
+                        </span>
+                        <span class="d-flex mb-2">
+                            <i class="material-icons mr-1">visibility</i>
+                            <strong class="mr-1">Visibility:</strong>
+                            <strong class="text-success">Public</strong>
+                            <a class="ml-auto" href="#">Edit</a>
+                        </span>
+                        <span class="d-flex mb-2">
+                            <i class="material-icons mr-1">calendar_today</i>
+                            <strong class="mr-1">Author:</strong>@Model.UserFullName
+                            <input hidden asp-for="Article.Author" class="form-control" readonly value="@Model.UserFullName"/>
+                            <a class="ml-auto" href="#">Edit</a>
+                        </span>
+                        <span class="d-flex">
+                            <i class="material-icons mr-1">score</i>
+                            <strong class="mr-1">Readability:</strong>
+                            <strong class="text-warning">Ok</strong>
+                        </span>
+                    </li>
+                    <li class="list-group-item d-flex px-3">
+                        <button hidden class="btn btn-primary" type="button" data-toggle="collapse" data-target="#ImportFileCollapse" aria-expanded="false" aria-controls="ImportFileCollapse">
+                        </button>
+                        <button hidden class="btn btn-primary" type="button" data-toggle="collapse" data-target="#TextAreaCollapse" aria-expanded="false" aria-controls="TextAreaCollapse">
+                        </button>
+                        <button id="button-collapse" class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="ImportFileCollapse TextAreaCollapse">
+                            Switch to Editor
+                        </button>
+                        <button form="SubmitForm" type="submit" class="btn btn-sm btn-accent ml-auto">
+                            <i class="material-icons">file_copy</i> Submit
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- / Post Overview -->
+    </div>
 </div>
 
 @section Scripts{

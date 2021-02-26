@@ -43,6 +43,7 @@ namespace Megatron.Controllers
             var listArticles = _studentRepository.GetPersonalArticles(userFullname);
             return new JsonResult(listArticles);
         }
+        
         //GET
         [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
         public IActionResult SubmitArticle()
@@ -55,6 +56,7 @@ namespace Megatron.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
         public IActionResult SubmitArticle(ArticleFacultyViewModel articleFacultyViewModel)
         {
             var articleSubmit = _studentRepository.SubmitArticle(articleFacultyViewModel);
@@ -68,6 +70,7 @@ namespace Megatron.Controllers
         }
         
         [HttpPost]
+        [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
         public ActionResult UploadImage()
         {                  
             var files = Request.Form.Files;
@@ -128,6 +131,7 @@ namespace Megatron.Controllers
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
     public ActionResult EditArticle(Article article)
     {
       if (!ModelState.IsValid)

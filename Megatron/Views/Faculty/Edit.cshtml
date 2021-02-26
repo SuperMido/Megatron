@@ -1,58 +1,53 @@
 ﻿@model Megatron.Models.Faculty
 
-<form method="post">
-    <input asp-for="Id" hidden />
-    <div class="border p-3">
+@{
+    ViewBag.Title = "Faculty";
+    Layout = "_Authenticated_Layout";
+}
 
-        <div class="form-group row">
-            <h2 class="text-info pl-3">Edit</h2>
-        </div>
-        <div class="row">
-            <div class="col-8">
+
+<div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <span class="text-uppercase page-subtitle">Dashboard</span>
+        <h3 class="page-title">Edit Faculty</h3>
+    </div>
+</div>
+<div class="card shadow">
+    <div class="card-body">
+        <form method="post">
+            <div class="backgroundWhite shadowNew">
                 <div class="form-group row">
-                    <div class="col-4">
+                    <div class="col-2">
                         <label asp-for="FacultyName"></label>
                     </div>
-                    <div class="col-8">
-                        <input asp-for="FacultyName" class="form-control" />
+                    <div class="col-5">
+                        <input asp-for="FacultyName" class="form-control"/>
                         <span asp-validation-for="FacultyName" class="text-danger"></span>
                     </div>
-
                 </div>
                 <div class="form-group row">
-                    <div class="col-4">
+                    <div class="col-2">
                         <label asp-for="Description"></label>
                     </div>
-                    <div class="col-8">
-                        <input asp-for="Description" class="form-control" />
+                    <div class="col-5">
+                        <input asp-for="Description" class="form-control"/>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
-
                 </div>
                 <div class="form-group row">
-                    <div class="col-8 offset-4 row">
-
-                        <div class="col">
-                            <input type="submit" class="btn btn-info w-100" value="Submit" />
-                        </div>
-                        <div class="col">
-                            <a asp-action="Index" class="btn btn-success w-100"><i class="fas fa-sign-out-alt"></i>Back To List</a>
-                        </div>
+                    <div class="col-5 offset-2 ">
+                       <partial name="_EditAndBackToListButton" model="Model.Id" />
                     </div>
                 </div>
             </div>
-            <div class="col-4">
-                @* Keep this empty *@
-            </div>
-        </div>
+        </form>
     </div>
-
-</form>
+</div>
 
 @section Scripts{
 
     @{
-        <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial"/>
     }
 
 }

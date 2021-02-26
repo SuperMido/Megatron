@@ -5,12 +5,17 @@
     ViewBag.Title = "Article";
     Layout = "_Authenticated_Layout";
 }
-<input id="facultyId" type="hidden" value="@Context.GetRouteData().Values["id"]">
-<div class="container p-3">
-    <table class="table table-striped table-bordered dt-responsive nowrap table-hover" id="ArticleTable">
-        <thead class="thead-light"></thead>
-    </table>
+
+<div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <span class="text-uppercase page-subtitle">Dashboard</span>
+        <h3 class="page-title">Blog Overview</h3>
+    </div>
 </div>
+<input id="facultyId" type="hidden" value="@Context.GetRouteData().Values["id"]">
+<table class="table table-striped table-bordered dt-responsive nowrap table-hover" id="ArticleTable">
+    <thead class="thead-light"></thead>
+</table>
 
 @section Scripts {
     <script>

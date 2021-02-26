@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Megatron.Models.Semester>
 @{
     ViewData["Title"] = "Manage Semester";
+    Layout = "_Authenticated_Layout";
 }
 
 @section scripts{
@@ -34,20 +35,18 @@
     </script>
 }
 
-<div class="container p-3">
-    <div class="row pt-4">
-        <div class="col-6">
-            <h2 class="text-primary">Semester</h2>
-        </div>
-        <div class="col-6 text-right">
-            <a asp-controller="Semester" asp-action="Create" class="btn btn-primary">
-                Create New Semester
-            </a>
-        </div>
+<div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <span class="text-uppercase page-subtitle">Dashboard</span>
+        <h3 class="page-title">Semester Overview</h3>
     </div>
-    <br /><br />
-    <table id="semestertable" class="table table-bordered table-hover" style="width:100%">
-        <thead class="thead-light">
-        </thead>
-    </table>
+    <div class="col-12 mt-3">
+        <a asp-controller="Semester" asp-action="Create" class="btn btn-primary">
+            Create New Semester
+        </a>
+    </div>
 </div>
+<table id="semestertable" class="table table-bordered table-hover" style="width:100%">
+    <thead class="thead-light">
+    </thead>
+</table>

@@ -2,9 +2,12 @@
 using Megatron.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Megatron.Utility;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Megatron.Controllers
 {
+    [Authorize(Roles = (SystemRoles.Administrator))]
     public class FacultyController : Controller
     {
         private readonly IFacultyRepository _facultyRepository;

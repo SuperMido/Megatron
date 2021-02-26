@@ -3,11 +3,10 @@
 
 @if(User.Identity.IsAuthenticated)
 {
-    Layout = User.IsInRole(SystemRoles.Student) ? "_Student_Layout" : "_Authenticated_Layout";
+    Layout = "_Authenticated_Layout";
 }
 else
 {
-    
-        Layout = "_Layout";
+    Layout = "_Layout";
     
 }

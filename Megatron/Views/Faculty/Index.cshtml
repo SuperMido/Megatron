@@ -1,26 +1,25 @@
 ﻿@model IEnumerable<Megatron.Models.Faculty>
 @{
-    ViewData["Title"] = "Index";
+    ViewBag.Title = "Faculty";
+    Layout = "_Authenticated_Layout";
 }
 
-
-<div class="container p-3">
-    <div class="row pt-4">
-        <div class="col-6">
-            <h2 class="text-primary">Faculty</h2>
-        </div>
-        <div class="col-6 text-right">
-            <a asp-controller="Faculty" asp-action="Create" class="btn btn-primary">
-                Create New Faculty
-            </a>
-        </div>
+<div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <span class="text-uppercase page-subtitle">Dashboard</span>
+        <h3 class="page-title">Faculty Overview</h3>
     </div>
-    <br /><br />
-    <table id="facultyTable" class="table table-bordered table-hover"  style="width:100%">
-        <thead class="thead-light">
-        </thead>
-    </table>
+    <div class="col-12 mt-3">
+        <a asp-controller="Faculty" asp-action="Create" class="btn btn-primary">
+            Create New Faculty
+        </a>
+    </div>
 </div>
+<table id="facultyTable" class="table table-bordered table-hover" style="width:100%">
+    <thead class="thead-light">
+    </thead>
+</table>
+
 @section scripts {
     <script>
         $(document).ready(function () {
