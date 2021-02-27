@@ -19,5 +19,9 @@ namespace Megatron.Services
 
         public bool AssignMcToFaculty(UserFacultyViewModel model);
         public bool AssignGuestToFaculty(UserFacultyViewModel model);
+
+        bool DeleteAccount(string id);
+        ApplicationUser GetUserById(string id);
+        bool EditAccount(ApplicationUser applicationUser);
     }
 }
