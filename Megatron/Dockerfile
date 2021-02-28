@@ -7,10 +7,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /src
-COPY ["Megatron/Megatron.csproj", "Megatron/"]
-RUN dotnet restore "Megatron/Megatron.csproj"
+COPY ["Megatron.csproj", "./"]
+RUN dotnet restore "./Megatron.csproj"
 COPY . .
-WORKDIR "/src/Megatron"
+WORKDIR "/src/."
 RUN dotnet build "Megatron.csproj" -c Release -o /app/build
 
 FROM build AS publish
