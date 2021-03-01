@@ -19,7 +19,8 @@ namespace Megatron.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IFacultyRepository _facultyRepository;
 
-        public StudentController(IStudentRepository studentRepository, IWebHostEnvironment webHostEnvironment, IUserRepository userRepository, IFacultyRepository facultyRepository)
+        public StudentController(IStudentRepository studentRepository, IWebHostEnvironment webHostEnvironment,
+            IUserRepository userRepository, IFacultyRepository facultyRepository)
         {
             _studentRepository = studentRepository;
             _webHostEnvironment = webHostEnvironment;
@@ -43,7 +44,7 @@ namespace Megatron.Controllers
             var listArticles = _studentRepository.GetPersonalArticles(userFullname);
             return new JsonResult(listArticles);
         }
-        
+
         //GET
         [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
         public IActionResult SubmitArticle()
@@ -69,80 +70,39 @@ namespace Megatron.Controllers
             return View(articleSubmit);
         }
         
-        [HttpPost]
         [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
-        public ActionResult UploadImage()
-        {                  
-            var files = Request.Form.Files;
-            if (files.Count == 0 || !files[0].IsImage())
+        public ActionResult EditArticle(int id)
+        {
+            var articleInDb = _studentRepository.GetArticleById(id);
+            if (articleInDb == null)
             {
-                var rError = new
-                {
-                    uploaded = false,
-                    url = string.Empty
-                };
-                return Json(rError);
+                return NotFound();
             }
-            var formFile = files[0];
-            var upFileName = formFile.FileName;
-            var fileName = Guid.NewGuid() + Path.GetExtension(upFileName);
-            var saveDir = Path.Combine(_webHostEnvironment.WebRootPath, "articleImages");
-            var savePath = Path.Combine(saveDir, fileName);
-            var previewPath = "/articleImages/" + fileName;
- 
-            var result = true;
-            try
-            {
-                if (!Directory.Exists(saveDir))
-                {
-                    Directory.CreateDirectory(saveDir);
-                }
 
-                using var fs = System.IO.File.Create(savePath);
-                formFile.CopyTo(fs);
-                fs.Flush();
-            }
-            catch (Exception)
+            var articleVM = new ArticleFacultyViewModel
             {
-                result = false;
-            }
-            var rUpload = new
-            {
-                uploaded = result,
-                url = result ? previewPath : string.Empty
+                Article = articleInDb,
+                Faculties = _facultyRepository.GetFaculties()
             };
-            return Json(rUpload);
+            return View(articleVM);
         }
 
-    [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
-    public ActionResult EditArticle(int id)
-    {
-      var articleInDb = _studentRepository.GetArticleById(id);
-      if (articleInDb == null)
-      {
-        return NotFound();
-      }
-      var articleVM = new ArticleFacultyViewModel
-      {
-        Article = articleInDb,
-        Faculties = _facultyRepository.GetFaculties()
-      };
-      return View(articleVM);
-    }
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
-    public ActionResult EditArticle(Article article)
-    {
-      if (!ModelState.IsValid)
-      {
-        return View();
-      }
-      if (!_studentRepository.EditArticle(article))
-      {
-        throw new ArgumentException("...");
-      }
-      return RedirectToAction("Index");
-    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
+        public ActionResult EditArticle(Article article)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            if (!_studentRepository.EditArticle(article))
+            {
+                throw new ArgumentException("...");
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }
