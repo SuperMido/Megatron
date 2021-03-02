@@ -1,0 +1,129 @@
+﻿
+@{
+    ViewData["Title"] = "Guest Index";
+    Layout = "_Authenticated_Layout";
+}
+
+
+<div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <span class="text-uppercase page-subtitle">Dashboard</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-5 col-md-12 border border-primary mr-2">
+        <canvas id="articleChart"></canvas>
+    </div>
+    <div class="col-lg-5 col-md-12 border border-primary mr-2">
+        <canvas id="articleFacultyChart"></canvas>
+    </div>
+    <div class="col-lg-5 col-md-12 border border-primary mr-2 mt-2">
+        <canvas id="topContributorsChart"></canvas>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js" integrity="sha512-hZf9Qhp3rlDJBvAKvmiG+goaaKRZA6LKUO35oK6EsM0/kjPK32Yw7URqrq3Q+Nvbbt8Usss+IekL7CRn83dYmw==" crossorigin="anonymous"></script>
+    <script>
+    $(document).ready(function () {
+        var labelBarChart = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.FacultyList))');
+        var dataBarChart = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CountArticleOfFaculty))');
+
+        var dataPieChart = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.ArticleApprovedOfFaculty))');
+
+        var dataTopContributors = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CountArticleOfTopContributors))');
+        var labelTopContributors = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.TopContributors))');
+
+        var a = dataTopContributors.length;
+        var b = a-3;
+        var dataTop3Contributors = dataTopContributors.slice(b, a);
+        var labelTop3Contributors = labelTopContributors.slice(b, a);
+        console.log(dataTopContributors);
+
+        var coloR = [];
+        var dynamicColors = function () {
+            var randomColor = Math.floor(Math.random() * 16777215).toString(16);
+            return "#"+randomColor;
+        };
+        for (var i = 0; i < labelBarChart.length; i++) {
+            coloR.push(dynamicColors());
+        }
+
+        var bar = $("#articleChart");
+        var articleChart = new Chart(bar, {
+            type: 'bar',
+            data: {
+                labels: labelBarChart,
+                datasets: [{
+                    label: "Amount of Article",
+                    data: dataBarChart,
+                    backgroundColor: coloR,
+                    borderColor: 'rgb(255, 99, 132)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Article in each Faculty'
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        var pie = $("#articleFacultyChart");
+        var articleFacultyChart = new Chart(pie, {
+            type: 'pie',
+            data: {
+                labels: labelBarChart,
+                datasets: [{
+                    label: "Article Approved in Faculty",
+                    data: dataPieChart,
+                    backgroundColor: coloR,
+                    borderColor: 'rgb(255, 99, 132)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Article Approved of each Faculty'
+                },
+
+            }
+        });
+        var topC = $("#topContributorsChart");
+        var topContributorsChart = new Chart(topC, {
+            type: 'bar',
+            data: {
+                labels: labelTop3Contributors,
+                datasets: [{
+                    label: "Contributor",
+                    data: dataTop3Contributors,
+                    backgroundColor: coloR,
+                    borderColor: 'rgb(255, 99, 132)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Top 3 Contributors'
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    });
+    </script>
+}
