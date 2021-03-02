@@ -12,7 +12,7 @@
         <span class="text-uppercase page-subtitle">Dashboard</span>
         <h3 class="page-title">Article Overview</h3>
     </div>
-    @if (!User.IsInRole(SystemRoles.Student))
+    @if (User.IsInRole(SystemRoles.Administrator) || User.IsInRole(SystemRoles.MarketingCoordinator))
     {
         <div class="col-12 mt-3">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">
