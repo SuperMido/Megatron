@@ -15,6 +15,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Megatron.Hubs;
 using Megatron.Services;
+using Megatron.Services.Email;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Megatron
@@ -40,6 +42,9 @@ namespace Megatron
                     .AddDefaultUI()
                     .AddDefaultTokenProviders()
                     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddSingleton<IEmailSender, EmailSender>();
+            services.Configure<EmailOptions>(Configuration);
 
             services.AddSignalR();
 
