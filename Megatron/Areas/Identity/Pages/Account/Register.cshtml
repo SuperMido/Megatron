@@ -6,7 +6,12 @@
     ViewBag.Title = "Create User Account";
 }
 
-<h3 class="text-dark mb-4">User management</h3>
+<div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <span class="text-uppercase page-subtitle">Dashboard</span>
+        <h3 class="page-title">User Management</h3>
+    </div>
+</div>
 <div class="card shadow">
     <div class="card-header py-3">
         <p class="text-primary m-0 font-weight-bold">
@@ -21,7 +26,7 @@
                     <div class="col-md-2">
                         <label asp-for="Input.FullName" class="col-form-label"></label>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-7">
                         <input asp-for="Input.FullName" class="form-control" />
                     </div>
                     <span asp-validation-for="Input.FullName" class="text-danger"></span>
@@ -30,7 +35,7 @@
                     <div class="col-md-2">
                         <label asp-for="Input.Email" class="col-form-label"></label>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-7">
                         <input asp-for="Input.Email" class="form-control" />
                     </div>
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
@@ -39,7 +44,7 @@
                     <div class="col-md-2">
                         <label asp-for="Input.ConfirmEmail" class="col-form-label"></label>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-7">
                         <input asp-for="Input.ConfirmEmail" class="form-control" />
                     </div>
                     <span asp-validation-for="Input.ConfirmEmail" class="text-danger"></span>
@@ -48,7 +53,7 @@
                     <div class="col-md-2">
                         <label asp-for="Input.PhoneNumber" class="col-form-label"></label>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-7">
                         <input asp-for="Input.PhoneNumber" class="form-control" />
                     </div>
                     <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
@@ -57,7 +62,7 @@
                     <div class="col-md-2">
                         <label asp-for="Input.Password" class="col-form-label"></label>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-7">
                         <input asp-for="Input.Password" class="form-control" />
                     </div>
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
@@ -66,7 +71,7 @@
                     <div class="col-md-2">
                         <label asp-for="Input.ConfirmPassword" class="col-form-label"></label>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-7">
                         <input asp-for="Input.ConfirmPassword" class="form-control" />
                     </div>
                     <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
@@ -75,7 +80,7 @@
                     <div class="col-md-2">
                         <label class="col-form-label">Role</label>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-7">
                         @if (User.IsInRole(SystemRoles.Administrator))
                         {
                             <input type="radio" name="rdUserRole" value="@SystemRoles.Administrator" /> @SystemRoles.Administrator

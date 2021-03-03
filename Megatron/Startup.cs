@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Megatron.Hubs;
 using Megatron.Services;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -40,10 +41,18 @@ namespace Megatron
                     .AddDefaultTokenProviders()
                     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddSignalR();
+
             services.AddScoped<IDbInitializer, DbInitializer>();
 
             services.AddScoped<IAdminRepository, AdminRepository>();
-
+            services.AddScoped<ISemesterRepository, SemesterRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IArticleRepository, ArticleRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IFacultyRepository, FacultyRepository>();
+          
             services.AddControllersWithViews();
         }
 
@@ -78,6 +87,7 @@ namespace Megatron
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapHub<CommentHub>("/commentHub");
             });
         }
     }

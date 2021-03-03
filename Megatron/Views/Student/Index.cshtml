@@ -1,0 +1,59 @@
+﻿@model Megatron.Models.Article
+
+@{
+    ViewData["Title"] = "Article";
+    Layout = "_Authenticated_Layout";
+}
+
+<div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <span class="text-uppercase page-subtitle">Dashboard</span>
+        <h3 class="page-title">Article Overview</h3>
+    </div>
+    <div class="col-12 mt-3">
+        <a asp-controller="Student" asp-action="SubmitArticle" class="btn btn-primary">
+            Create New Article
+        </a>
+    </div>
+</div>
+<table id="studentArticleTable" class="table table-bordered table-hover" style="width:100%">
+    <thead class="thead-light">
+    </thead>
+</table>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#studentArticleTable').DataTable({
+                info: false,
+                ajax: {
+                    url: '/Student/GetPersonalArticles',
+                    dataSrc: ''
+                },
+                rowId: "id",
+                columns: [
+                    { data: 'title', title: 'Title' },
+                    { data: 'facultyId' , title: 'Faculty'  },
+                    { data: 'updateAt', title: 'Update At'  },
+                    {
+                        data: 'status', title: 'Status', render: function (data) {
+                            if (data == false) {
+                                return 'Waiting for Approve';
+                            } else {
+                                return 'Approved';
+                            }
+                        }
+                    },
+                    {
+                        data: 'updateAt', title: 'Update At'
+                    },
+                ],
+                order: [1, 'asc']
+            });
+        $('#studentArticleTable tbody').on( 'click', 'tr', function () {
+            const articleId = $(this).closest('tr').attr('id');
+            window.location.href = '/Article/Details/' + articleId;
+        });
+    });
+    </script>
+}

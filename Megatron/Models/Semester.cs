@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Megatron.Models
 {
@@ -20,7 +17,7 @@ namespace Megatron.Models
         [Display(Name = "Semester End")]
         public DateTime SemesterEndDate { get; set; }
 
-        private DateTime CreateAt { get; }
+        public DateTime CreateAt { get; set; }
         public DateTime? UpdateAt { get; set; }
 
         public Semester()

@@ -1,0 +1,45 @@
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+@model System.Collections.Generic.IEnumerable<Megatron.ViewModels.UserRoleViewModel>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Authenticated_Layout";
+}
+<div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <span class="text-uppercase page-subtitle">Dashboard</span>
+        <h3 class="page-title">User Overview</h3>
+    </div>
+    <div class="col-12 mt-3">
+        <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">
+            Create New User
+        </a>
+    </div>
+</div>
+<table class="table table-striped table-bordered dt-responsive nowrap table-hover" id="UserTable">
+    <thead class="thead-light"></thead>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            const userTable = $('#UserTable').DataTable({
+                processing: true,
+                fixedHeader: true,
+                ajax: {
+                    url: '/User/GetUsers',
+                    dataSrc: ''
+                },
+                rowId: "id",
+                columns: [
+                    { data: "fullName", title: "Full Name" },
+                    { data: "email", title: "Email" },
+                    { data: "role", title: "Role"},
+                    { data: "dateCreate", title: "Date Create"}
+                ],
+                order: [2, 'asc']
+            });
+        });
+    </script>
+}

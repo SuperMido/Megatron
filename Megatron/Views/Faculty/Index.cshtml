@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Megatron.Models.Faculty>
+@{
+    ViewBag.Title = "Faculty";
+    Layout = "_Authenticated_Layout";
+}
+
+<div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <span class="text-uppercase page-subtitle">Dashboard</span>
+        <h3 class="page-title">Faculty Overview</h3>
+    </div>
+    <div class="col-12 mt-3">
+        <a asp-controller="Faculty" asp-action="Create" class="btn btn-primary">
+            Create New Faculty
+        </a>
+    </div>
+</div>
+<table id="facultyTable" class="table table-bordered table-hover" style="width:100%">
+    <thead class="thead-light">
+    </thead>
+</table>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#facultyTable').DataTable({
+                info: false,
+                ajax: {
+                url: '/Faculty/GetAllFaculty',
+                dataSrc: ''
+                },
+                columns: [
+                { data: 'facultyName', title: 'Faculty Name' },
+                    { data: 'updateAt', title: 'Update At' },
+                    {
+                        data: 'id', title: 'Action', render: function (data) {
+                            return '<a href="Faculty/Edit/' + data + '"> Edit </a> ' + '/' + '<a href="Faculty/Details/' + data + '"> Details </a>' + '/' + '<a href="Faculty/Delete/' + data + '"> Delete </a>'; 
+                        }
+                    }
+                ],
+                order: [1, 'asc']
+            });
+        });
+    </script>
+}
