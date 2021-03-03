@@ -104,12 +104,12 @@
 </div>
 
 @section Scripts{
-    <script src="~/lib/ckeditor5/build/ckeditor.js"></script>
+    <script type="text/javascript" src="~/lib/ckeditor5/build/ckeditor.js"></script>
     <script>
         ClassicEditor
             .create(document.querySelector('#editor'),{
                 ckfinder: {
-                    uploadUrl: '/Student/UploadImage'
+                    uploadUrl: 'https://ckeditor.com/apps/ckfinder/3.5.0/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json'
                 },
                 toolbar: {
                     items: [
