@@ -22,7 +22,6 @@
     }
 </div>
 <input id="ArticleId" type="hidden" value="@Model.Article.Id">
-<input type="hidden" id="userInput" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)"/>
 <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -139,8 +138,6 @@ else
 }
 
 @section Scripts{
-    <script src="~/js/signalr/dist/browser/signalr.js"></script>
-    <script src="~/js/chat.js"></script>
     <script type="text/javascript" src="~/lib/ckeditor5/build/ckeditor.js"></script>
     <script>
         ClassicEditor.create(document.querySelector('#editor'))
@@ -150,6 +147,30 @@ else
              } ) .catch( error => { 
                   console.error( error ); 
              } );
+    </script>
+    <script>
+        $("#sendButton").click(function () {
+            let message = document.getElementById("messageInput").value;
+            let articleId = document.getElementById("ArticleId").value;
+            $.ajax({
+                url: '/Article/SendMessage',
+                type: 'POST',
+                data: {articleId: articleId, message: message},
+                success: function (response) {
+                    if (!response.success){
+                        $('#MessageResult').html('<div class="d-flex flex-row mb-2 alert alert-warning alert-dismissible mt-2"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +response.message + '</div>');
+                    }
+                    else{
+                        setTimeout(function () {
+                            location.reload();
+                        },100);
+                    }
+                },
+                error: function () {
+        
+                }
+            })
+        });
     </script>
     <script>
         document.getElementById("UpdateStatusButton").addEventListener("click", function (event) {
