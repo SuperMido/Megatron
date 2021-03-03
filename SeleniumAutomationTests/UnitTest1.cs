@@ -18,6 +18,7 @@ namespace SeleniumAutomationTests
             try
             {
                 var options = new ChromeOptions();
+                options.AddArguments("--window-size=1325x744");
                 options.AddArguments("--headless");
                 options.AddArguments("--no-sandbox");
                 options.AddArguments("--disable-dev-shm-usage");
@@ -25,7 +26,7 @@ namespace SeleniumAutomationTests
             }
             catch
             {
-                _driver = new ChromeDriver("C:/WebDriver/bin/");
+                _driver = new ChromeDriver();
             }
         }
 
