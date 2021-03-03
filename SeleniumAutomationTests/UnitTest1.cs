@@ -1,74 +1,72 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using NUnit.Framework;
+using OpenQA.Selenium.Interactions;
+using Assert = NUnit.Framework.Assert;
 
 namespace SeleniumAutomationTests
 {
-    [TestClass]
-    public class TestLogin
+    class TestIndex
     {
-        [TestMethod]
-        public void TestLoginMethod()
+        string url = "https://megatron.gcd-gw.com/";
+        IWebDriver _driver;
+
+        [SetUp]
+        public void start_Browser()
         {
-            string url = "https://localhost:5001";
-            
             try
             {
                 var options = new ChromeOptions();
                 options.AddArguments("--headless");
                 options.AddArguments("--no-sandbox");
                 options.AddArguments("--disable-dev-shm-usage");
-                //IWebDriver driver = new ChromeDriver("/usr/local/bin/",options);
-                IWebDriver driver = new ChromeDriver(options);
-                //driver.Url = url;
-                try
-                {
-                        driver.Url = url;
-                        driver.Navigate().GoToUrl(driver.Url);
-                        string item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
-                        Assert.AreEqual( ("Welcome"),item);
-                        driver.Quit();
-                }
-                catch
-                {
-                    driver.Url = url;
-                    driver.Navigate().GoToUrl(driver.Url);
-                    string item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
-                    Assert.AreEqual( ("Welcome"),item);
-                    driver.Quit();
-                }    
-                
-                
-                //driver.Navigate().GoToUrl("https://google.com");
-                //driver.Quit();
+                _driver = new ChromeDriver("/usr/local/bin/", options);
             }
             catch
             {
-                //IWebDriver driver = new ChromeDriver("C:/WebDriver/bin/");
-                IWebDriver driver = new ChromeDriver();
-                driver.Url = url;
-                driver.Navigate().GoToUrl(url);
-                string item = driver.FindElement(By.XPath("/html/body/div/main/div/h1")).Text;
-                //Console.WriteLine(item);
-                Assert.AreEqual( ("Welcome"),item);
-                driver.Quit();
+                _driver = new ChromeDriver("C:/WebDriver/bin/");
             }
-            
         }
-    }
 
-    [TestClass]
-    public class TestSubmitArticle
-    {
-        [TestMethod]
-        public void TestSubmitArticleMethod()
+        [Test]
+        public void test_GoToIndex()
         {
-            // IWebDriver driver = new ChromeDriver("C:/WebDriver/bin/");
-            // driver.Navigate().GoToUrl("https://localhost:5001/student/submitarticle");
-            // SubmitArticlePage submitArticlePage = new SubmitArticlePage(driver);
-            // HomePage homePage = submitArticlePage.SubmitArticle("Title so 1", "<h1>Content ne</h1>", "1");
-            // Assert.Equals(homePage.GetMessageText(), ("Article submitted"));
+            _driver.Url = url;
+            string homeTitle = _driver.FindElement(By.XPath("/html/body/header/div[1]/div/h1")).Text;
+            Assert.AreEqual("One Page Wonder", homeTitle);
+            _driver.Quit();
+        }
+
+        [Test]
+        public void test_GoToLoginOnWebView()
+        {
+            _driver.Url = url;
+            _driver.Manage().Window.Maximize();
+            _driver.FindElement(By.XPath("//*[@id=\"navbarResponsive\"]/ul/a")).Click();
+            string loginTitle = _driver.FindElement(By.XPath("//*[@id=\"account\"]/span")).Text;
+            Assert.AreEqual("Login", loginTitle);
+            _driver.Quit();
+        }
+
+        [Test]
+        public void test_LoginOnWebView()
+        {
+            _driver.Url = url;
+            _driver.Manage().Window.Maximize();
+
+            _driver.FindElement(By.XPath("//*[@id=\"navbarResponsive\"]/ul/a")).Click();
+            Actions actions = new Actions(_driver);
+            actions.Click(_driver.FindElement(By.XPath("//*[@id=\"Input_Email\"]")))
+                .SendKeys("megatronadmin@gmail.com" + Keys.Tab).SendKeys("Password@123").Build().Perform();
+
+            _driver.FindElement(By.XPath("//*[@id=\"account\"]/div[3]/div/button")).Click();
+
+            Thread.Sleep(1000);
+            string loggedInHeaderTitle =
+                _driver.FindElement(By.XPath("/html/body/div/div/aside/div[1]/nav/a[1]/div/span")).Text;
+            Assert.AreEqual("Megatron", loggedInHeaderTitle);
+            _driver.Quit();
         }
     }
 }
