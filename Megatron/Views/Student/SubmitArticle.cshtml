@@ -15,10 +15,14 @@
     <div class="col-lg-9 col-md-12">
         <div class="card card-small mb-3">
             <div class="card-body">
-                <form asp-action="SubmitArticle" id="SubmitForm" name="Form" class="add-new-post" onsubmit="return Validate()">
-                    <input asp-for="Article.Author" hidden class="form-control" readonly value="@Model.UserFullName"/>
-                    <partial name="_StatusMessage" model="@ViewData["Message"]"/>
-                    <input asp-for="Article.Title" name="Title_input" class="form-control form-control-lg mb-3" type="text" placeholder="Your Post Title">
+                <form asp-action="SubmitArticle" id="SubmitForm" class="add-new-post needs-validation" novalidate>
+                    <input asp-for="Article.Author" hidden class="form-control" readonly value="@Model.UserFullName" />
+                    <partial name="_StatusMessage" model="@ViewData["Message"]" />
+                    <input asp-for="Article.Title" class="form-control form-control-lg mb-3" type="text" placeholder="Your Post Title" required>
+                    <div class="invalid-feedback">
+                        Title is required!!!
+                    </div>
+
                     <div id="tiltle_error" class="font-italic"></div>
                     <div class="form-group row">
                         <div class="col-2">
@@ -47,7 +51,7 @@
                             <label asp-for="Article.Content" class="col-form-label"></label>
                         </div>
                         <div id="editor-container" class="ml-1 add-new-post__editor mb-1 col-12">
-                            @Html.TextAreaFor(a => a.Article.Content, new {@id = "editor"})
+                            @Html.TextAreaFor(a => a.Article.Content, new { @id = "editor" })
                         </div>
                     </div>
                 </form>
@@ -183,28 +187,20 @@
     });
     </script>
     <script type="text/javascript">
-        var title = document.forms["Form"]["Title_input"];
-
-        var titleError = document.getElementById("tiltle_error");
-
-        title.addEventListener("blur", titleVerify, true);
-
-        function Validate() {
-            if (title.value == "") {
-                title.style.border = "1px solid red";
-                titleError.textContent = "Title is required";
-                titleError.style.color = "red";
-                titleError.style.fontSize = 12;
-                title.focus();
-                return false;
-            }
-        }
-        function titleVerify() {
-            if (title.value !== "") {
-                title.style.border = "";
-                titleError.textContent = "";
-                return true;
-            }
-        }
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                var forms = document.getElementsByClassName('needs-validation');
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
     </script>
 }
