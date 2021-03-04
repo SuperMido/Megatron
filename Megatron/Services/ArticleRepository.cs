@@ -29,6 +29,14 @@ namespace Megatron.Services
                 .ToList();
             return articles;
         }
+        public IEnumerable<Article> GetListArticlesByFacultyApproved(int facultyId)
+        {
+            List<Article> articles = _dbContext.Articles.Include(a => a.Faculty)
+                .Where(a => a.FacultyId == facultyId && a.Status==true)
+                .ToList();
+            return articles;
+        }
+
 
         public IEnumerable<Faculty> GetFaculties()
         {

@@ -28,26 +28,38 @@ namespace Megatron.Controllers
             return View(_articleRepository.GetFaculties());
         }
 
-        [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator + "," + SystemRoles.MarketingManager))]
+        [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator))]
         public IActionResult ListArticles(int id)
         {
             var listArticles = _articleRepository.GetListArticlesByFaculty(id);
             return View(listArticles);
         }
-        
+
+        [Authorize(Roles = ( SystemRoles.MarketingManager))]
+        public IActionResult ListArticlesApproved(int id)
+        {
+            var listArticlesApproved = _articleRepository.GetListArticlesByFacultyApproved(id);
+            return View(listArticlesApproved);
+        }
+
         [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator + "," + SystemRoles.MarketingManager+ "," + SystemRoles.Student))]
         public IActionResult Details(int id)
         {
             var article = _articleRepository.GetArticleDetail(id);
             return View(article);
         }
-        
+
         public IActionResult GetListArticles(int id)
         {
             var listArticles = _articleRepository.GetListArticlesByFaculty(id);
             return new JsonResult(listArticles);
         }
-        
+
+        public IActionResult GetListArticlesApproved(int id)
+        {
+            var listArticlesApproved = _articleRepository.GetListArticlesByFacultyApproved(id);
+            return new JsonResult(listArticlesApproved);
+        }
         [HttpPost]
         [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator))]
         public IActionResult UpdateArticleStatus(int articleId, bool status, string statusMessage)

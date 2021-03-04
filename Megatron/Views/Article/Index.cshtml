@@ -1,4 +1,6 @@
+@using Megatron.Utility
 @model IEnumerable<Megatron.Models.Faculty>
+
 
 @{
     ViewBag.Title = "Articles";
@@ -19,9 +21,18 @@
             <div class="card-body">
                 <h5 class="card-title">@Html.DisplayFor(m => item.FacultyName)</h5>
                 <p class="card-text">@Html.DisplayFor(m => item.Description)</p>
-                <a class="btn btn-success text-white" asp-action="ListArticles" asp-route-id="@item.Id">
-                    View Article
-                </a>
+                @if (User.IsInRole(SystemRoles.Administrator) || User.IsInRole(SystemRoles.MarketingCoordinator))
+                {
+                    <a class="btn btn-success text-white" asp-action="ListArticles" asp-route-id="@item.Id">
+                        View Article
+                    </a>
+                }
+                @if (User.IsInRole(SystemRoles.MarketingManager))
+                {
+                    <a class="btn btn-success text-white" asp-action="ListArticlesApproved" asp-route-id="@item.Id">
+                        View Article
+                    </a>
+                }
                 <a asp-r></a>
             </div>
         </div>
