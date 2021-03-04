@@ -21,5 +21,6 @@ namespace Megatron.Data
         public DbSet<SemesterArticle> SemesterArticles { get; set; }
         public DbSet<UserFaculty> UserFaculties { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<ArticleDocument> ArticleDocuments { get; set; }
     }
 }
