@@ -11,33 +11,40 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-5 col-md-12 border border-primary mr-2">
+    <div class="col-lg-5 col-md-12 border border-primary mr-5 shadow-lg bg-light rounded">
         <canvas id="articleChart"></canvas>
     </div>
-    <div class="col-lg-5 col-md-12 border border-primary mr-2">
-        <canvas id="articleFacultyChart"></canvas>
+    <div class="col-lg-5 col-md-12 border border-primary mr-2 shadow-lg bg-light rounded">
+        <form id="myForm" method="post" action="/Guest/Index" class="mt-1">
+            <input name="yearSelected" id="yearSelected" type="number" placeholder="Enter academic year" class="p-1 border-info rounded">
+            <input type="submit" value="View Report" class="btn btn-info mb-1" />
+        </form>
+        <canvas id="percentArticleFacultyChart"></canvas>
     </div>
-    <div class="col-lg-5 col-md-12 border border-primary mr-2 mt-2">
-        <canvas id="topContributorsChart"></canvas>
+    <div class="col-lg-5 col-md-12 border border-primary mr-5 mt-5 shadow-lg bg-light rounded">
+        <canvas id="contributorsOfFacultyChart"></canvas>
     </div>
 </div>
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js" integrity="sha512-hZf9Qhp3rlDJBvAKvmiG+goaaKRZA6LKUO35oK6EsM0/kjPK32Yw7URqrq3Q+Nvbbt8Usss+IekL7CRn83dYmw==" crossorigin="anonymous"></script>
     <script>
-    $(document).ready(function () {
+        $(document).ready(function () {
+
         var labelBarChart = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.FacultyList))');
         var dataBarChart = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CountArticleOfFaculty))');
 
-        var dataPieChart = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.ArticleApprovedOfFaculty))');
+        var percent = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.PercentContributionsOfFaculty))');
+        var yearSelected = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.Year))');
 
-        var dataTopContributors = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CountArticleOfTopContributors))');
-        var labelTopContributors = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.TopContributors))');
+        var contributors = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CountContributorsOfFaculty))');
 
-        var a = dataTopContributors.length;
-        var b = a-3;
-        var dataTop3Contributors = dataTopContributors.slice(b, a);
-        var labelTop3Contributors = labelTopContributors.slice(b, a);
-        console.log(dataTopContributors);
+        var currentYear = new Date().getFullYear();
+        if (yearSelected == null) {
+            yearSelected = currentYear;
+            document.getElementById("yearSelected").value = yearSelected;
+            document.getElementById("myForm").submit();
+        }
+
 
         var coloR = [];
         var dynamicColors = function () {
@@ -54,10 +61,9 @@
             data: {
                 labels: labelBarChart,
                 datasets: [{
-                    label: "Amount of Article",
                     data: dataBarChart,
-                    backgroundColor: coloR,
-                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: ['#ffefa1', '#94ebcd', '#6ddccf', '#ff75a0', '#ffcb91', '#383e56', '#4a47a3'],
+                    borderColor: '#4a47a3',
                     borderWidth: 1
                 }]
             },
@@ -67,53 +73,60 @@
                     text: 'Article in each Faculty'
                 },
                 scales: {
+                    xAxes: [{
+                        ticks: {
+                            autoSkip: false,
+                            beginAtZero: true,
+                        }
+                    }],
                     yAxes: [{
                         ticks: {
                             beginAtZero: true
                         }
                     }]
+                },
+                legend: {
+                    display: false
                 }
             }
         });
-
-        var pie = $("#articleFacultyChart");
-        var articleFacultyChart = new Chart(pie, {
+        var pie = $("#percentArticleFacultyChart");
+        var percentArticleFacultyChart = new Chart(pie, {
             type: 'pie',
             data: {
                 labels: labelBarChart,
                 datasets: [{
                     label: "Article Approved in Faculty",
-                    data: dataPieChart,
-                    backgroundColor: coloR,
-                    borderColor: 'rgb(255, 99, 132)',
+                    data: percent,
+                    backgroundColor: ['#ffefa1', '#94ebcd', '#6ddccf', '#ff75a0', '#ffcb91', '#383e56', '#4a47a3'],
+                    borderColor: '#4a47a3',
                     borderWidth: 1
                 }]
             },
             options: {
                 title: {
                     display: true,
-                    text: 'Article Approved of each Faculty'
+                    text: 'Article Approved of each Faculty in ' + yearSelected
                 },
-
             }
         });
-        var topC = $("#topContributorsChart");
-        var topContributorsChart = new Chart(topC, {
+        var contributorsChart = $("#contributorsOfFacultyChart");
+        var contributorsOfFacultyChart = new Chart(contributorsChart, {
             type: 'bar',
             data: {
-                labels: labelTop3Contributors,
+                labels: labelBarChart,
                 datasets: [{
-                    label: "Contributor",
-                    data: dataTop3Contributors,
-                    backgroundColor: coloR,
-                    borderColor: 'rgb(255, 99, 132)',
+                    label: "Faculty",
+                    data: contributors,
+                    backgroundColor: ['#ffefa1', '#94ebcd', '#6ddccf', '#ff75a0', '#ffcb91', '#383e56', '#4a47a3'],
+                    borderColor: '#4a47a3',
                     borderWidth: 1
                 }]
             },
             options: {
                 title: {
                     display: true,
-                    text: 'Top 3 Contributors'
+                    text: 'Contributors in each Faculty'
                 },
                 scales: {
                     yAxes: [{
@@ -121,9 +134,13 @@
                             beginAtZero: true
                         }
                     }]
+                },
+                legend: {
+                    display: false
                 }
             }
         });
+
     });
     </script>
 }

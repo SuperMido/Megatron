@@ -20,15 +20,30 @@ namespace Megatron.Services
 
             var facultyList = _dbContext.Faculties.OrderBy(f => f.FacultyName).Distinct().ToList();
             var articleList = _dbContext.Articles.ToList();
-            
+            var currentYear = DateTime.Now.Year;
             for (var i =0; i < facultyList.Count; i++)
             {
                 var facultyId = facultyList[i].Id;
-                var articleCount = articleList.Count(a => a.FacultyId == facultyId);
+                var articleCount = articleList.Count(a => a.FacultyId == facultyId && a.CreateAt.Year == currentYear);
                 data.Add(articleCount);
             }
             return data;
         }
+
+        public List<double> CountContributorsOfFaculty()
+        {
+            List<double> data = new List<double>();
+            var facultyList = _dbContext.Faculties.OrderBy(f => f.FacultyName).Distinct().ToList();
+            var articleList = _dbContext.Articles.Select( s => new { author = s.Author, faculty = s.FacultyId }).ToList();
+            for (var i =0; i< facultyList.Count; i++)
+            {
+                var facultyId = facultyList[i].Id;
+                var studentCount = articleList.Distinct().Count(a => a.faculty == facultyId);
+                data.Add(studentCount);
+            }
+            return data;
+        }
+
         public List<string> GetFacultyList()
         {
             List<string> data = new List<string>();
@@ -39,77 +54,21 @@ namespace Megatron.Services
             }
             return data;
         }
-        public List<double> ArticleApprovedOfFaculty()
+        public List<double> PercentContributionsOfFaculty(int year)
         {
             List<double> data = new List<double>();
 
             var facultyList = _dbContext.Faculties.OrderBy(f => f.FacultyName).Distinct().ToList();
-            var articleList = _dbContext.Articles.Where(a => a.Status == true).ToList();
+            var articleList = _dbContext.Articles.ToList();
 
             for (var i = 0; i < facultyList.Count; i++)
             {
                 var facultyId = facultyList[i].Id;
-                var articleCount = articleList.Count(a => a.FacultyId == facultyId);
+                var articleCount = articleList.Count(a => a.FacultyId == facultyId && a.CreateAt.Year == year);
                 data.Add(articleCount);
             }
             return data;
         }
-        public List<int> CountArticleOfTopContributors()
-        {
-            List<int> count = new List<int>();
 
-            SortedList<string, int> data = new SortedList<string, int>();
-
-            var listUsers = (from user in _dbContext.ApplicationUsers
-                             join userRoles in _dbContext.UserRoles on user.Id equals userRoles.UserId
-                             join role in _dbContext.Roles on userRoles.RoleId equals role.Id
-                             select new { UserId = user.Id, FullName = user.FullName, Email = user.Email, RoleName = role.Name, DateCreate = user.CreateAt })
-                .ToList();
-
-            var studentList = listUsers.Where(u => u.RoleName == "Student").OrderBy(s => s.UserId).ToList();
-            var articleList = _dbContext.Articles.Where(a => a.Status == true).ToList();
-
-            for (var i = 0; i < studentList.Count; i++)
-            {
-                var student = studentList[i].FullName;
-                var articleCount = articleList.Count(a => a.Author == student);
-                data.Add(student, articleCount);
-            }
-            var orderByVal = data.OrderBy(v => v.Value);
-            foreach (var c in orderByVal)
-            {
-                count.Add(c.Value);
-            }
-
-            return count;
-        }
-        public List<string> GetContributorList()
-        {
-            List<string> users = new List<string>();
-            SortedList<string, int> data = new SortedList<string, int>();
-
-            var listUsers = (from user in _dbContext.ApplicationUsers
-                             join userRoles in _dbContext.UserRoles on user.Id equals userRoles.UserId
-                             join role in _dbContext.Roles on userRoles.RoleId equals role.Id
-                             select new { UserId = user.Id, FullName = user.FullName, Email = user.Email, RoleName = role.Name, DateCreate = user.CreateAt })
-                .ToList();
-
-            var studentList = listUsers.Where(u => u.RoleName == "Student").OrderBy(s => s.UserId).ToList();
-            var articleList = _dbContext.Articles.Where(a => a.Status == true).ToList();
-
-            for (var i = 0; i < studentList.Count; i++)
-            {
-                var student = studentList[i].FullName;
-                var articleCount = articleList.Count(a => a.Author == student);
-                data.Add(student, articleCount);
-            }
-            var orderByval = data.OrderBy(v => v.Value);
-            foreach (var c in orderByval)
-            {
-                users.Add(c.Key);
-            }
-
-            return users;
-        }
     }
 }

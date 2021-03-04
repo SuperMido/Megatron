@@ -9,11 +9,8 @@ namespace Megatron.Services
         List<double> CountArticleOfFaculty();
         List<string> GetFacultyList();
 
-        List<double> ArticleApprovedOfFaculty();
+        List<double> PercentContributionsOfFaculty(int year);
 
-        List<int> CountArticleOfTopContributors();
-        List<string> GetContributorList();
-
-
+        List<double> CountContributorsOfFaculty();
     }
 }

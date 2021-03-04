@@ -21,13 +21,21 @@ namespace Megatron.Controllers
         {
             ViewBag.FacultyList = _chartRepository.GetFacultyList();
             ViewBag.CountArticleOfFaculty = _chartRepository.CountArticleOfFaculty();
-            ViewBag.ArticleApprovedOfFaculty = _chartRepository.ArticleApprovedOfFaculty();
-
-            ViewBag.CountArticleOfTopContributors = _chartRepository.CountArticleOfTopContributors();
-            ViewBag.TopContributors = _chartRepository.GetContributorList();
-
-
+            ViewBag.CountContributorsOfFaculty = _chartRepository.CountContributorsOfFaculty();
             return View();
         }
+        [HttpPost]
+        public ActionResult Index(int yearSelected)
+        {
+        
+            ViewBag.FacultyList = _chartRepository.GetFacultyList();
+            ViewBag.CountArticleOfFaculty = _chartRepository.CountArticleOfFaculty();
+            ViewBag.PercentContributionsOfFaculty = _chartRepository.PercentContributionsOfFaculty(yearSelected);
+            ViewBag.CountContributorsOfFaculty = _chartRepository.CountContributorsOfFaculty();
+
+            ViewBag.Year = yearSelected;
+            return View();
+        }
+
     }
 }
