@@ -29,7 +29,7 @@ namespace Megatron.Services
 
         public IEnumerable<Article> GetPersonalArticles(string userName)
         {
-            return _dbContext.Articles.Where(a => a.Author == userName).ToList();
+            return _dbContext.Articles.Include(a=>a.Faculty).Where(a => a.Author == userName).ToList();
         }
 
         public ArticleFacultyViewModel SubmitArticle(ArticleFacultyViewModel articleFacultyViewModel)
