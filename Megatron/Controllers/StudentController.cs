@@ -3,6 +3,7 @@ using Megatron.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
+using System.Linq;
 using System.Security.Claims;
 using Megatron.Extensions;
 using Megatron.Utility;
@@ -15,17 +16,17 @@ namespace Megatron.Controllers
     public class StudentController : Controller
     {
         private readonly IStudentRepository _studentRepository;
-        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IUserRepository _userRepository;
         private readonly IFacultyRepository _facultyRepository;
+        private readonly IDocumentRepository _documentRepository;
 
-        public StudentController(IStudentRepository studentRepository, IWebHostEnvironment webHostEnvironment,
-            IUserRepository userRepository, IFacultyRepository facultyRepository)
+        public StudentController(IStudentRepository studentRepository,
+            IUserRepository userRepository, IFacultyRepository facultyRepository, IDocumentRepository documentRepository)
         {
             _studentRepository = studentRepository;
-            _webHostEnvironment = webHostEnvironment;
             _userRepository = userRepository;
             _facultyRepository = facultyRepository;
+            _documentRepository = documentRepository;
         }
 
         [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
@@ -60,8 +61,16 @@ namespace Megatron.Controllers
         [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
         public IActionResult SubmitArticle(ArticleFacultyViewModel articleFacultyViewModel)
         {
+            var files = Request.Form.Files;
             var articleSubmit = _studentRepository.SubmitArticle(articleFacultyViewModel);
-            if (articleSubmit == null)
+            var result = true;
+            
+            if (files.Any())
+            {
+                result = _documentRepository.UploadDocument(files, articleFacultyViewModel.Article.Id);
+            }
+            
+            if (articleSubmit == null || result)
             {
                 return RedirectToAction(nameof(Index));
             }
