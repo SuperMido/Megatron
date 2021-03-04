@@ -1,17 +1,15 @@
 using Megatron.Data;
 using Megatron.Data.DBInit;
+using Megatron.Services;
+using Megatron.Services.Email;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Megatron.Services;
-using Megatron.Services.Email;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-
 
 namespace Megatron
 {
@@ -33,9 +31,9 @@ namespace Megatron
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddIdentity<IdentityUser, IdentityRole>()
-                    .AddDefaultUI()
-                    .AddDefaultTokenProviders()
-                    .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddDefaultUI()
+                .AddDefaultTokenProviders()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddSingleton<IEmailSender, EmailSender>();
             services.Configure<EmailOptions>(Configuration);
@@ -53,7 +51,7 @@ namespace Megatron
             services.AddScoped<IFacultyRepository, FacultyRepository>();
             services.AddScoped<IDocumentRepository, DocumentRepository>();
             services.AddScoped<IChartRepository, ChartRepository>();
-          
+
             services.AddControllersWithViews();
         }
 
@@ -85,8 +83,8 @@ namespace Megatron
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
