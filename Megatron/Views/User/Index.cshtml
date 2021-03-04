@@ -36,7 +36,16 @@
                     { data: "fullName", title: "Full Name" },
                     { data: "email", title: "Email" },
                     { data: "role", title: "Role"},
-                    { data: "dateCreate", title: "Date Create"}
+                    { data: "dateCreate", title: "Date Create" },
+                    {
+                        data: 'userId',
+                        className: "center",
+                        title: 'Actions',
+                        render: function (data) {
+                            return '<a href="User/EditAccount/' + data + '" class="btn btn-success mr-1"> Edit </a>' + '<a href="User/DeleteAccount/' + data + '" class="btn btn-danger"> Delete </a>';
+                        }
+
+                    }
                 ],
                 order: [2, 'asc']
             });

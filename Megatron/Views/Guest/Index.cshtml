@@ -1,0 +1,146 @@
+﻿
+@{
+    ViewData["Title"] = "Guest Index";
+    Layout = "_Authenticated_Layout";
+}
+
+
+<div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <span class="text-uppercase page-subtitle">Dashboard</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-5 col-md-12 border border-primary mr-5 shadow-lg bg-light rounded">
+        <canvas id="articleChart"></canvas>
+    </div>
+    <div class="col-lg-5 col-md-12 border border-primary mr-2 shadow-lg bg-light rounded">
+        <form id="myForm" method="post" action="/Guest/Index" class="mt-1">
+            <input name="yearSelected" id="yearSelected" type="number" placeholder="Enter academic year" class="p-1 border-info rounded">
+            <input type="submit" value="View Report" class="btn btn-info mb-1" />
+        </form>
+        <canvas id="percentArticleFacultyChart"></canvas>
+    </div>
+    <div class="col-lg-5 col-md-12 border border-primary mr-5 mt-5 shadow-lg bg-light rounded">
+        <canvas id="contributorsOfFacultyChart"></canvas>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js" integrity="sha512-hZf9Qhp3rlDJBvAKvmiG+goaaKRZA6LKUO35oK6EsM0/kjPK32Yw7URqrq3Q+Nvbbt8Usss+IekL7CRn83dYmw==" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+
+        var labelBarChart = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.FacultyList))');
+        var dataBarChart = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CountArticleOfFaculty))');
+
+        var percent = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.PercentContributionsOfFaculty))');
+        var yearSelected = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.Year))');
+
+        var contributors = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CountContributorsOfFaculty))');
+
+        var currentYear = new Date().getFullYear();
+        if (yearSelected == null) {
+            yearSelected = currentYear;
+            document.getElementById("yearSelected").value = yearSelected;
+            document.getElementById("myForm").submit();
+        }
+
+
+        var coloR = [];
+        var dynamicColors = function () {
+            var randomColor = Math.floor(Math.random() * 16777215).toString(16);
+            return "#"+randomColor;
+        };
+        for (var i = 0; i < labelBarChart.length; i++) {
+            coloR.push(dynamicColors());
+        }
+
+        var bar = $("#articleChart");
+        var articleChart = new Chart(bar, {
+            type: 'bar',
+            data: {
+                labels: labelBarChart,
+                datasets: [{
+                    data: dataBarChart,
+                    backgroundColor: ['#ffefa1', '#94ebcd', '#6ddccf', '#ff75a0', '#ffcb91', '#383e56', '#4a47a3'],
+                    borderColor: '#4a47a3',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Article in each Faculty'
+                },
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            autoSkip: false,
+                            beginAtZero: true,
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+                legend: {
+                    display: false
+                }
+            }
+        });
+        var pie = $("#percentArticleFacultyChart");
+        var percentArticleFacultyChart = new Chart(pie, {
+            type: 'pie',
+            data: {
+                labels: labelBarChart,
+                datasets: [{
+                    label: "Article Approved in Faculty",
+                    data: percent,
+                    backgroundColor: ['#ffefa1', '#94ebcd', '#6ddccf', '#ff75a0', '#ffcb91', '#383e56', '#4a47a3'],
+                    borderColor: '#4a47a3',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Article Approved of each Faculty in ' + yearSelected
+                },
+            }
+        });
+        var contributorsChart = $("#contributorsOfFacultyChart");
+        var contributorsOfFacultyChart = new Chart(contributorsChart, {
+            type: 'bar',
+            data: {
+                labels: labelBarChart,
+                datasets: [{
+                    label: "Faculty",
+                    data: contributors,
+                    backgroundColor: ['#ffefa1', '#94ebcd', '#6ddccf', '#ff75a0', '#ffcb91', '#383e56', '#4a47a3'],
+                    borderColor: '#4a47a3',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Contributors in each Faculty'
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+                legend: {
+                    display: false
+                }
+            }
+        });
+
+    });
+    </script>
+}

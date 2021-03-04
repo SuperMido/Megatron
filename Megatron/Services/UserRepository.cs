@@ -130,5 +130,29 @@ namespace Megatron.Services
 
             return doesUserExistsInFaculty.Any();
         }
+        public bool DeleteAccount(string id)
+        {
+            var accountInDb = GetUserById(id);
+            if (accountInDb == null) return false;
+            _dbContext.ApplicationUsers.Remove(accountInDb);
+            _dbContext.SaveChanges();
+            return true;
+        }
+        public ApplicationUser GetUserById(string id)
+        {
+            return _dbContext.ApplicationUsers.SingleOrDefault(u => u.Id == id);
+        }
+
+        public bool EditAccount(ApplicationUser applicationUser)
+        {
+            var accountInDb = GetUserById(applicationUser.Id);
+            if (accountInDb == null) return false;
+
+            accountInDb.FullName = applicationUser.FullName;
+            accountInDb.Email = applicationUser.Email;
+            _dbContext.ApplicationUsers.Update(accountInDb);
+            _dbContext.SaveChanges();
+            return true;
+        }
     }
 }
