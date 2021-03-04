@@ -1,6 +1,6 @@
-﻿using Megatron.Models;
+﻿using System.Collections.Generic;
+using Megatron.Models;
 using Megatron.ViewModels;
-using System.Collections.Generic;
 
 namespace Megatron.Services
 {
@@ -13,5 +13,6 @@ namespace Megatron.Services
         IEnumerable<Article> GetPersonalArticles(string userName);
         bool EditArticle(Article article);
         Article GetArticleById(int Id);
+        IEnumerable<ApplicationUser> GetUserInFacultyByFacultyId(int id);
     }
 }
