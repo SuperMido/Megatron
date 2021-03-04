@@ -18,14 +18,13 @@
                 <form asp-action="SubmitArticle" enctype="multipart/form-data" id="SubmitForm" class="add-new-post">
                     <input asp-for="Article.Author" hidden class="form-control" readonly value="@Model.UserFullName"/>
                     <partial name="_StatusMessage" model="@ViewData["Message"]"/>
-                    <input asp-for="Article.Title" name="Title_input" class="form-control form-control-lg mb-3" type="text" placeholder="Your Post Title">
-                    <div id="tiltle_error" class="font-italic"></div>
+                    <input asp-for="Article.Title" class="form-control form-control-lg mb-3" type="text" placeholder="Your Post Title" required>
                     <div class="form-group row">
                         <div class="col-2">
                             <label asp-for="Article.FacultyId" class="col-form-label"></label>
                         </div>
                         <div class="col-5">
-                            <select asp-for="@Model.Article.FacultyId" asp-items="@Model.Faculties.Select(f => new SelectListItem() {Text = f.FacultyName.ToString(), Value = f.Id.ToString()})" class="form-control"></select>
+                            <select asp-for="@Model.Article.FacultyId" asp-items="@Model.Faculties.Select(f => new SelectListItem {Text = f.FacultyName.ToString(), Value = f.Id.ToString()})" class="form-control"></select>
                         </div>
                     </div>
                     <div id="ImportFileCollapse" class="form-group row collapse multi-collapse">
@@ -47,7 +46,7 @@
                             <label asp-for="Article.Content" class="col-form-label"></label>
                         </div>
                         <div id="editor-container" class="ml-1 add-new-post__editor mb-1 col-12">
-                            @Html.TextAreaFor(a => a.Article.Content, new {@id = "editor"})
+                            @Html.TextAreaFor(a => a.Article.Content, new {id = "editor"})
                         </div>
                     </div>
                 </form>

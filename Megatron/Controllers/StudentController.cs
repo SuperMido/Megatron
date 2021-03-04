@@ -1,27 +1,25 @@
-﻿using Megatron.Services;
-using Megatron.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.IO;
+﻿using System;
 using System.Linq;
 using System.Security.Claims;
-using Megatron.Extensions;
-using Megatron.Utility;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Megatron.Models;
+using Megatron.Services;
+using Megatron.Utility;
+using Megatron.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Megatron.Controllers
 {
     public class StudentController : Controller
     {
+        private readonly IDocumentRepository _documentRepository;
+        private readonly IFacultyRepository _facultyRepository;
         private readonly IStudentRepository _studentRepository;
         private readonly IUserRepository _userRepository;
-        private readonly IFacultyRepository _facultyRepository;
-        private readonly IDocumentRepository _documentRepository;
 
         public StudentController(IStudentRepository studentRepository,
-            IUserRepository userRepository, IFacultyRepository facultyRepository, IDocumentRepository documentRepository)
+            IUserRepository userRepository, IFacultyRepository facultyRepository,
+            IDocumentRepository documentRepository)
         {
             _studentRepository = studentRepository;
             _userRepository = userRepository;
@@ -29,14 +27,14 @@ namespace Megatron.Controllers
             _documentRepository = documentRepository;
         }
 
-        [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
+        [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.Student)]
         public IActionResult Index()
         {
             return View();
         }
 
         //GET
-        [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
+        [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.Student)]
         public IActionResult GetPersonalArticles()
         {
             var currentUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -47,7 +45,7 @@ namespace Megatron.Controllers
         }
 
         //GET
-        [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
+        [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.Student)]
         public IActionResult SubmitArticle()
         {
             var currentUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -58,35 +56,27 @@ namespace Megatron.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
+        [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.Student)]
         public IActionResult SubmitArticle(ArticleFacultyViewModel articleFacultyViewModel)
         {
             var files = Request.Form.Files;
             var articleSubmit = _studentRepository.SubmitArticle(articleFacultyViewModel);
-            var result = true;
-            
-            if (files.Any())
+
+            if (articleSubmit == null)
             {
-                result = _documentRepository.UploadDocument(files, articleFacultyViewModel.Article.Id);
-            }
-            
-            if (articleSubmit == null || result)
-            {
+                if (files.Any()) _documentRepository.UploadDocument(files, articleFacultyViewModel.Article.Id);
                 return RedirectToAction(nameof(Index));
             }
 
             ViewData["Message"] = articleSubmit.StatusMessage;
             return View(articleSubmit);
         }
-        
-        [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
+
+        [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.Student)]
         public ActionResult EditArticle(int id)
         {
             var articleInDb = _studentRepository.GetArticleById(id);
-            if (articleInDb == null)
-            {
-                return NotFound();
-            }
+            if (articleInDb == null) return NotFound();
 
             var articleVM = new ArticleFacultyViewModel
             {
@@ -98,18 +88,12 @@ namespace Megatron.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.Student))]
+        [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.Student)]
         public ActionResult EditArticle(Article article)
         {
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
+            if (!ModelState.IsValid) return View();
 
-            if (!_studentRepository.EditArticle(article))
-            {
-                throw new ArgumentException("...");
-            }
+            if (!_studentRepository.EditArticle(article)) throw new ArgumentException("...");
 
             return RedirectToAction("Index");
         }
