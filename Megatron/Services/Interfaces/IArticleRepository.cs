@@ -12,6 +12,8 @@ namespace Megatron.Services
         
         IEnumerable<Faculty> GetFaculties();
 
+        IEnumerable<Faculty> GetFacultiesForMC(string id);
+
         CommentArticleViewModel GetArticleDetail(int id);
 
         bool UpdateArticleStatus(int id, bool status, string message);

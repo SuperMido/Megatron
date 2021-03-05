@@ -3,6 +3,7 @@ using System.Linq;
 using Megatron.Data;
 using Megatron.Models;
 using Megatron.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Megatron.Services
@@ -60,6 +61,22 @@ namespace Megatron.Services
             _dbContext.SaveChanges();
 
             return true;
+        }
+
+        public IEnumerable<Faculty> GetFacultiesForMC(string id)
+        {
+            var listFaculty = (from user in _dbContext.ApplicationUsers
+                             join userFaculty in _dbContext.UserFaculties on id equals userFaculty.UserId
+                             join faculty in _dbContext.Faculties on userFaculty.FacultyId equals faculty.Id
+                             select new { UserId = user.Id, User = user ,FacultyId = faculty.Id, FacultyName = faculty.FacultyName, DescriptionF = faculty.Description , DateCreate = faculty.CreateAt })
+                .Select(m => new Faculty
+                {
+                    Id = m.FacultyId,
+                    FacultyName = m.FacultyName,
+                    Description = m.DescriptionF,
+                    CreateAt = m.DateCreate
+                }).Distinct().ToList();        
+            return listFaculty;
         }
     }
 }
