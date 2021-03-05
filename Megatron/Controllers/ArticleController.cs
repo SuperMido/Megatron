@@ -24,10 +24,16 @@ namespace Megatron.Controllers
         // GET
         [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator + "," + SystemRoles.MarketingManager))]
         public IActionResult Index()
-        {
-            return View(_articleRepository.GetFaculties());
+        {            
+            if (User.IsInRole(SystemRoles.MarketingCoordinator))
+            {
+                var currentUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var facultyOfMc = _articleRepository.GetFacultiesForMC(currentUser);
+                return View(facultyOfMc);                
+            }
+            else
+                return View(_articleRepository.GetFaculties());
         }
-
         [Authorize(Roles = (SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator + "," + SystemRoles.MarketingManager))]
         public IActionResult ListArticles(int id)
         {
