@@ -89,7 +89,8 @@ namespace Megatron.Controllers
 
                 foreach (var applicationUser in listUserInSelectedFaculty)
                     await _emailSender.SendEmailAsync(applicationUser.Email,
-                        userFullname + "already submit article: " + articleFacultyViewModel.Article.Title,
+                        "[Megatron] " + userFullname + " already submit article: " +
+                        articleFacultyViewModel.Article.Title,
                         emailTemplate);
                 return RedirectToAction(nameof(Index));
             }
