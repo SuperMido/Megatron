@@ -42,10 +42,11 @@ namespace Megatron.Services
             var article = _dbContext.Articles.FirstOrDefault(a => a.Id == id);
             var listComments = _dbContext.CommentArticles.Include(u => u.ApplicationUser).Include(a => a.Article)
                 .Where(c => c.ArticleId == id);
-
+            var documentUploaded = _dbContext.ArticleDocuments.FirstOrDefault(d => d.ArticleId == id);
             var model = new CommentArticleViewModel
             {
                 Article = article,
+                Document = documentUploaded,
                 Comments = listComments
             };
             return model;
