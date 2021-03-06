@@ -93,9 +93,27 @@
                     </div>
                 </form>
                 <div class="nav-wrapper">
-                    @if (User.IsInRole(SystemRoles.Student))
-                    {
-                        <ul class="nav flex-column">
+                    <ul class="nav flex-column">
+                        @if (User.IsInRole(SystemRoles.MarketingCoordinator))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Article" asp-action="Index">
+                                    <i class="material-icons">edit</i>
+                                    <span>Article management</span>
+                                </a>
+                            </li>
+                        }
+                        @if (User.IsInRole(SystemRoles.MarketingManager))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="" asp-action="">
+                                    <i class="material-icons">edit</i>
+                                    <span>Article Selected</span>
+                                </a>
+                            </li>
+                        }
+                        @if (User.IsInRole(SystemRoles.Student))
+                        {
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Student" asp-action="Index">
                                     <i class="material-icons">vertical_split</i>
@@ -108,11 +126,9 @@
                                     <span>Create new article</span>
                                 </a>
                             </li>
-                        </ul>
-                    }
-                    @if (User.IsInRole(SystemRoles.Administrator))
-                    {
-                        <ul class="nav flex-column">
+                        }
+                        @if (User.IsInRole(SystemRoles.Administrator))
+                        {
                             <li class="nav-item">
                                 <a class="nav-link " asp-controller="Faculty" asp-action="Index">
                                     <i class="material-icons">view_module</i>
@@ -137,30 +153,18 @@
                                     <span>Assign user to faculty</span>
                                 </a>
                             </li>
-                        </ul>
-                    }
-                    @if (User.IsInRole(SystemRoles.MarketingManager) || User.IsInRole(SystemRoles.MarketingCoordinator))
-                    {
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Article" asp-action="Index">
-                                    <i class="material-icons">edit</i>
-                                    <span>Article management</span>
-                                </a>
-                            </li>
-                        </ul>
-                    }                    
-                    @if (User.IsInRole(SystemRoles.Guest))
-                    {
-                        <ul class="nav flex-column">
+                        }
+                        @if (User.IsInRole(SystemRoles.Guest))
+                        {
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Guest" asp-action="Index">
                                     <i class="material-icons">edit</i>
                                     <span>Report details</span>
                                 </a>
                             </li>
-                        </ul>
-                    }
+                        }
+                    </ul>
+                    
                 </div>
             </aside>
             <!-- End Main Sidebar -->
