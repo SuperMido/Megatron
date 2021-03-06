@@ -119,6 +119,28 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
         <p class="card-text">@Html.Raw(Model.Article.Content)</p>
     </div>
 </div>
+@if (@Model.Document.Any())
+{
+    <div class="card border-success mb-3">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Document Uploaded</th>
+                <th scope="col">Upload At</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in @Model.Document)
+            {
+                <tr>
+                    <td>@item.DocumentFile</td>
+                    <td>@Html.DisplayFor(t => t.Article.UpdateAt)</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}
 @if (User.IsInRole(SystemRoles.Administrator) || User.IsInRole(SystemRoles.Student) || User.IsInRole(SystemRoles.MarketingCoordinator))
 {
     <div id="MessageResult"></div>
