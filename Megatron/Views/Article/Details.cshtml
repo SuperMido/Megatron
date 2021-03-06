@@ -57,7 +57,6 @@
 </div>
 <div class="block-heading text-center">
     <h2 class="text-info">@Html.DisplayFor(m => m.Article.Title)</h2>
-    <p>@Html.DisplayFor(m => m.Article.Author)</p>
 </div>
 @if (Model.Article.Status)
 {
@@ -91,8 +90,34 @@ else
         </button>
     </div>
 }
-<div id="editor">
-    @Html.Raw(@Model.Article.Content)
+@if (!Model.Article.Status && Model.Article.ChangeStatusBy != null)
+{
+    <div class="card border-success mb-3">
+        <div class="card-body">
+            <h5 class="card-title">
+                @Model.Article.ChangeStatusBy <a class="text-danger">Decline:</a>
+            </h5>
+            <p class="card-text">@Model.Article.StatusMessage</p>
+        </div>
+    </div>
+}
+else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
+{
+    <div class="card border-success mb-3">
+        <div class="card-body">
+            <h5 class="card-title">
+                @Model.Article.ChangeStatusBy <a class="text-primary">approved:</a>
+            </h5>
+            <p class="card-text">@Model.Article.StatusMessage</p>
+        </div>
+    </div>
+}
+<div class="card border-success mb-3">
+    <div class="card-body">
+        <h5 class="card-title">Author: <a class="text-primary">@Html.DisplayFor(m => m.Article.Author)</a></h5>
+        <div class="d-flex flex-row align-items-center text-left comment-top mt-1 bg-white border-bottom px-4"></div>
+        <p class="card-text">@Html.Raw(Model.Article.Content)</p>
+    </div>
 </div>
 @if (User.IsInRole(SystemRoles.Administrator) || User.IsInRole(SystemRoles.Student) || User.IsInRole(SystemRoles.MarketingCoordinator))
 {
@@ -138,16 +163,6 @@ else
 }
 
 @section Scripts{
-    <script type="text/javascript" src="~/lib/ckeditor5/build/ckeditor.js"></script>
-    <script>
-        ClassicEditor.create(document.querySelector('#editor'))
-             .then(editor => { 
-                  console.log( editor ); 
-                  editor.isReadOnly = true;
-             } ) .catch( error => { 
-                  console.error( error ); 
-             } );
-    </script>
     <script>
         $("#sendButton").click(function () {
             let message = document.getElementById("messageInput").value;
