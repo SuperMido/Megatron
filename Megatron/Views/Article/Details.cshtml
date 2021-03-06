@@ -188,6 +188,16 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
 }
 
 @section Scripts{
+    <script type="text/javascript" src="~/lib/ckeditor5/build/ckeditor.js"></script>
+    <script>
+        ClassicEditor.create(document.querySelector('#editor'))
+             .then(editor => { 
+                  console.log( editor ); 
+                  editor.isReadOnly = true;
+             } ) .catch( error => { 
+                  console.error( error ); 
+             } );
+    </script>
     <script>
         $("#sendButton").click(function () {
             let message = document.getElementById("messageInput").value;
