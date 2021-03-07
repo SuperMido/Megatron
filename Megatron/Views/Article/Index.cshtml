@@ -1,30 +1,72 @@
 @model IEnumerable<Megatron.Models.Faculty>
-
+@using Megatron.Utility
 @{
     ViewBag.Title = "Articles";
     Layout = "_Authenticated_Layout";
 }
 
-<div class="page-header row no-gutters py-4">
-    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-        <span class="text-uppercase page-subtitle">Dashboard</span>
-        <h3 class="page-title">Article in faculty Overview</h3>
-    </div>
-</div>
-<div class="row mt-1">
-    @foreach (var item in Model)
-    {
-        <div class="mr-1 ml-1 card" style="width: 18rem;">
-            <img src="https://images.goodsmile.info/cgm/images/product/20160301/5520/37871/large/045304fbd2c70eb4b749b7d9e393b4b1.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">@Html.DisplayFor(m => item.FacultyName)</h5>
-                <p class="card-text">@Html.DisplayFor(m => item.Description)</p>
-                <a class="btn btn-success text-white" asp-action="ListArticles" asp-route-id="@item.Id">
-                    View Article
-                </a>
-                <a asp-r></a>
-            </div>
+@if (!User.IsInRole(SystemRoles.MarketingManager))
+{
+    <div class="page-header row no-gutters py-4">
+        <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+            <span class="text-uppercase page-subtitle">Dashboard</span>
+            <h3 class="page-title">Article in faculty Overview</h3>
         </div>
-    }
-</div>
+    </div>
+    <div class="row mt-1">
+        @foreach (var item in Model)
+        {
+            <div class="mr-1 ml-1 card" style="width: 18rem;">
+                <img src="https://images.goodsmile.info/cgm/images/product/20160301/5520/37871/large/045304fbd2c70eb4b749b7d9e393b4b1.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">@Html.DisplayFor(m => item.FacultyName)</h5>
+                    <p class="card-text">@Html.DisplayFor(m => item.Description)</p>
+                    <a class="btn btn-success text-white" asp-action="ListArticles" asp-route-id="@item.Id">
+                        View Article
+                    </a>
+                    <a asp-r></a>
+                </div>
+            </div>
+        }
+    </div>
+}
+@if (User.IsInRole(SystemRoles.MarketingManager))
+{
+    <div class="page-header row no-gutters py-4">
+        <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+            <span class="text-uppercase page-subtitle">Dashboard</span>
+            <h3 class="page-title">Articles Approved</h3>
+        </div>
+    </div>
+    <table class="table table-striped table-bordered dt-responsive nowrap table-hover" id="ArticleApprovedTable">
+        <thead class="thead-light"></thead>
+    </table>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            const articleTable = $('#ArticleApprovedTable').DataTable({
+                processing: true,
+                fixedHeader: true,
+                ajax: {
+                    url: '/Article/GetArticlesApproved/',
+                    dataSrc: ''
+                },
+                rowId: "id",
+                columns: [
+                    { data: "title", title: "Title" },
+                    { data: "faculty.facultyName", title: "Faculty" },
+                    { data: "author", title: "Author" },
+                    { data: "updateAt", title: "Selected Date Time" },
+                    { data: "changeStatusBy", title: "Changed Status By" }
+                    ],
+                order: [1, 'asc']
+                });
+        $('#ArticleApprovedTable tbody').on('click', 'tr', function () {
+            const articleId = $(this).closest('tr').attr('id');
+            window.location.href = '/Article/Details/' + articleId;});
+        });
+</script>
+} 
+}
+
 

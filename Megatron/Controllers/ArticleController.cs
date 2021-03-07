@@ -32,7 +32,6 @@ namespace Megatron.Controllers
                 var facultyOfMc = _articleRepository.GetFacultiesForMC(currentUser);
                 return View(facultyOfMc);
             }
-
             return View(_articleRepository.GetFaculties());
         }
 
@@ -43,7 +42,11 @@ namespace Megatron.Controllers
             var listArticles = _articleRepository.GetListArticlesByFaculty(id);
             return View(listArticles);
         }
-
+        public IActionResult GetArticlesApproved()
+        {
+            var articlesApproved = _articleRepository.GetListArticlesApproved();
+            return new JsonResult(articlesApproved);
+        }
         [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator + "," +
                            SystemRoles.MarketingManager + "," + SystemRoles.Student)]
         public IActionResult Details(int id)
