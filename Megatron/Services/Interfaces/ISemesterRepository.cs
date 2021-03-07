@@ -1,23 +1,22 @@
 ﻿using Megatron.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Megatron.ViewModels;
 
 namespace Megatron.Services
 {
-        public interface ISemesterRepository
-        {
-            IEnumerable<Semester> GetAllSemesters();
+    public interface ISemesterRepository
+    {
+        IEnumerable<Semester> GetAllSemesters();
 
-            bool CreateSemester(Semester semester);
+        SemesterViewModel CreateSemester(SemesterViewModel semesterViewModel);
 
-            bool EditSemester(Semester semester);
+        SemesterViewModel EditSemester(SemesterViewModel semesterViewModel);
+        SemesterViewModel GetSemesterViewModel(int id);
 
-            bool DeleteSemester(int id);
+        bool DeleteSemester(int id);
 
-            Semester GetSemesterById(int id);
+        Semester GetSemesterById(int id);
 
-            bool CheckExistSemester(string name);
-        }
+        bool CheckExistSemester(string name);
+    }
 }

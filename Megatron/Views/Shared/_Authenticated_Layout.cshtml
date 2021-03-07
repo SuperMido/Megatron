@@ -209,10 +209,10 @@
                                     <i class="material-icons">note_add</i> Create new Article
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                                <a class="dropdown-item text-danger" href="/Identity/Account/Logout" >
-                                    <i class="material-icons text-danger">&#xE879;</i> Logout
-                                </a>
+                                <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new {area = ""})">
+                                    <a class="dropdown-item text-danger" href="/Identity/Account/Logout">
+                                        <i class="material-icons text-danger">&#xE879;</i> Logout
+                                    </a>
                                 </form>
                             </div>
                         </li>
@@ -283,6 +283,7 @@
 <script src="~/shards/scripts/app/app-blog-overview.1.1.0.js"></script>
 <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html> 

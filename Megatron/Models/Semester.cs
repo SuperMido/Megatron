@@ -5,16 +5,16 @@ namespace Megatron.Models
 {
     public class Semester
     {
-        [Key]
-        public int Id { get; set; }
+        [Key] public int Id { get; set; }
 
-        [Display(Name = "Semester")]
-        public string SemesterName { get; set; }
+        [Display(Name = "Semester")] public string SemesterName { get; set; }
 
-        [Display(Name = "Semester Start")]
-        public DateTime SemesterStartDate { get; set; }
+        [Display(Name = "Semester Start")] public DateTime SemesterStartDate { get; set; }
 
-        [Display(Name = "Semester End")]
+        [Display(Name = "Semester Closure Date")]
+        public DateTime SemesterClosureDate { get; set; }
+
+        [Display(Name = "Semester Final Date")]
         public DateTime SemesterEndDate { get; set; }
 
         public DateTime CreateAt { get; set; }
