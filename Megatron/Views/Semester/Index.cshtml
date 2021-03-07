@@ -4,10 +4,26 @@
     Layout = "_Authenticated_Layout";
 }
 
+<div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <span class="text-uppercase page-subtitle">Dashboard</span>
+        <h3 class="page-title">Semester Overview</h3>
+    </div>
+    <div class="col-12 mt-3">
+        <a asp-controller="Semester" asp-action="Create" class="btn btn-primary">
+            Create New Semester
+        </a>
+    </div>
+</div>
+<table id="semesterTable" class="table table-bordered table-hover" style="width:100%">
+    <thead class="thead-light">
+    </thead>
+</table>
+
 @section scripts{
     <script>
         $(document).ready(function () {
-            $('#semestertable').DataTable({
+            $('#semesterTable').DataTable({
                 info: false,
                 ajax: {
                     url: '/Semester/GetSemesters',
@@ -15,9 +31,28 @@
                 },
                 columns: [
                     { data: 'semesterName', title: 'Semester Name' },
-                    { data: 'semesterStartDate', title: 'Semester Start' },
-                    { data: 'semesterEndDate', title: 'Semester End' },
-                    { data: 'updateAt', title: 'Update At' },
+                    { data: 'semesterStartDate', title: 'Start Date',
+                        render: function(data){
+                            return moment(data).format("HH:mm - MM/DD/YYYY");
+                    } 
+                    },
+                    { data: 'semesterClosureDate', title: 'Closure Date',
+                        render: function(data){
+                            return moment(data).format("HH:mm - MM/DD/YYYY");
+                    } 
+                    },
+                    { data: 'semesterEndDate', title: 'Final Date',
+                        render: function(data){
+                            return moment(data).format("HH:mm - MM/DD/YYYY");
+                    }},
+                    { data: 'createAt', title: 'Create At',
+                        render: function(data){
+                            return moment(data).format("HH:mm - MM/DD/YYYY");
+                    }},
+                    { data: 'updateAt', title: 'Update At',
+                        render: function(data){
+                            return moment(data).format("HH:mm - MM/DD/YYYY");
+                    }},
                     {
                         data: 'id',
                         className: "center",
@@ -34,19 +69,3 @@
         });
     </script>
 }
-
-<div class="page-header row no-gutters py-4">
-    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-        <span class="text-uppercase page-subtitle">Dashboard</span>
-        <h3 class="page-title">Semester Overview</h3>
-    </div>
-    <div class="col-12 mt-3">
-        <a asp-controller="Semester" asp-action="Create" class="btn btn-primary">
-            Create New Semester
-        </a>
-    </div>
-</div>
-<table id="semestertable" class="table table-bordered table-hover" style="width:100%">
-    <thead class="thead-light">
-    </thead>
-</table>

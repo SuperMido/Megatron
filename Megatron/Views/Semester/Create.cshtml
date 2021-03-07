@@ -1,4 +1,4 @@
-﻿@model Megatron.Models.Semester
+﻿@model Megatron.ViewModels.SemesterViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -15,33 +15,43 @@
         <div class="card card-small mb-3">
             <div class="card-body">
                 <form asp-action="Create" id="SubmitForm" class="add-new-post">
-                <div class="form-group row">
-                    <div class="col-md-3">
-                                <label asp-for="SemesterName" class="col-form-label"></label>
-                            </div>
-                            <div class="col-md-9">
-                                <input asp-for="SemesterName" class="form-control"/>
-                                <span asp-validation-for="SemesterName" class="text-danger"></span>
-                            </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-md-3">
-                        <label asp-for="SemesterStartDate" class="col-form-label"></label>
+                    <partial name="_StatusMessage" model="@ViewData["Message"]"/>
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <label asp-for="@Model.Semester.SemesterName" class="col-form-label"></label>
+                        </div>
+                        <div class="col-md-9">
+                            <input asp-for="@Model.Semester.SemesterName" class="form-control"/>
+                            <span asp-validation-for="@Model.Semester.SemesterName" class="text-danger"></span>
+                        </div>
                     </div>
-                    <div class="col-md-9">
-                        <input asp-for="SemesterStartDate" class="form-control"/>
-                        <span asp-validation-for="SemesterStartDate" class="text-danger"></span>
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <label asp-for="@Model.Semester.SemesterStartDate" class="col-form-label"></label>
+                        </div>
+                        <div class="col-md-9">
+                            <input asp-for="@Model.Semester.SemesterStartDate" class="form-control"/>
+                            <span asp-validation-for="@Model.Semester.SemesterStartDate" class="text-danger"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-md-3">
-                        <label asp-for="SemesterEndDate"></label>
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <label asp-for="@Model.Semester.SemesterClosureDate" class="col-form-label"></label>
+                        </div>
+                        <div class="col-md-9">
+                            <input asp-for="@Model.Semester.SemesterClosureDate" class="form-control"/>
+                            <span asp-validation-for="@Model.Semester.SemesterClosureDate" class="text-danger"></span>
+                        </div>
                     </div>
-                    <div class="col-md-9">
-                        <input asp-for="SemesterEndDate" class="form-control"/>
-                        <span asp-validation-for="SemesterEndDate" class="text-danger"></span>
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <label asp-for="@Model.Semester.SemesterEndDate"></label>
+                        </div>
+                        <div class="col-md-9">
+                            <input asp-for="@Model.Semester.SemesterEndDate" class="form-control"/>
+                            <span asp-validation-for="@Model.Semester.SemesterEndDate" class="text-danger"></span>
+                        </div>
                     </div>
-                </div>
                 </form>
                 <div class="row">
                     <div class="col-md-9 col-lg-8"></div>
@@ -49,7 +59,7 @@
                         <input type="submit" form="SubmitForm" class="btn btn-info w-100" value="Create"/>
                     </div>
                 </div>
-                </div>
             </div>
         </div>
     </div>
+</div>
