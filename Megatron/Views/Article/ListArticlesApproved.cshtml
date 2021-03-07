@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Routing
+@model IEnumerable<Megatron.Models.Article>
+
+@{
+    ViewBag.Title = "Article approval";
+    Layout = "_Authenticated_Layout";
+}
+
+<div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <span class="text-uppercase page-subtitle">Dashboard</span>
+        <h3 class="page-title">Blog Overview</h3>
+    </div>
+</div>
+<input id="facultyId" type="hidden" value="@Context.GetRouteData().Values["id"]">
+<table class="table table-striped table-bordered dt-responsive nowrap table-hover" id="ArticleApprovedTable">
+    <thead class="thead-light"></thead>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            const facultyId = document.getElementById("facultyId").value;
+            const articleTable = $('#ArticleApprovedTable').DataTable({
+                processing: true,
+                fixedHeader: true,
+                ajax: {
+                    url: '/Article/GetListArticlesApproved/' + facultyId,
+                    dataSrc: ''
+                },
+                rowId: "id",
+                columns: [
+                    { data: "title", title: "Title" },
+                    { data: "author", title: "Author" },
+                    { data: "updateAt", title: "Selected Date Time" },
+                    { data: "changeStatusBy", title: "Changed Status By" }
+                ],
+                order: [1, 'asc']
+            });
+
+            $('#ArticleApprovedTable tbody').on('click', 'tr', function () {
+                const articleId = $(this).closest('tr').attr('id');
+                window.location.href = '/Article/Details/' + articleId;
+            });
+        });
+    </script>
+}
