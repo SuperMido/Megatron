@@ -4,14 +4,16 @@ using Megatron.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Megatron.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210307160316_AddClosureDateIntoSemester")]
+    partial class AddClosureDateIntoSemester
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,9 +52,6 @@ namespace Megatron.Data.Migrations
 
                     b.Property<string>("StatusMessage")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TermCondition")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -153,11 +152,11 @@ namespace Megatron.Data.Migrations
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
 
-                b.Property<DateTime>("SemesterClosureDate")
-                    .HasColumnType("datetime2");
+                    b.Property<DateTime>("SemesterClosureDate")
+                        .HasColumnType("datetime2");
 
-                b.Property<DateTime>("SemesterEndDate")
-                    .HasColumnType("datetime2");
+                    b.Property<DateTime>("SemesterEndDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("SemesterName")
                         .HasColumnType("nvarchar(max)");
