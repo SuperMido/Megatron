@@ -28,7 +28,12 @@ namespace Megatron.Models
 
         public bool Status { get; set; }
 
+        [Required]
+        [Range(typeof(bool), "true", "true", ErrorMessage = "You must agree before submitting.")]
+        public bool TermCondition { get; set; }
+
         public string StatusMessage { get; set; }
+
         public string ChangeStatusBy { get; set; }
 
         public DateTime CreateAt { get; set; }
