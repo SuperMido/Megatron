@@ -10,17 +10,21 @@ namespace Megatron.Services
     public class StudentRepository : IStudentRepository
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly ISemesterRepository _semesterRepository;
 
-        public StudentRepository(ApplicationDbContext dbContext)
+        public StudentRepository(ApplicationDbContext dbContext, ISemesterRepository semesterRepository)
         {
             _dbContext = dbContext;
+            _semesterRepository = semesterRepository;
         }
 
         public ArticleFacultyViewModel ArticleFacultyViewModel(string userName)
         {
+            var activeSemester = _semesterRepository.GetActiveSemester();
             var articleFacultyViewModel = new ArticleFacultyViewModel
             {
                 Article = new Article(),
+                Semester = activeSemester,
                 Faculties = _dbContext.Faculties.OrderBy(f => f.FacultyName).Distinct().ToList(),
                 UserFullName = userName
             };
@@ -44,8 +48,10 @@ namespace Megatron.Services
             }
             else
             {
-                _dbContext.Articles.Add(articleFacultyViewModel.Article);
+                var activeSemester = _semesterRepository.GetActiveSemester();
+                var articleResult = _dbContext.Articles.Add(articleFacultyViewModel.Article);
                 _dbContext.SaveChanges();
+                _semesterRepository.AddArticleSemester(articleResult.Entity.Id, activeSemester.Id);
                 return null;
             }
 

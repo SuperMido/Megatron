@@ -7,6 +7,7 @@ namespace Megatron.ViewModels
     {
         public Article Article { get; set; }
         public IEnumerable<Faculty> Faculties { get; set; }
+        public Semester Semester { get; set; }
         public string StatusMessage { get; set; }
         public string UserFullName { get; set; }
     }

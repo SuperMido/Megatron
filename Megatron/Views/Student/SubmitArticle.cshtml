@@ -63,7 +63,15 @@
                     <li class="list-group-item p-3">
                         <span class="d-flex mb-2">
                             <i class="material-icons mr-1">flag</i>
-                            <strong class="mr-1">Status:</strong> Draft
+                            <strong class="mr-1">Semester:</strong>
+                            @if (Model.Semester == null)
+                            {
+                                <b class="text-danger">No Active Semester</b>
+                            }
+                            else
+                            {
+                                @Model.Semester.SemesterName
+                            }
                             <a class="ml-auto" href="#">Edit</a>
                         </span>
                         <span class="d-flex mb-2">
@@ -91,9 +99,18 @@
                         <button id="button-collapse" class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="ImportFileCollapse TextAreaCollapse">
                             Switch to Editor
                         </button>
-                        <button form="SubmitForm" type="submit" class="btn btn-sm btn-accent ml-auto">
-                            <i class="material-icons">file_copy</i> Submit
-                        </button>
+                        @if (Model.Semester == null)
+                        {
+                            <button disabled form="SubmitForm" type="submit" class="btn btn-sm btn-accent ml-auto">
+                                <i class="material-icons">file_copy</i> Submit
+                            </button>
+                        }
+                        else
+                        {
+                            <button form="SubmitForm" type="submit" class="btn btn-sm btn-accent ml-auto">
+                                <i class="material-icons">file_copy</i> Submit
+                            </button>
+                        }
                     </li>
                 </ul>
             </div>

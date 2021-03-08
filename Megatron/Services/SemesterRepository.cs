@@ -158,5 +158,36 @@ namespace Megatron.Services
         {
             return _dbContext.Semesters.Any(s => s.SemesterName.Contains(name));
         }
+
+        public Semester GetActiveSemester()
+        {
+            var currentDateTime = DateTime.Now;
+            if (CheckSemesterDateValidToSubmit(currentDateTime))
+            {
+                return _dbContext.Semesters.FirstOrDefault(s =>
+                    s.SemesterStartDate < currentDateTime && s.SemesterClosureDate > currentDateTime);
+            }
+
+            return null;
+        }
+
+        public void AddArticleSemester(int articleId, int semesterId)
+        {
+            var articleSemester = new SemesterArticle()
+            {
+                ArticleId = articleId,
+                SemesterId = semesterId
+            };
+
+            _dbContext.SemesterArticles.Add(articleSemester);
+            _dbContext.SaveChanges();
+        }
+
+        private bool CheckSemesterDateValidToSubmit(DateTime currentDateTime)
+        {
+            var semesterInDb = _dbContext.Semesters.Where(s =>
+                s.SemesterStartDate < currentDateTime && s.SemesterClosureDate > currentDateTime).ToList();
+            return semesterInDb.Any();
+        }
     }
 }
