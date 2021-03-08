@@ -18,7 +18,7 @@
                 <form asp-action="SubmitArticle" enctype="multipart/form-data" id="SubmitForm" class="add-new-post">
                     <input asp-for="Article.Author" hidden class="form-control" readonly value="@Model.UserFullName"/>
                     <partial name="_StatusMessage" model="@ViewData["Message"]"/>
-                    <input asp-for="Article.TermCondition" id="Article_TermCondition" type="text" hidden class="form-control" />
+                    <input asp-for="Article.TermCondition" id="Article_TermCondition" type="text" hidden class="form-control"/>
                     <input asp-for="Article.Title" class="form-control form-control-lg mb-3" type="text" placeholder="Your Post Title" required>
                     <div class="form-group row">
                         <div class="col-2">
@@ -91,7 +91,9 @@
                             <label class="form-check-label" for="termAndCondition">
                                 Agree with <a href="#">Terms and Conditions.</a>
                             </label>
-                            <a class="ml-auto"><input class="form-check-input" type="checkbox" id="termAndCondition" required></a>
+                            <a class="ml-auto">
+                                <input class="form-check-input" type="checkbox" id="termAndCondition" required>
+                            </a>
                         </span>
                     </li>
                     <li class="list-group-item d-flex px-3">
@@ -110,7 +112,7 @@
                         }
                         else
                         {
-                            <button form="SubmitForm" type="submit" class="btn btn-sm btn-accent ml-auto">
+                            <button id="submitButton" disabled form="SubmitForm" type="submit" class="btn btn-sm btn-accent ml-auto">
                                 <i class="material-icons">file_copy</i> Submit
                             </button>
                         }
@@ -212,8 +214,10 @@
             $("#termAndCondition").click(function () {
                 if ($(this).is(":checked")) {
                     document.getElementById("Article_TermCondition").value = "true";
+                    $("#submitButton").prop('disabled', false);
                 } else {
                     document.getElementById("Article_TermCondition").value = "false";
+                    $('#submitButton').prop('disabled', true);
                 }
             });
         });
