@@ -1,4 +1,5 @@
 ﻿@using System.Security.Claims
+@using Megatron.Utility
 <html class="no-js h-100" lang="en">
 <head>
     <meta charset="utf-8">
@@ -93,48 +94,68 @@
             </form>
             <div class="nav-wrapper">
                 <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Article" asp-action="Index">
-                            <i class="material-icons">edit</i>
-                            <span>Article details</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Student" asp-action="Index">
-                            <i class="material-icons">vertical_split</i>
-                            <span>My articles</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " asp-controller="Student" asp-action="SubmitArticle">
-                            <i class="material-icons">note_add</i>
-                            <span>Create new article</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " asp-controller="Faculty" asp-action="Index">
-                            <i class="material-icons">view_module</i>
-                            <span>Faculty management</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " asp-controller="Semester" asp-action="Index">
-                            <i class="material-icons">table_chart</i>
-                            <span>Semester management</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " asp-controller="User" asp-action="Index">
-                            <i class="material-icons">person</i>
-                            <span>User management</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " asp-controller="Assign" asp-action="Index">
-                            <i class="material-icons">error</i>
-                            <span>Assign user to faculty</span>
-                        </a>
-                    </li>
+                     @if (User.IsInRole(SystemRoles.MarketingCoordinator) || User.IsInRole(SystemRoles.MarketingManager) || User.IsInRole(SystemRoles.Administrator))
+                     {
+                         <li class="nav-item">
+                             <a class="nav-link" asp-controller="Article" asp-action="Index">
+                                 <i class="material-icons">edit</i>
+                                 <span>Article management</span>
+                             </a>
+                         </li>
+                     }
+                     @if (User.IsInRole(SystemRoles.Student))
+                     {
+                         <li class="nav-item">
+                             
+                             <a class="nav-link" asp-controller="Student" asp-action="Index">
+                                 <i class="material-icons">vertical_split</i>
+                                 <span>My articles</span>
+                             </a>
+                         </li>
+                         <li class="nav-item">
+                             
+                             <a class="nav-link " asp-controller="Student" asp-action="SubmitArticle">
+                                 <i class="material-icons">note_add</i>
+                                 <span>Create new article</span>
+                             </a>
+                         </li>
+                     }
+                     @if (User.IsInRole(SystemRoles.Administrator))
+                     {
+                         <li class="nav-item">
+                             <a class="nav-link " asp-controller="Faculty" asp-action="Index">
+                                 <i class="material-icons">view_module</i>
+                                 <span>Faculty management</span>
+                             </a>
+                         </li>
+                         <li class="nav-item">
+                             <a class="nav-link " asp-controller="Semester" asp-action="Index">
+                                 <i class="material-icons">table_chart</i>
+                                 <span>Semester management</span>
+                             </a>
+                         </li>
+                         <li class="nav-item">
+                             <a class="nav-link " asp-controller="User" asp-action="Index">
+                                 <i class="material-icons">person</i>
+                                 <span>User management</span>
+                             </a>
+                         </li>
+                         <li class="nav-item">
+                             <a class="nav-link " asp-controller="Assign" asp-action="Index">
+                                 <i class="material-icons">error</i>
+                                 <span>Assign user to faculty</span>
+                             </a>
+                         </li>
+                     }
+                     @if (User.IsInRole(SystemRoles.Guest))
+                     {
+                         <li class="nav-item">
+                             <a class="nav-link" asp-controller="Guest" asp-action="Index">
+                                 <i class="material-icons">edit</i>
+                                 <span>Report details</span>
+                             </a>
+                         </li>
+                     }
                 </ul>
             </div>
         </aside>
@@ -202,12 +223,15 @@
                                 <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">
                                     <i class="material-icons">&#xE7FD;</i> Profile
                                 </a>
-                                <a class="dropdown-item" asp-controller="Student" asp-action="Index">
-                                    <i class="material-icons">vertical_split</i> My Articles
-                                </a>
-                                <a class="dropdown-item" asp-controller="Student" asp-action="SubmitArticle">
-                                    <i class="material-icons">note_add</i> Create new Article
-                                </a>
+                                @if (User.IsInRole(SystemRoles.Student))
+                                {
+                                    <a class="dropdown-item" asp-controller="Student" asp-action="Index">
+                                        <i class="material-icons">vertical_split</i> My Articles
+                                    </a>
+                                    <a class="dropdown-item" asp-controller="Student" asp-action="SubmitArticle">
+                                        <i class="material-icons">note_add</i> Create new Article
+                                    </a>
+                                }
                                 <div class="dropdown-divider"></div>
                                 <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new {area = ""})">
                                     <a class="dropdown-item text-danger" href="/Identity/Account/Logout">
