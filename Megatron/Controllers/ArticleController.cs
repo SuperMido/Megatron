@@ -22,7 +22,7 @@ namespace Megatron.Controllers
         }
 
         // GET
-        [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator)]
+        [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator + "," + SystemRoles.MarketingManager)]
         public IActionResult Index()
         {
             if (User.IsInRole(SystemRoles.MarketingCoordinator))
@@ -34,21 +34,21 @@ namespace Megatron.Controllers
             return View(_articleRepository.GetFaculties());
         }
 
-        [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator)]
+        [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator + "," + SystemRoles.MarketingManager)]
         public IActionResult ListArticles(int id)
         {
             var listArticles = _articleRepository.GetListArticlesByFaculty(id);
             return View(listArticles);
         }
-        [Authorize(Roles = SystemRoles.MarketingManager)]
+        [Authorize(Roles = SystemRoles.Administrator + "," +SystemRoles.MarketingManager)]
         public IActionResult ListArticlesApproved()
         {
             return View();
         }
-        public IActionResult GetArticlesApproved()
+        public IActionResult GetArticlesApproved(int id)
         {
-            var articlesApproved = _articleRepository.GetListArticlesApproved();
-            return new JsonResult(articlesApproved);
+            var listArticlesApproved = _articleRepository.GetListArticlesApprovedByFaculty(id);
+            return new JsonResult(listArticlesApproved);
         }
         [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator + "," +
                            SystemRoles.MarketingManager + "," + SystemRoles.Student)]

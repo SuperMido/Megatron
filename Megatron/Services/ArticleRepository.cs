@@ -30,10 +30,10 @@ namespace Megatron.Services
             return articles;
         }
 
-        public IEnumerable<Article> GetListArticlesApproved()
+        public IEnumerable<Article> GetListArticlesApprovedByFaculty(int facultyId)
         {
             List<Article> articles = _dbContext.Articles.Include(a => a.Faculty)
-                .Where(a => a.Status == true)
+                .Where(a => a.Status == true && a.Faculty.Id == facultyId)
                 .ToList();
             return articles;
         }

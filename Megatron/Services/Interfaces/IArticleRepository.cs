@@ -9,7 +9,7 @@ namespace Megatron.Services
         IEnumerable<Article> GetAllArticle();
 
         IEnumerable<Article> GetListArticlesByFaculty(int facultyId);
-        IEnumerable<Article> GetListArticlesApproved();
+        IEnumerable<Article> GetListArticlesApprovedByFaculty(int facultyId);
 
         IEnumerable<Faculty> GetFaculties();
 
