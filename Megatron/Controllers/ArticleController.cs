@@ -22,8 +22,7 @@ namespace Megatron.Controllers
         }
 
         // GET
-        [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator + "," +
-                           SystemRoles.MarketingManager)]
+        [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator)]
         public IActionResult Index()
         {
             if (User.IsInRole(SystemRoles.MarketingCoordinator))
@@ -35,12 +34,16 @@ namespace Megatron.Controllers
             return View(_articleRepository.GetFaculties());
         }
 
-        [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator + "," +
-                           SystemRoles.MarketingManager)]
+        [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator)]
         public IActionResult ListArticles(int id)
         {
             var listArticles = _articleRepository.GetListArticlesByFaculty(id);
             return View(listArticles);
+        }
+        [Authorize(Roles = SystemRoles.MarketingManager)]
+        public IActionResult ListArticlesApproved()
+        {
+            return View();
         }
         public IActionResult GetArticlesApproved()
         {
