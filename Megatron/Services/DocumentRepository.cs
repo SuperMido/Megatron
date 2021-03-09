@@ -1,10 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using ICSharpCode.SharpZipLib.Zip;
 using Megatron.Data;
 using Megatron.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Spire.Doc;
 
 namespace Megatron.Services
 {
@@ -12,21 +14,27 @@ namespace Megatron.Services
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ApplicationDbContext _dbContext;
+        private readonly IArticleRepository _articleRepository;
+        private readonly ISemesterRepository _semesterRepository;
 
-        public DocumentRepository(IWebHostEnvironment webHostEnvironment, ApplicationDbContext dbContext)
+        public DocumentRepository(IWebHostEnvironment webHostEnvironment, ApplicationDbContext dbContext,
+            IArticleRepository articleRepository, ISemesterRepository semesterRepository)
         {
             _webHostEnvironment = webHostEnvironment;
             _dbContext = dbContext;
+            _articleRepository = articleRepository;
+            _semesterRepository = semesterRepository;
         }
 
         public bool UploadDocument(IFormFileCollection files, int articleId)
         {
             var result = true;
-            
+
             if (files.Count == 0)
             {
                 return false;
             }
+
             foreach (var formFile in files)
             {
                 var upFileName = formFile.FileName;
@@ -40,10 +48,11 @@ namespace Megatron.Services
                         Directory.CreateDirectory(saveDir);
                     }
 
-                    using var fs = System.IO.File.Create(savePath);
+                    using var fs = File.Create(savePath);
                     formFile.CopyTo(fs);
                     fs.Flush();
-                    var newDocument = new ArticleDocument{
+                    var newDocument = new ArticleDocument
+                    {
                         ArticleId = articleId,
                         DocumentFile = fileName
                     };
@@ -57,6 +66,126 @@ namespace Megatron.Services
             }
 
             return result;
+        }
+
+        public void ConvertHtmlToDoc(int facultyId)
+        {
+            var listArticleApproved = _articleRepository.GetListArticlesApprovedByFaculty(facultyId);
+            foreach (var article in listArticleApproved)
+            {
+                var articleDocInDb = _dbContext.ArticleDocuments.Where(d => article.Id.Equals(d.ArticleId)).ToList();
+                if (articleDocInDb.Any()) continue;
+                var fileName = Guid.NewGuid() + ".docx";
+                var docPath = GetDocPath(fileName);
+                ConvertDocument(article.Content, docPath);
+
+                var articleDoc = new ArticleDocument()
+                {
+                    ArticleId = article.Id,
+                    DocumentFile = fileName
+                };
+                _dbContext.ArticleDocuments.Add(articleDoc);
+                _dbContext.SaveChanges();
+            }
+        }
+
+        private string GetDocPath(string fileName)
+        {
+            var docDir = Path.Combine(_webHostEnvironment.WebRootPath, "files");
+            return Path.Combine(docDir, fileName);
+        }
+
+        private static void ConvertDocument(string html, string outPutFile)
+        {
+            var document = new Document();
+            var session = document.AddSection();
+            var paragraph = session.AddParagraph();
+
+            var htmlString = html;
+            paragraph.AppendHTML(htmlString);
+            document.SaveToFile(outPutFile, FileFormat.Docx2013);
+        }
+
+        public void DownloadZip(int facultyId)
+        {
+            var listArticleApproved = _articleRepository.GetListArticlesApprovedByFaculty(facultyId).Select(a => a.Id).ToArray();
+            var listDocArticleApproved = _dbContext.ArticleDocuments
+                .Where(d => listArticleApproved.Any(a => a.Equals(d.ArticleId))).ToList();
+            var zipDir = GetZipDir();
+            if (!Directory.Exists(zipDir))
+            {
+                Directory.CreateDirectory(zipDir);
+            }
+            var tempOutPut = GetTempOutPut(facultyId);
+            var zipOutputStream = new ZipOutputStream(File.Create(tempOutPut));
+            zipOutputStream.SetLevel(9);
+
+            var buffer = new byte[4096];
+
+            foreach (var doc in listDocArticleApproved)
+            {
+                var docPath = GetDocPath(doc.DocumentFile);
+                var entry = new ZipEntry(Path.GetFileName(docPath)) {DateTime = DateTime.Now, IsUnicodeText = true};
+                zipOutputStream.PutNextEntry(entry);
+
+                var fileStream = File.OpenRead(docPath);
+                int sourceBytes;
+                do
+                {
+                    sourceBytes = fileStream.Read(buffer, 0, buffer.Length);
+                    zipOutputStream.Write(buffer, 0, sourceBytes);
+                } while (sourceBytes > 0);
+            }
+            zipOutputStream.Finish();
+            zipOutputStream.Flush();
+            zipOutputStream.Close();
+        }
+
+        public byte[] FinalResult(int facultyId)
+        {
+            var tempOutPut = GetTempOutPut(facultyId);
+            var finalResult = File.ReadAllBytes(tempOutPut);
+            if (File.Exists(tempOutPut))
+            {
+                File.Delete(tempOutPut);
+            }
+
+            if (finalResult == null || !finalResult.Any())
+            {
+                throw new Exception("Nothing Found");
+            }
+
+            return finalResult;
+        }
+
+        public string FileZipName(int facultyId)
+        {
+            var name = GetTempOutPut(facultyId);
+            name += ".zip";
+
+            return name;
+        }
+
+        private string GetZipDir()
+        {
+            return Path.Combine(_webHostEnvironment.WebRootPath, "zips");
+        }
+
+        private string GetTempOutPut(int facultyId)
+        {
+            string tempFileName;
+            var facultyInDb = _dbContext.Faculties.FirstOrDefault(f => f.Id == facultyId);
+            var activeSemester = _semesterRepository.GetActiveSemester();
+            if (facultyInDb == null)
+            {
+                tempFileName = "Unknown Faculty" + "-" + activeSemester.SemesterName;
+            }
+            else
+            {
+                tempFileName = facultyInDb.FacultyName + "-" + activeSemester.SemesterName;
+            }
+
+            return tempFileName;
         }
     }
 }
