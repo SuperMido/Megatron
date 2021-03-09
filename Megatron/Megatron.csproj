@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="ChartJSCore" Version="1.5.8" />
     <PackageReference Include="CoreCompat.System.Drawing" Version="1.0.0-beta006" />
+    <PackageReference Include="FreeSpire.Doc" Version="7.11.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.2" />
@@ -20,6 +21,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.1" />
     <PackageReference Include="SendGrid" Version="9.22.0" />
+    <PackageReference Include="SharpZipLib" Version="1.3.1" />
   </ItemGroup>
   
 </Project>

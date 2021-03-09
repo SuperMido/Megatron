@@ -12,13 +12,15 @@ namespace Megatron.Controllers
         private readonly IArticleRepository _articleRepository;
         private readonly ICommentRepository _commentRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IDocumentRepository _documentRepository;
 
         public ArticleController(IArticleRepository articleRepository, ICommentRepository commentRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository, IDocumentRepository documentRepository)
         {
             _articleRepository = articleRepository;
             _commentRepository = commentRepository;
             _userRepository = userRepository;
+            _documentRepository = documentRepository;
         }
 
         // GET
@@ -89,6 +91,16 @@ namespace Megatron.Controllers
             if (sendMessage) return Json(new {success = true, userInput = userFullname, messageInput = message});
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public FileResult DownloadArticle(int id)
+        {
+            _documentRepository.ConvertHtmlToDoc(id);
+            _documentRepository.DownloadZip(id);
+            var finalResult = _documentRepository.FinalResult(id);
+            var zipFileName = _documentRepository.FileZipName(id);
+            return File(finalResult, "application/zip", zipFileName);
         }
     }
 }
