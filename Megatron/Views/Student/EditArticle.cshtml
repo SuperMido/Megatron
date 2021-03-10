@@ -3,6 +3,12 @@
 	ViewData["Title"] = "Edit Article";
 	Layout = "_Authenticated_Layout";
 }
+<div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <span class="text-uppercase page-subtitle">Dashboard</span>
+        <h3 class="page-title">Edit Article</h3>
+    </div>
+</div>
 <div>
 	<form asp-action="EditArticle">
 		<partial name="_StatusMessage" model="@ViewData["Message"]" />
