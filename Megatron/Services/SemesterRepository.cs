@@ -99,7 +99,7 @@ namespace Megatron.Services
             {
                 semesterExist.SemesterName = semesterViewModel.Semester.SemesterName;
                 semesterExist.SemesterStartDate = semesterViewModel.Semester.SemesterStartDate;
-                semesterExist.SemesterClosureDate = semesterViewModel.Semester.SemesterStartDate;
+                semesterExist.SemesterClosureDate = semesterViewModel.Semester.SemesterClosureDate;
                 semesterExist.SemesterEndDate = semesterViewModel.Semester.SemesterEndDate;
                 semesterExist.UpdateAt = DateTime.Now;
 
