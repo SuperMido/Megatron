@@ -47,6 +47,15 @@
                     {
                         data: 'updateAt', title: 'Update At'
                     },
+                    {
+                                            data: 'id',
+                                            className: "center",
+                                            title: 'Actions',
+                                            render: function (data) {
+                                                return '<a href="Student/EditArticle/' + data + '" class="btn btn-success mr-1"> Edit </a>';
+                                            }
+                    
+                                        }
                 ],
                 order: [1, 'asc']
             });
