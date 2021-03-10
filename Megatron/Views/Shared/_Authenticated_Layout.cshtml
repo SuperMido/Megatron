@@ -103,7 +103,7 @@
                              </a>
                          </li>
                      }
-                     @if (User.IsInRole(SystemRoles.Student))
+                     @if (User.IsInRole(SystemRoles.Student) || User.IsInRole(SystemRoles.Administrator))
                      {
                          <li class="nav-item">
                              
@@ -223,7 +223,7 @@
                                 <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">
                                     <i class="material-icons">&#xE7FD;</i> Profile
                                 </a>
-                                @if (User.IsInRole(SystemRoles.Student))
+                                @if (User.IsInRole(SystemRoles.Student) || User.IsInRole(SystemRoles.Administrator))
                                 {
                                     <a class="dropdown-item" asp-controller="Student" asp-action="Index">
                                         <i class="material-icons">vertical_split</i> My Articles
