@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Megatron.Services;
+using Megatron.Utility;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Megatron.Controllers
@@ -13,10 +15,12 @@ namespace Megatron.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ISemesterRepository _semesterRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ISemesterRepository semesterRepository)
         {
             _logger = logger;
+            _semesterRepository = semesterRepository;
         }
 
         public IActionResult Index()
@@ -32,6 +36,33 @@ namespace Megatron.Controllers
         [Authorize]
         public IActionResult Welcome()
         {
+            if(User.IsInRole(SystemRoles.Student))
+            {
+                var currentDate = new DateTime();
+                var semesterActive = _semesterRepository.GetActiveSemester();
+                if (semesterActive != null)
+                {
+                    if (currentDate < semesterActive.SemesterClosureDate &&
+                        currentDate < semesterActive.SemesterEndDate)
+                    {
+                        ViewBag.Results = "Submit & Edit";
+                    }
+
+                    if (currentDate > semesterActive.SemesterClosureDate &&
+                        currentDate < semesterActive.SemesterEndDate)
+                    {
+                        ViewBag.Results = "Edit";
+                    }
+
+                    if (currentDate > semesterActive.SemesterClosureDate &&
+                        currentDate > semesterActive.SemesterEndDate)
+                    {
+                        ViewBag.Results = "Cannot";
+                    }
+                    return View(semesterActive);
+                } 
+                return View();
+            }
             return View();
         }
 
