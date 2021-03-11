@@ -105,24 +105,28 @@ namespace Megatron.Controllers
             var articleInDb = _studentRepository.GetArticleById(id);
             if (articleInDb == null) return NotFound();
 
-            var articleVM = new ArticleFacultyViewModel
+            var articleVm = new ArticleFacultyViewModel()
             {
                 Article = articleInDb,
                 Faculties = _facultyRepository.GetFaculties()
             };
-            return View(articleVM);
+            return View(articleVm);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.Student)]
-        public ActionResult EditArticle(Article article)
+        public ActionResult EditArticle(ArticleFacultyViewModel articleFacultyViewModel)
         {
-            if (!ModelState.IsValid) return View();
+            var articleToEdit = _studentRepository.EditArticle(articleFacultyViewModel);
 
-            if (!_studentRepository.EditArticle(article)) throw new ArgumentException("...");
+            if (articleToEdit == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
 
-            return RedirectToAction("Index");
+            ViewData["Message"] = articleToEdit.StatusMessage;
+            return View(articleToEdit);
         }
     }
 }
