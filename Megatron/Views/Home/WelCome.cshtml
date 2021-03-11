@@ -1,6 +1,99 @@
-﻿@{
+﻿@model Megatron.Models.Semester
+@using Megatron.Utility
+@{
     ViewBag.Title = "title";
     Layout = "_Authenticated_Layout";
 }
 
 <h2>Welcome</h2>
+@if (User.IsInRole(SystemRoles.Student))
+{
+    if (Model != null)
+    {
+        <div class="card">
+            <div class="card-header">
+                Semester active: 
+            </div>
+            <div class="card-body pt-0">
+                <h5 class="card-title">@Html.DisplayFor(s =>s.SemesterName)</h5>
+                <div class="row w-100 ml-1">
+                    <div class="col p-0 text-left">
+                        <p id="startDate">@Html.DisplayFor(s => s.SemesterStartDate)</p>
+                    </div>
+                    <div class="col p-0 text-center">
+                        <p id="closureDate">@Html.DisplayFor(s => s.SemesterClosureDate)</p>
+                    </div>
+                    <div class="col p-0 text-right">
+                        <p id="endDate">@Html.DisplayFor(s => s.SemesterEndDate)</p>
+                    </div>
+                </div>
+                <div class="row position-relative w-100 ml-1">
+                    <div class="d-flex justify-content-between w-100 position-absolute" style="top: -3px;">
+                        <div class="bg-secondary rounded-circle text-center text-white font-weight-bold" style="height: 30px;width: 30px;">
+                            <p class="mt-1">1</p>
+                        </div>
+                        <div id="circle-mid" class="bg-warning rounded-circle text-center text-white font-weight-bold" style="height: 30px;width: 30px;">
+                            <p class="mt-1">2</p>
+                        </div>
+                        <div class="bg-danger rounded-circle text-center text-white font-weight-bold " style="height: 30px;width: 30px;">
+                            <p class="mt-1">3</p>
+                        </div>
+                    </div>
+                    <div class="progress w-100" style="height: 10px;">
+                        <div id="progress-1" class="progress-bar bg-info" role="progressbar" style="height: 10px;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div id="progress-2" class="progress-bar bg-secondary text-left font-italic" role="progressbar" style="height: 10px;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">current</div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between w-100 mt-3" style="top: -3px;">
+                    <div class="text-center text-dark font-weight-bold">
+                        <p class="mt-1">Start date</p>
+                    </div>
+                    <div id="clouseDate" class="text-center text-warning font-weight-bold">
+                        <p class="mt-1">Closure date</p>
+                    </div>
+                    <div class="text-center text-danger font-weight-bold">
+                        <p class="mt-1">End date</p>
+                    </div>
+                </div>
+                <a asp-controller="Student" asp-action="SubmitArticle" class="btn btn-primary">Create new article</a>
+            </div>    
+        </div>
+    }
+    else
+    {
+        <div class="card">
+            <div class="card-header">
+                No Semester active!
+            </div>
+        </div>
+    }
+}
+@section Scripts {
+    <script>
+        var result = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.Results))');
+        
+        var progress1 = document.getElementById("progress-1");
+        var progress2 = document.getElementById("progress-2");
+        var circleMid = document.getElementById("circle-mid");
+        var closureDate = document.getElementById("clouseDate");
+        
+        if (result == "Submit & Edit") {
+            progress1.style.width = "25%";
+            progress2.style.width = "75%";
+            
+        } else if (result == "Edit") {
+            progress1.style.width = "75%";
+            progress2.style.width = "25%";
+            
+            circleMid.className = "bg-secondary rounded-circle text-center text-white font-weight-bold";
+            closureDate.className = "text-center text-dark font-weight-bold";
+        } else {
+            progress1.style.width = "100%";
+            progress2.style.width = "0";
+                        
+            circleMid.className = "bg-secondary rounded-circle text-center text-white font-weight-bold";
+            closureDate.className = "text-center text-dark font-weight-bold";            
+        }
+    </script>
+}
+
