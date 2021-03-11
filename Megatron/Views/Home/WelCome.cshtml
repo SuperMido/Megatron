@@ -55,7 +55,7 @@
                         <p class="mt-1">End date</p>
                     </div>
                 </div>
-                <a asp-controller="Student" asp-action="SubmitArticle" class="btn btn-primary">Create new article</a>
+                <a asp-controller="Student" asp-action="SubmitArticle" id="createNewArticle" class="btn btn-primary" >Create new article</a>
             </div>    
         </div>
     }
@@ -71,11 +71,11 @@
 @section Scripts {
     <script>
         var result = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.Results))');
-        
         var progress1 = document.getElementById("progress-1");
         var progress2 = document.getElementById("progress-2");
         var circleMid = document.getElementById("circle-mid");
-        var closureDate = document.getElementById("clouseDate");
+        var closureDate = document.getElementById("clouseDate");    
+        var button = document.getElementById("createNewArticle");      
         
         if (result == "Submit & Edit") {
             progress1.style.width = "25%";
@@ -87,6 +87,8 @@
             
             circleMid.className = "bg-secondary rounded-circle text-center text-white font-weight-bold";
             closureDate.className = "text-center text-dark font-weight-bold";
+            
+            button.classList.add("disabled");
         } else {
             progress1.style.width = "100%";
             progress2.style.width = "0";

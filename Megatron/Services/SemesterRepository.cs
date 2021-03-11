@@ -167,10 +167,20 @@ namespace Megatron.Services
                 return _dbContext.Semesters.FirstOrDefault(s =>
                     s.SemesterStartDate < currentDateTime && s.SemesterClosureDate > currentDateTime);
             }
-
             return null;
         }
 
+        public Semester GetActiveSemesterForContributor()
+        {
+            var currentDateTime = DateTime.Now;
+            if (CheckSemesterDateValidToSubmitAndEdit(currentDateTime))
+            {
+                return _dbContext.Semesters.FirstOrDefault(s =>
+                    s.SemesterStartDate < currentDateTime && s.SemesterEndDate > currentDateTime);
+            }
+
+            return null;
+        }
         public void AddArticleSemester(int articleId, int semesterId)
         {
             var articleSemester = new SemesterArticle()
@@ -187,6 +197,12 @@ namespace Megatron.Services
         {
             var semesterInDb = _dbContext.Semesters.Where(s =>
                 s.SemesterStartDate < currentDateTime && s.SemesterClosureDate > currentDateTime).ToList();
+            return semesterInDb.Any();
+        }
+        private bool CheckSemesterDateValidToSubmitAndEdit(DateTime currentDateTime)
+        {
+            var semesterInDb = _dbContext.Semesters.Where(s =>
+                s.SemesterStartDate < currentDateTime && s.SemesterEndDate > currentDateTime).ToList();
             return semesterInDb.Any();
         }
     }
