@@ -38,24 +38,22 @@ namespace Megatron.Controllers
         {
             if(User.IsInRole(SystemRoles.Student))
             {
-                var currentDate = new DateTime();
+                var currentDate =  DateTime.Now;
                 var semesterActive = _semesterRepository.GetActiveSemesterForContributor();
                 if (semesterActive != null)
                 {
-                    if (currentDate < semesterActive.SemesterClosureDate)
-                    {
-                        ViewBag.Results = "Submit & Edit";
-                    }
-
-                    if (currentDate < semesterActive.SemesterEndDate)
-                    {
-                        ViewBag.Results = "Edit";
-                    }
-
                     if (currentDate > semesterActive.SemesterClosureDate &&
                         currentDate > semesterActive.SemesterEndDate)
                     {
                         ViewBag.Results = "Cannot";
+                    }
+                    else if (semesterActive.SemesterClosureDate < currentDate && semesterActive.SemesterEndDate > currentDate)
+                    {
+                        ViewBag.Results = "Edit";
+                    }
+                    else
+                    {
+                        ViewBag.Results = "Submit & Edit";
                     }
                     return View(semesterActive);
                 } 
