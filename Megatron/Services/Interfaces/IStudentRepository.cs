@@ -11,8 +11,8 @@ namespace Megatron.Services
         ArticleFacultyViewModel SubmitArticle(ArticleFacultyViewModel articleFacultyViewModel);
 
         IEnumerable<Article> GetPersonalArticles(string userName);
-        bool EditArticle(Article article);
-        Article GetArticleById(int Id);
+        ArticleFacultyViewModel EditArticle(ArticleFacultyViewModel articleFacultyViewModel);
+        Article GetArticleById(int id);
         IEnumerable<ApplicationUser> GetUserInFacultyByFacultyId(int id);
     }
 }

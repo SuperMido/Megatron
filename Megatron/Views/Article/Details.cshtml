@@ -114,7 +114,15 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
 }
 <div class="card border-success mb-3">
     <div class="card-body">
-        <h5 class="card-title">Author: <a class="text-primary">@Html.DisplayFor(m => m.Article.Author)</a></h5>
+        <h5 class="card-title">
+            Author: <a class="text-primary">@Html.DisplayFor(m => m.Article.Author)</a>
+            <a asp-action="EditArticle" asp-controller="Student" asp-route-id="@Model.Article.Id" type="button" class="btn btn-primary float-right">
+                <i class="material-icons">edit</i>
+            </a>
+        </h5>
+        @if (User.IsInRole(SystemRoles.Administrator) || User.IsInRole(SystemRoles.Student))
+        {
+        }
         <div class="d-flex flex-row align-items-center text-left comment-top mt-1 bg-white border-bottom px-4"></div>
         <p class="card-text">@Html.Raw(Model.Article.Content)</p>
     </div>

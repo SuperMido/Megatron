@@ -66,6 +66,11 @@ namespace Megatron.Services
             return model;
         }
 
+        public Article GetArticleById(int id)
+        {
+            return _dbContext.Articles.SingleOrDefault(a => a.Id == id);
+        }
+
         public IEnumerable<ApplicationUser> GetUserInFacultyByFacultyId(int id)
         {
             var listUserIdInSelectedFaculty = _dbContext.UserFaculties
@@ -77,26 +82,34 @@ namespace Megatron.Services
             return listUserInSelectedFaculty;
         }
 
-        public Article GetArticleById(int id)
+        public ArticleFacultyViewModel EditArticle(ArticleFacultyViewModel articleFacultyViewModel)
         {
-            return _dbContext.Articles.SingleOrDefault(a => a.Id == id);
-        }
+            var doesArticleExists = _dbContext.Articles.Include(a => a.Faculty)
+                .Where(a => a.Title == articleFacultyViewModel.Article.Title &&
+                            a.Faculty.Id == articleFacultyViewModel.Article.FacultyId);
+            var articleInDb = GetArticleById(articleFacultyViewModel.Article.Id);
+            if (doesArticleExists.Any() && articleInDb.Title != articleFacultyViewModel.Article.Title)
+            {
+                // Message
+            }
+            else
+            {
+                articleInDb.Title = articleFacultyViewModel.Article.Title;
+                articleInDb.Content = articleFacultyViewModel.Article.Content;
 
-        public bool EditArticle(Article article)
-        {
-            var articleInDb = GetArticleById(article.Id);
-            if (articleInDb == null) return false;
-            articleInDb.Title = article.Title;
-            articleInDb.Author = article.Author;
-            articleInDb.Content = article.Content;
-            articleInDb.FacultyId = article.FacultyId;
-            articleInDb.Faculty = article.Faculty;
-            articleInDb.Image = article.Image;
-            articleInDb.Status = article.Status;
+                _dbContext.SaveChanges();
+                return null;
+            }
 
-            _dbContext.Articles.Update(articleInDb);
-            _dbContext.SaveChanges();
-            return true;
+            var model = new ArticleFacultyViewModel
+            {
+                Article = articleFacultyViewModel.Article,
+                Faculties = _dbContext.Faculties.ToList(),
+                StatusMessage = "Error: Article already exists in " + _dbContext.Faculties
+                    .SingleOrDefault(f => f.Id == articleFacultyViewModel.Article.FacultyId).FacultyName.ToString()
+            };
+
+            return model;
         }
     }
 }
