@@ -20,6 +20,7 @@ namespace Megatron.Services
         bool CheckExistSemester(string name);
 
         Semester GetActiveSemester();
+        Semester GetActiveSemesterForContributor();
         void AddArticleSemester(int articleId, int semesterId);
     }
 }
