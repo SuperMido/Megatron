@@ -31,7 +31,17 @@
                 rowId: "id",
                 columns: [
                     { data: "title", title: "Title" },
+                    {
+                                            data: 'status', title: 'Status', render: function (data) {
+                                                if (data == false) {
+                                                    return 'Waiting for Approve';
+                                                } else {
+                                                    return 'Approved';
+                                                }
+                                            }
+                                        },
                     { data: "updateAt", title: "Update At" },
+                    
                 ],
                 order: [1, 'asc']
             });
