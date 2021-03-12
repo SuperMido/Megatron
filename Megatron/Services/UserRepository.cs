@@ -154,5 +154,19 @@ namespace Megatron.Services
             _dbContext.SaveChanges();
             return true;
         }
+
+        public UserFaculty GetUserInFacultyById(int id)
+        {
+            return _dbContext.UserFaculties.SingleOrDefault(u => u.Id == id);
+        }
+
+        public bool DeleteUserInFaculty(int id)
+        {
+            var userInFaculty = GetUserInFacultyById(id);
+            if (userInFaculty == null) return false;
+            _dbContext.UserFaculties.Remove(userInFaculty);
+            _dbContext.SaveChanges();
+            return true;
+        }
     }
 }

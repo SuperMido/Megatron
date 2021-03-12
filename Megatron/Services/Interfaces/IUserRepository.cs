@@ -20,6 +20,8 @@ namespace Megatron.Services
         public bool AssignMcToFaculty(UserFacultyViewModel model);
         public bool AssignGuestToFaculty(UserFacultyViewModel model);
         bool DeleteAccount(string id);
+        public UserFaculty GetUserInFacultyById(int id);
+        bool DeleteUserInFaculty(int id);
         ApplicationUser GetUserById(string id);
         bool EditAccount(ApplicationUser applicationUser);
     }
