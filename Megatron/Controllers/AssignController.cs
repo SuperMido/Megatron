@@ -3,6 +3,7 @@ using Megatron.Utility;
 using Megatron.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Megatron.Controllers
 {
@@ -61,6 +62,14 @@ namespace Megatron.Controllers
         {
             var usersInFaculty = _userRepository.GetUserInFaculty();
             return new JsonResult(usersInFaculty);
+        }
+        public ActionResult DeleteUserInFaculty(int id)
+        {
+            if (!_userRepository.DeleteUserInFaculty(id))
+            {
+                throw new ArgumentException("Error");
+            }
+            return RedirectToAction("Index");
         }
     }
 }
