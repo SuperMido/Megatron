@@ -40,7 +40,10 @@
                                                 }
                                             }
                                         },
-                    { data: "updateAt", title: "Update At" },
+                    { data: "updateAt", title: "Update At",
+                            render: function (data){
+                            return moment(data).format("HH:mm - MM/DD/YYYY");
+                    }},
                     
                 ],
                 order: [1, 'asc']

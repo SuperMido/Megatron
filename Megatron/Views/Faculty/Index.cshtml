@@ -31,7 +31,10 @@
                 },
                 columns: [
                 { data: 'facultyName', title: 'Faculty Name' },
-                    { data: 'updateAt', title: 'Update At' },
+                    { data: 'updateAt', title: 'Update At',
+                            render: function (data){
+                            return moment(data).format("HH:mm - MM/DD/YYYY");
+                    }},
                     {
                         data: 'id', title: 'Action', render: function (data) {
                             return '<a href="Faculty/Edit/' + data + '"class="btn btn-success mr-1"> Edit </a> ' + '<a href="Faculty/Details/' + data + '"class="btn btn-warning mr-1"> Detail </a> ' + '<a href="Faculty/Delete/' + data + '" class="btn btn-danger mr-1">     Delete </a>'; 

@@ -38,7 +38,10 @@
                     { data: "title", title: "Title" },
                     { data: "faculty.facultyName", title: "Faculty" },
                     { data: "author", title: "Author" },
-                    { data: "updateAt", title: "Selected Date Time" },
+                    { data: "updateAt", title: "Selected Date Time",
+                            render: function (data){
+                            return moment(data).format("HH:mm - MM/DD/YYYY");
+                    }},
                     { data: "changeStatusBy", title: "Changed Status By" }
                     ],
                 order: [1, 'asc']
