@@ -34,7 +34,6 @@
                 columns: [
                     { data: 'title', title: 'Title' },
                     { data: 'faculty.facultyName' , title: 'Faculty'  },
-                    { data: 'updateAt', title: 'Update At'  },
                     {
                         data: 'status', title: 'Status', render: function (data) {
                             if (data == false) {
@@ -44,8 +43,13 @@
                             }
                         }
                     },
+                    {data: 'createAt', title: 'Create At', render: function (data){
+                        return moment(data).format("HH:mm - DD/MM/YYYY");
+                    }},
                     {
-                        data: 'updateAt', title: 'Update At'
+                        data: 'updateAt', title: 'Update At', render: function (data) {
+                            return moment(data).format("HH:mm - DD/MM/YYYY");
+                        }
                     },
                     {
                                             data: 'id',

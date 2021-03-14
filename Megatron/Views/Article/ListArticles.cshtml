@@ -31,7 +31,12 @@
                 rowId: "id",
                 columns: [
                     { data: "title", title: "Title" },
-                    { data: "updateAt", title: "Update At" },
+                    { data: "createAt", title: "Create At", render: function (data){
+                        return moment(data).format("HH:mm - DD/MM/YYYY");
+                    }},
+                    { data: "updateAt", title: "Update At", render: function (data){
+                        return moment(data).format("HH:mm - DD/MM/YYYY");
+                    }},
                 ],
                 order: [1, 'asc']
             });
