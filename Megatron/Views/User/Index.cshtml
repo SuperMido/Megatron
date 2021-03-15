@@ -36,7 +36,10 @@
                     { data: "fullName", title: "Full Name" },
                     { data: "email", title: "Email" },
                     { data: "role", title: "Role"},
-                    { data: "dateCreate", title: "Date Create" },
+                    { data: "dateCreate", title: "Date Create",
+                            render: function (data){
+                            return moment(data).format("HH:mm - MM/DD/YYYY");
+                     }},
                     {
                         data: 'userId',
                         className: "center",
