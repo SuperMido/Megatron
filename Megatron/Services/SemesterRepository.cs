@@ -37,9 +37,12 @@ namespace Megatron.Services
                 };
                 return model;
             }
+            
+            var semesterInDb = GetAllSemesters().OrderByDescending(s => s.Id).FirstOrDefault();
 
-            if (semesterViewModel.Semester.SemesterStartDate < semesterViewModel.Semester.SemesterClosureDate &&
-                semesterViewModel.Semester.SemesterClosureDate < semesterViewModel.Semester.SemesterEndDate)
+            if (semesterInDb == null || (semesterViewModel.Semester.SemesterStartDate < semesterViewModel.Semester.SemesterClosureDate &&
+                semesterViewModel.Semester.SemesterClosureDate < semesterViewModel.Semester.SemesterEndDate &&
+                semesterInDb.SemesterEndDate < semesterViewModel.Semester.SemesterStartDate))
             {
                 var newSemester = new Semester
                 {
@@ -69,6 +72,16 @@ namespace Megatron.Services
                 {
                     Semester = semesterViewModel.Semester,
                     StatusMessage = "Error: Final Date must be greater than the Closure Date!"
+                };
+                return model;
+            }
+
+            if (semesterInDb.SemesterEndDate > semesterViewModel.Semester.SemesterStartDate)
+            {
+                var model = new SemesterViewModel()
+                {
+                    Semester = semesterViewModel.Semester,
+                    StatusMessage = "Error: Please check Start Date again!"
                 };
                 return model;
             }
