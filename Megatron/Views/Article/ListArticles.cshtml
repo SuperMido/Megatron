@@ -31,6 +31,13 @@
                 rowId: "id",
                 columns: [
                     { data: "title", title: "Title" },
+                    {
+                        data: 'status', title: 'Status', render: function (data) {
+                             if (data == false) { return 'Waiting for Approve';
+                             } 
+                             else { return 'Approved'; }
+                        }
+                    },
                     { data: "createAt", title: "Create At", render: function (data){
                         return moment(data).format("HH:mm - DD/MM/YYYY");
                     }},
