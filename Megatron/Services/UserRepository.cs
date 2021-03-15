@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Megatron.Data;
@@ -17,7 +18,6 @@ namespace Megatron.Services
         public UserRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
-
         }
 
         public async Task<string> GetUserFullName(string userId)
@@ -32,14 +32,19 @@ namespace Megatron.Services
             var listUsers = (from user in _dbContext.ApplicationUsers
                     join userRoles in _dbContext.UserRoles on user.Id equals userRoles.UserId
                     join role in _dbContext.Roles on userRoles.RoleId equals role.Id
-                    select new { UserId = user.Id, FullName = user.FullName, Email = user.Email, RoleName = role.Name, DateCreate = user.CreateAt })
-                .ToList().Select( u => new UserRoleViewModel
+                    select new
+                    {
+                        UserId = user.Id, FullName = user.FullName, Email = user.Email, RoleName = role.Name,
+                        DateCreate = user.CreateAt, LockUser = user.LockoutEnd
+                    })
+                .ToList().Select(u => new UserRoleViewModel
                 {
                     UserId = u.UserId,
                     FullName = u.FullName,
                     Email = u.Email,
                     Role = u.RoleName,
-                    DateCreate = u.DateCreate.ToString("HH:mm - MM/dd/yyyy")
+                    DateCreate = u.DateCreate.ToString("HH:mm - MM/dd/yyyy"),
+                    LockUser = u.LockUser
                 });
             return listUsers;
         }
@@ -88,9 +93,8 @@ namespace Megatron.Services
 
             _dbContext.UserFaculties.Add(model.UserFaculty);
             _dbContext.SaveChanges();
-            
-            return true;
 
+            return true;
         }
 
         public bool AssignGuestToFaculty(UserFacultyViewModel model)
@@ -101,7 +105,7 @@ namespace Megatron.Services
 
             _dbContext.UserFaculties.Add(model.UserFaculty);
             _dbContext.SaveChanges();
-            
+
             return true;
         }
 
@@ -125,11 +129,14 @@ namespace Megatron.Services
 
         private bool CheckUserExistInFaculty(UserFacultyViewModel model)
         {
-            var doesUserExistsInFaculty = _dbContext.UserFaculties.Include(t => t.Faculty).Include(t => t.ApplicationUser)
-                .Where(t => t.Faculty.Id == model.UserFaculty.FacultyId && t.ApplicationUser.Id == model.UserFaculty.UserId);
+            var doesUserExistsInFaculty = _dbContext.UserFaculties.Include(t => t.Faculty)
+                .Include(t => t.ApplicationUser)
+                .Where(t => t.Faculty.Id == model.UserFaculty.FacultyId &&
+                            t.ApplicationUser.Id == model.UserFaculty.UserId);
 
             return doesUserExistsInFaculty.Any();
         }
+
         public bool DeleteAccount(string id)
         {
             var accountInDb = GetUserById(id);
@@ -138,6 +145,7 @@ namespace Megatron.Services
             _dbContext.SaveChanges();
             return true;
         }
+
         public ApplicationUser GetUserById(string id)
         {
             return _dbContext.ApplicationUsers.SingleOrDefault(u => u.Id == id);
@@ -151,6 +159,34 @@ namespace Megatron.Services
             accountInDb.FullName = applicationUser.FullName;
             accountInDb.Email = applicationUser.Email;
             _dbContext.ApplicationUsers.Update(accountInDb);
+            _dbContext.SaveChanges();
+            return true;
+        }
+
+        public bool LockUser(string id)
+        {
+            var user = GetUserById(id);
+            if (user == null)
+            {
+                return false;
+            }
+
+            user.LockoutEnd = DateTime.Now.AddYears(1000);
+            _dbContext.SaveChanges();
+
+            return true;
+        }
+
+        public bool UnLockUser(string id)
+        {
+            var user = GetUserById(id);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            user.LockoutEnd = DateTime.Now;
             _dbContext.SaveChanges();
             return true;
         }
