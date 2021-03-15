@@ -31,15 +31,6 @@ namespace SeleniumAutomationTests
         }
 
         [Test]
-        public void test_GoToIndex()
-        {
-            driver.Url = url;
-            string homeTitle = driver.FindElement(By.XPath("/html/body/header/div[1]/div/h1")).Text;
-            Assert.AreEqual("One Page Wonder", homeTitle);
-            driver.Quit();
-        }
-
-        [Test]
         public void test_GoToLoginPageFromIndexPageOnWebView()
         {
             driver.Url = url;
