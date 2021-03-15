@@ -22,5 +22,7 @@ namespace Megatron.Services
         bool DeleteAccount(string id);
         ApplicationUser GetUserById(string id);
         bool EditAccount(ApplicationUser applicationUser);
+        public UserFaculty GetUserInFacultyById(int id);
+        bool DeleteUserInFaculty(int id);
     }
 }
