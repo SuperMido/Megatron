@@ -15,15 +15,13 @@ namespace Megatron.Services
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ApplicationDbContext _dbContext;
         private readonly IArticleRepository _articleRepository;
-        private readonly ISemesterRepository _semesterRepository;
 
         public DocumentRepository(IWebHostEnvironment webHostEnvironment, ApplicationDbContext dbContext,
-            IArticleRepository articleRepository, ISemesterRepository semesterRepository)
+            IArticleRepository articleRepository)
         {
             _webHostEnvironment = webHostEnvironment;
             _dbContext = dbContext;
             _articleRepository = articleRepository;
-            _semesterRepository = semesterRepository;
         }
 
         public bool UploadDocument(IFormFileCollection files, int articleId)
@@ -68,9 +66,10 @@ namespace Megatron.Services
             return result;
         }
 
-        public void ConvertHtmlToDoc(int facultyId)
+        public void ConvertHtmlToDoc(int facultyId, int semesterId)
         {
-            var listArticleApproved = _articleRepository.GetListArticlesApprovedByFaculty(facultyId);
+            var listArticleApproved =
+                _articleRepository.GetListArticlesApprovedAfterFinalDateByFaculty(facultyId, semesterId);
             foreach (var article in listArticleApproved)
             {
                 var articleDocInDb = _dbContext.ArticleDocuments.Where(d => article.Id.Equals(d.ArticleId)).ToList();
@@ -106,9 +105,10 @@ namespace Megatron.Services
             document.SaveToFile(outPutFile, FileFormat.Docx2013);
         }
 
-        public void DownloadZip(int facultyId)
+        public void DownloadZip(int facultyId, int semesterId)
         {
-            var listArticleApproved = _articleRepository.GetListArticlesApprovedByFaculty(facultyId).Select(a => a.Id).ToArray();
+            var listArticleApproved = _articleRepository
+                .GetListArticlesApprovedAfterFinalDateByFaculty(facultyId, semesterId).Select(a => a.Id).ToArray();
             var listDocArticleApproved = _dbContext.ArticleDocuments
                 .Where(d => listArticleApproved.Any(a => a.Equals(d.ArticleId))).ToList();
             var zipDir = GetZipDir();
@@ -116,7 +116,8 @@ namespace Megatron.Services
             {
                 Directory.CreateDirectory(zipDir);
             }
-            var tempOutPut = GetTempOutPut(facultyId);
+
+            var tempOutPut = GetTempOutPut(facultyId, semesterId);
             var zipOutputStream = new ZipOutputStream(File.Create(tempOutPut));
             zipOutputStream.SetLevel(9);
 
@@ -136,14 +137,15 @@ namespace Megatron.Services
                     zipOutputStream.Write(buffer, 0, sourceBytes);
                 } while (sourceBytes > 0);
             }
+
             zipOutputStream.Finish();
             zipOutputStream.Flush();
             zipOutputStream.Close();
         }
 
-        public byte[] FinalResult(int facultyId)
+        public byte[] FinalResult(int facultyId, int semesterId)
         {
-            var tempOutPut = GetTempOutPut(facultyId);
+            var tempOutPut = GetTempOutPut(facultyId, semesterId);
             var finalResult = File.ReadAllBytes(tempOutPut);
             if (File.Exists(tempOutPut))
             {
@@ -158,9 +160,9 @@ namespace Megatron.Services
             return finalResult;
         }
 
-        public string FileZipName(int facultyId)
+        public string FileZipName(int facultyId, int semesterId)
         {
-            var name = GetTempOutPut(facultyId);
+            var name = GetTempOutPut(facultyId, semesterId);
             name += ".zip";
 
             return name;
@@ -171,18 +173,19 @@ namespace Megatron.Services
             return Path.Combine(_webHostEnvironment.WebRootPath, "zips");
         }
 
-        private string GetTempOutPut(int facultyId)
+        private string GetTempOutPut(int facultyId, int semesterId)
         {
             string tempFileName;
             var facultyInDb = _dbContext.Faculties.FirstOrDefault(f => f.Id == facultyId);
-            var dateTime = GetDateTime("HH-mm-MM-dd-yyyy");
-            if (facultyInDb == null)
+            var semesterInDb = _dbContext.Semesters.FirstOrDefault(s => s.Id == semesterId);
+            var dateTime = GetDateTime("HH-mm MM-dd-yyyy");
+            if (facultyInDb == null || semesterInDb == null)
             {
-                tempFileName = dateTime + "-" + "Unknown Faculty";
+                tempFileName = "Unknown-Faculty" + " " + "Unknown-Semester" + " (" + dateTime + ")";
             }
             else
             {
-                tempFileName = dateTime + "-" + facultyInDb.FacultyName;
+                tempFileName = facultyInDb.FacultyName + " " + semesterInDb.SemesterName + " (" + dateTime + ")";
             }
 
             return tempFileName;
