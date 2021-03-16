@@ -39,7 +39,16 @@
                     { data: "createAt", title: "Assign At",
                         render: function(data){
                         return moment(data).format("HH:mm - MM/DD/YYYY");
-                    }}
+                    }},
+                    {
+                        data: 'id',
+                        className: "center",
+                        title: 'Actions',
+                        render: function (data) {
+                        return '<a href="Assign/DeleteUserInFaculty/' + data + '" class="btn btn-danger"> Remove </a>';
+                        }
+                                                            
+                    }
                 ],
                 order: [2, 'asc']
             });

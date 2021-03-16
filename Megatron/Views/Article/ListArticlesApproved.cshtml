@@ -8,7 +8,7 @@
 <div class="page-header row no-gutters py-4">
     <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
         <span class="text-uppercase page-subtitle">Dashboard</span>
-        <h3 class="page-title">Articles Approved</h3>
+        <h3 class="page-title">Approved Articles</h3>
     </div>
     <div class="col-12 mt-3">
         <form asp-action="DownloadArticle" asp-route-id="@Context.GetRouteData().Values["id"]" method="post">
@@ -38,8 +38,13 @@
                     { data: "title", title: "Title" },
                     { data: "faculty.facultyName", title: "Faculty" },
                     { data: "author", title: "Author" },
-                    { data: "updateAt", title: "Selected Date Time" },
-                    { data: "changeStatusBy", title: "Changed Status By" }
+                    { data: 'createAt', title: "Create At", render: function (data) {
+                        return moment(data).format("HH:mm - DD/MM/YYYY");
+                    }},
+                    { data: "updateAt", title: "Update At", render: function (data){
+                        return moment(data).format("HH:mm - DD/MM/YYYY");
+                    }},
+                    { data: "changeStatusBy", title: "Approved By" }
                     ],
                 order: [1, 'asc']
                 });

@@ -175,17 +175,22 @@ namespace Megatron.Services
         {
             string tempFileName;
             var facultyInDb = _dbContext.Faculties.FirstOrDefault(f => f.Id == facultyId);
-            var activeSemester = _semesterRepository.GetActiveSemester();
+            var dateTime = GetDateTime("HH-mm-MM-dd-yyyy");
             if (facultyInDb == null)
             {
-                tempFileName = "Unknown Faculty" + "-" + activeSemester.SemesterName;
+                tempFileName = dateTime + "-" + "Unknown Faculty";
             }
             else
             {
-                tempFileName = facultyInDb.FacultyName + "-" + activeSemester.SemesterName;
+                tempFileName = dateTime + "-" + facultyInDb.FacultyName;
             }
 
             return tempFileName;
+        }
+
+        private static string GetDateTime(string format)
+        {
+            return DateTime.Now.ToString(format);
         }
     }
 }
