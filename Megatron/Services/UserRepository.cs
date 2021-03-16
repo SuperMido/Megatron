@@ -162,6 +162,7 @@ namespace Megatron.Services
             _dbContext.SaveChanges();
             return true;
         }
+
         public bool LockUser(string id)
         {
             var user = GetUserById(id);
@@ -186,7 +187,10 @@ namespace Megatron.Services
             }
 
             user.LockoutEnd = DateTime.Now;
-        
+            _dbContext.SaveChanges();
+            return true;
+        }
+
         public UserFaculty GetUserInFacultyById(int id)
         {
             return _dbContext.UserFaculties.SingleOrDefault(u => u.Id == id);
