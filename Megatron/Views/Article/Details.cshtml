@@ -120,11 +120,12 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
                 <i class="material-icons">edit</i>
             </a>
         </h5>
-        @if (User.IsInRole(SystemRoles.Administrator) || User.IsInRole(SystemRoles.Student))
+        @if (Model.Article.Content != null)
         {
+            <div class="d-flex flex-row align-items-center text-left comment-top mt-1 bg-white border-bottom px-4"></div>
+            <p class="card-text">@Html.Raw(Model.Article.Content)</p>
         }
-        <div class="d-flex flex-row align-items-center text-left comment-top mt-1 bg-white border-bottom px-4"></div>
-        <p class="card-text">@Html.Raw(Model.Article.Content)</p>
+
     </div>
 </div>
 @if (@Model.Document.Any())
@@ -132,19 +133,19 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
     <div class="card border-success mb-3">
         <table class="table table-hover">
             <thead>
-            <tr>
-                <th scope="col">Document Uploaded</th>
-                <th scope="col">Upload At</th>
-            </tr>
+                <tr>
+                    <th scope="col">Document Uploaded</th>
+                    <th scope="col">Upload At</th>
+                </tr>
             </thead>
             <tbody>
-            @foreach (var item in @Model.Document)
-            {
-                <tr>
-                    <td>@item.DocumentFile</td>
-                    <td>@Html.DisplayFor(t => t.Article.UpdateAt)</td>
-                </tr>
-            }
+                @foreach (var item in @Model.Document)
+                {
+                    <tr>
+                        <td>@item.DocumentFile</td>
+                        <td>@Html.DisplayFor(t => t.Article.UpdateAt)</td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
@@ -200,19 +201,19 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
             $.ajax({
                 url: '/Article/SendMessage',
                 type: 'POST',
-                data: {articleId: articleId, message: message},
+                data: { articleId: articleId, message: message },
                 success: function (response) {
-                    if (!response.success){
-                        $('#MessageResult').html('<div class="d-flex flex-row mb-2 alert alert-warning alert-dismissible mt-2"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +response.message + '</div>');
+                    if (!response.success) {
+                        $('#MessageResult').html('<div class="d-flex flex-row mb-2 alert alert-warning alert-dismissible mt-2"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + response.message + '</div>');
                     }
-                    else{
+                    else {
                         setTimeout(function () {
                             location.reload();
-                        },100);
+                        }, 100);
                     }
                 },
                 error: function () {
-        
+
                 }
             })
         });
@@ -222,27 +223,27 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
             var status = document.getElementById("status").value;
             var statusMessage = document.getElementById("statusMessage").value;
             var articleId = document.getElementById("ArticleId").value;
-                $.ajax({
-                    url: '/Article/UpdateArticleStatus',
-                    type: 'POST',
-                    data: {articleId: articleId, status: status, statusMessage: statusMessage},
-                    success: function (response) {
-                        if (!response.success){
-                            $('#MessageStatus').html('<div class="d-flex flex-row mb-2 alert alert-warning alert-dismissible mt-2"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +response.message + '</div>');
-                        }
-                        else{
-                            setTimeout(function () {
-                                location.reload();
-                            },100);
-                        }
-                    },
-                    error: function () {
-    
+            $.ajax({
+                url: '/Article/UpdateArticleStatus',
+                type: 'POST',
+                data: { articleId: articleId, status: status, statusMessage: statusMessage },
+                success: function (response) {
+                    if (!response.success) {
+                        $('#MessageStatus').html('<div class="d-flex flex-row mb-2 alert alert-warning alert-dismissible mt-2"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + response.message + '</div>');
                     }
-                })  
-            .catch(function (err) {
-                return console.error(err.toString());
-            });
+                    else {
+                        setTimeout(function () {
+                            location.reload();
+                        }, 100);
+                    }
+                },
+                error: function () {
+
+                }
+            })
+                .catch(function (err) {
+                    return console.error(err.toString());
+                });
         });
     </script>
 }
