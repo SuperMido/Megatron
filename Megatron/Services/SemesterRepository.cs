@@ -39,10 +39,8 @@ namespace Megatron.Services
             }
             
             var semesterInDb = GetAllSemesters().OrderByDescending(s => s.Id).FirstOrDefault();
-
-            if (semesterInDb == null || (semesterViewModel.Semester.SemesterStartDate < semesterViewModel.Semester.SemesterClosureDate &&
-                semesterViewModel.Semester.SemesterClosureDate < semesterViewModel.Semester.SemesterEndDate &&
-                semesterInDb.SemesterEndDate < semesterViewModel.Semester.SemesterStartDate))
+            var checkValidationSemester = CheckSemesterValidation(semesterViewModel, semesterInDb);
+            if (checkValidationSemester)
             {
                 var newSemester = new Semester
                 {
@@ -217,6 +215,22 @@ namespace Megatron.Services
             var semesterInDb = _dbContext.Semesters.Where(s =>
                 s.SemesterStartDate < currentDateTime && s.SemesterEndDate > currentDateTime).ToList();
             return semesterInDb.Any();
+        }
+
+        private bool CheckSemesterValidation(SemesterViewModel semesterViewModel, Semester semesterInDb)
+        {
+            if (semesterInDb == null || (semesterViewModel.Semester.SemesterStartDate <
+                                         semesterViewModel.Semester.SemesterClosureDate &&
+                                         semesterViewModel.Semester.SemesterClosureDate <
+                                         semesterViewModel.Semester.SemesterEndDate &&
+                                         semesterInDb.SemesterEndDate < semesterViewModel.Semester.SemesterStartDate))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
