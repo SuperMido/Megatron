@@ -120,11 +120,11 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
                 <i class="material-icons">edit</i>
             </a>
         </h5>
-        @if (User.IsInRole(SystemRoles.Administrator) || User.IsInRole(SystemRoles.Student))
+        @if (Model.Article.Content != null)
         {
+            <div class="d-flex flex-row align-items-center text-left comment-top mt-1 bg-white border-bottom px-4"></div>
+            <p class="card-text">@Html.Raw(Model.Article.Content)</p>
         }
-        <div class="d-flex flex-row align-items-center text-left comment-top mt-1 bg-white border-bottom px-4"></div>
-        <p class="card-text">@Html.Raw(Model.Article.Content)</p>
     </div>
 </div>
 @if (@Model.Document.Any())
