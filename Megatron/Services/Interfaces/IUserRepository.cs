@@ -10,7 +10,7 @@ namespace Megatron.Services
         public Task<string> GetUserFullName(string userId);
 
         public IEnumerable<UserRoleViewModel> GetAllUsers();
-        
+
 
         public IEnumerable<UserFaculty> GetUserInFaculty();
 
@@ -22,6 +22,10 @@ namespace Megatron.Services
         bool DeleteAccount(string id);
         ApplicationUser GetUserById(string id);
         bool EditAccount(ApplicationUser applicationUser);
+      
+        bool LockUser(string id);
+        bool UnLockUser(string id);
+
         public UserFaculty GetUserInFacultyById(int id);
         bool DeleteUserInFaculty(int id);
     }
