@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Routing
+﻿@model IEnumerable<Megatron.Models.Semester>
+@using Microsoft.AspNetCore.Routing
 
 @{
     ViewBag.Title = "title";
@@ -11,8 +12,29 @@
         <h3 class="page-title">Approved Articles</h3>
     </div>
     <div class="col-12 mt-3">
-        <form asp-action="DownloadArticle" asp-route-id="@Context.GetRouteData().Values["id"]" method="post">
-            <button class="btn btn-primary" type="submit" name="button">Download articles</button>
+        <form id="fromDownload" asp-action="DownloadArticle" asp-route-id="@Context.GetRouteData().Values["id"]" method="post">
+            @if (Model != null)
+            {
+                <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
+                    <div class="btn-group mr-2" role="group" aria-label="First group">
+                        <button id="downloadButton" class="btn btn-primary" type="submit" name="button">Download articles</button>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text" id="btnGroupAddon">Semester: </div>
+                        </div>
+                        <select id="semesterId" asp-items="@Model.Select(f => new SelectListItem {Text = f.SemesterName.ToString(), Value = f.Id.ToString()})" class="form-control">
+                        </select>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning alert-dismissible">
+                    <strong>Warning!</strong> There are no semester finished yet!
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                </div>
+            }
         </form>
     </div>
 </div>
@@ -26,7 +48,7 @@
     <script>
         $(document).ready(function () {
             const facultyId = document.getElementById("facultyId").value;
-            const articleTable = $('#ArticleApprovedTable').DataTable({
+            $('#ArticleApprovedTable').DataTable({
                 processing: true,
                 fixedHeader: true,
                 ajax: {
@@ -52,5 +74,16 @@
             const articleId = $(this).closest('tr').attr('id');
             window.location.href = '/Article/Details/' + articleId;});
         });
+    </script>
+    <script>
+        var currentAction = $('#fromDownload').attr('action');
+        $(document).ready(function () {
+            var newAction = currentAction + '?semesterId=' + $('#semesterId option').filter(':selected').val();
+            $('form').attr('action', newAction)
+            $('#semesterId').on("change", (function () {
+                var newAction = currentAction + '?semesterId=' + $('#semesterId option').filter(':selected').val();
+                $('form').attr('action', newAction);
+            }))
+        })
     </script>
 }

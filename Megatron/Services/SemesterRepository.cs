@@ -178,6 +178,7 @@ namespace Megatron.Services
                 return _dbContext.Semesters.FirstOrDefault(s =>
                     s.SemesterStartDate < currentDateTime && s.SemesterClosureDate > currentDateTime);
             }
+
             return null;
         }
 
@@ -192,6 +193,7 @@ namespace Megatron.Services
 
             return null;
         }
+
         public void AddArticleSemester(int articleId, int semesterId)
         {
             var articleSemester = new SemesterArticle()
@@ -204,17 +206,32 @@ namespace Megatron.Services
             _dbContext.SaveChanges();
         }
 
+        public IEnumerable<Semester> GetListSemestersAfterFinalDate()
+        {
+            var currentDateTime = GetCurrentDateTime();
+
+            var semesterAfterFinalDate = _dbContext.Semesters.Where(s => s.SemesterEndDate < currentDateTime).ToList();
+
+            return semesterAfterFinalDate.Any() ? semesterAfterFinalDate : null;
+        }
+
         private bool CheckSemesterDateValidToSubmit(DateTime currentDateTime)
         {
             var semesterInDb = _dbContext.Semesters.Where(s =>
                 s.SemesterStartDate < currentDateTime && s.SemesterClosureDate > currentDateTime).ToList();
             return semesterInDb.Any();
         }
+
         private bool CheckSemesterDateValidToSubmitAndEdit(DateTime currentDateTime)
         {
             var semesterInDb = _dbContext.Semesters.Where(s =>
                 s.SemesterStartDate < currentDateTime && s.SemesterEndDate > currentDateTime).ToList();
             return semesterInDb.Any();
+        }
+
+        private static DateTime GetCurrentDateTime()
+        {
+            return DateTime.Now;
         }
 
         private bool CheckSemesterValidation(SemesterViewModel semesterViewModel, Semester semesterInDb)

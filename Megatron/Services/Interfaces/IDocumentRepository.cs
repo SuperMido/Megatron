@@ -5,11 +5,10 @@ namespace Megatron.Services
     public interface IDocumentRepository
     {
         bool UploadDocument(IFormFileCollection files, int articleId);
-        void ConvertHtmlToDoc(int facultyId);
-        void DownloadZip(int facultyId);
+        void ConvertHtmlToDoc(int facultyId, int semesterId);
+        void DownloadZip(int facultyId, int semesterId);
 
-        byte[] FinalResult(int facultyId);
-        string FileZipName(int facultyId);
-
+        byte[] FinalResult(int facultyId, int semesterId);
+        string FileZipName(int facultyId, int semesterId);
     }
 }
