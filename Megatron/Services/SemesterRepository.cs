@@ -37,9 +37,10 @@ namespace Megatron.Services
                 };
                 return model;
             }
-
-            if (semesterViewModel.Semester.SemesterStartDate < semesterViewModel.Semester.SemesterClosureDate &&
-                semesterViewModel.Semester.SemesterClosureDate < semesterViewModel.Semester.SemesterEndDate)
+            
+            var semesterInDb = GetAllSemesters().OrderByDescending(s => s.Id).FirstOrDefault();
+            var checkValidationSemester = CheckSemesterValidation(semesterViewModel, semesterInDb);
+            if (checkValidationSemester)
             {
                 var newSemester = new Semester
                 {
@@ -69,6 +70,16 @@ namespace Megatron.Services
                 {
                     Semester = semesterViewModel.Semester,
                     StatusMessage = "Error: Final Date must be greater than the Closure Date!"
+                };
+                return model;
+            }
+
+            if (semesterInDb.SemesterEndDate > semesterViewModel.Semester.SemesterStartDate)
+            {
+                var model = new SemesterViewModel()
+                {
+                    Semester = semesterViewModel.Semester,
+                    StatusMessage = "Error: Please check Start Date again!"
                 };
                 return model;
             }
@@ -221,6 +232,22 @@ namespace Megatron.Services
         private static DateTime GetCurrentDateTime()
         {
             return DateTime.Now;
+        }
+
+        private bool CheckSemesterValidation(SemesterViewModel semesterViewModel, Semester semesterInDb)
+        {
+            if (semesterInDb == null || (semesterViewModel.Semester.SemesterStartDate <
+                                         semesterViewModel.Semester.SemesterClosureDate &&
+                                         semesterViewModel.Semester.SemesterClosureDate <
+                                         semesterViewModel.Semester.SemesterEndDate &&
+                                         semesterInDb.SemesterEndDate < semesterViewModel.Semester.SemesterStartDate))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
