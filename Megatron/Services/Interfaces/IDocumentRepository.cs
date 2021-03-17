@@ -10,5 +10,7 @@ namespace Megatron.Services
 
         byte[] FinalResult(int facultyId, int semesterId);
         string FileZipName(int facultyId, int semesterId);
+
+        bool DeleteDocumentByName(string name);
     }
 }
