@@ -130,9 +130,7 @@ namespace Megatron.Controllers
             ViewData["Message"] = articleToEdit.StatusMessage;
             return View(articleToEdit);
         }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public IActionResult DeleteDocument(string name)
         {
             if (name == null)
