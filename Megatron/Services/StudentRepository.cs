@@ -33,7 +33,6 @@ namespace Megatron.Services
 
         public IEnumerable<ArticleSemesterFacultyViewModel> GetPersonalArticles(string userName)
         {
-            //return _dbContext.Articles.Include(a => a.Faculty).Where(a => a.Author == userName).ToList();
             var listPersonalArticles = (from article in _dbContext.Articles
                 where article.Author.Contains(userName)
                 join semesterArticle in _dbContext.SemesterArticles on article.Id equals semesterArticle.ArticleId

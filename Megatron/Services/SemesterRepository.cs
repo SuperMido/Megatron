@@ -145,6 +145,15 @@ namespace Megatron.Services
             return model;
         }
 
+        public Semester GetSemesterForArticle(int id)
+        {
+            var semesterList = _dbContext.Semesters.ToList();
+            var semesterArticleId = _dbContext.SemesterArticles.SingleOrDefault(s => s.ArticleId == id).SemesterId;
+            var semesterForArticles = semesterList.SingleOrDefault(s => s.Id == semesterArticleId);
+            
+            return semesterForArticles;
+        }
+
         public bool DeleteSemester(int id)
         {
             var semesterExist = GetSemesterById(id);

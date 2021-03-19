@@ -75,7 +75,15 @@
 		            <select asp-for="Article.FacultyId" asp-items="@Model.Faculties.Select(f => new SelectListItem {Text = f.FacultyName.ToString(), Value = f.Id.ToString()})" class="disabled form-control"></select>
 	            </div>
             </div>
-            @if (Model.Semester == null)
+            @if (Model.Semester.SemesterEndDate > DateTime.Now)
+            {
+	            <div class="form-group row">
+		            <div class="col-5 offset-2">
+			            <input type="submit" class="btn btn-info form-control " value="Update"/>
+		            </div>
+		        </div>
+            }
+            @if (Model.Semester.SemesterEndDate < DateTime.Now)
 			{
 				<div class="form-group row">
 					<div class="col-5 offset-2">
@@ -83,14 +91,7 @@
 					</div>
 				</div>
 			}
-			else
-			{
-				<div class="form-group row">
-					<div class="col-5 offset-2">
-						<input type="submit" class="btn btn-info form-control " value="Update"/>
-					</div>
-				</div>
-			}
+            
         </div>
     </form>
 </div>

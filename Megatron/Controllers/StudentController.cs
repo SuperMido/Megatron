@@ -106,7 +106,7 @@ namespace Megatron.Controllers
         {
             var articleInDb = _studentRepository.GetArticleById(id);
             if (articleInDb == null) return NotFound();
-            var semesterActiveForEdit = _semesterRepository.GetActiveSemesterForContributor();
+            var semesterActiveForEdit = _semesterRepository.GetSemesterForArticle(id);
             var articleVm = new ArticleFacultyViewModel()
             {
                 Article = articleInDb,
