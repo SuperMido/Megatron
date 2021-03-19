@@ -30,12 +30,13 @@
                     url: '/Student/GetPersonalArticles',
                     dataSrc: ''
                 },
-                rowId: "id",
+                rowId: "article.id",
                 columns: [
-                    { data: 'title', title: 'Title' },
-                    { data: 'faculty.facultyName' , title: 'Faculty'  },
+                    { data: 'article.id',title: 'id', visible: false},
+                    { data: 'article.title', title: 'Title' },
+                    { data: 'faculties.facultyName' , title: 'Faculty'  },
                     {
-                        data: 'status', title: 'Status', render: function (data) {
+                        data: 'article.status', title: 'Status', render: function (data) {
                             if (data == false) {
                                 return 'Waiting for Approve';
                             } else {
@@ -43,20 +44,25 @@
                             }
                         }
                     },
-                    {data: 'createAt', title: 'Create At', render: function (data){
+                    {data: 'article.createAt', title: 'Create At', render: function (data){
                         return moment(data).format("HH:mm - DD/MM/YYYY");
                     }},
                     {
-                        data: 'updateAt', title: 'Update At', render: function (data) {
+                        data: 'article.updateAt', title: 'Update At', render: function (data) {
                             return moment(data).format("HH:mm - DD/MM/YYYY");
                         }
                     },
                     {
-                                            data: 'id',
+                                            data: 'semester.semesterClosureDate',
                                             className: "center",
                                             title: 'Actions',
-                                            render: function (data) {
-                                                return '<a href="Student/EditArticle/' + data + '" class="btn btn-success mr-1"> Edit </a>';
+                                            render: function (data, type, row) {
+                                                var d = new Date();
+                                                var currentDate = d.toISOString();
+                                                if (currentDate < data)
+                                                    {
+                                                        return '<a href="Student/EditArticle/' + row.article['id'] + '" class="btn btn-success mr-1"> Edit </a>';
+                                                    } else return '<a class="btn btn-success mr-1 disabled">Edit</a>'                                                    
                                             }
                     
                                         }

@@ -31,9 +31,25 @@ namespace Megatron.Services
             return articleFacultyViewModel;
         }
 
-        public IEnumerable<Article> GetPersonalArticles(string userName)
+        public IEnumerable<ArticleSemesterFacultyViewModel> GetPersonalArticles(string userName)
         {
-            return _dbContext.Articles.Include(a => a.Faculty).Where(a => a.Author == userName).ToList();
+            //return _dbContext.Articles.Include(a => a.Faculty).Where(a => a.Author == userName).ToList();
+            var listPersonalArticles = (from article in _dbContext.Articles
+                where article.Author.Contains(userName)
+                join semesterArticle in _dbContext.SemesterArticles on article.Id equals semesterArticle.ArticleId
+                join semester in _dbContext.Semesters on semesterArticle.SemesterId equals semester.Id
+                join faculty in _dbContext.Faculties on article.FacultyId equals faculty.Id
+                select new
+                {
+                    Article = article, Semester = semester, Faculty = faculty
+                })
+                .Select(a => new ArticleSemesterFacultyViewModel()
+            {
+                Article = a.Article,
+                Semester = a.Semester,
+                Faculties = a.Faculty
+            }).Distinct().ToList();
+            return listPersonalArticles;
         }
 
         public ArticleFacultyViewModel SubmitArticle(ArticleFacultyViewModel articleFacultyViewModel)
