@@ -99,5 +99,12 @@ namespace Megatron.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        [AllowAnonymous]
+        public IActionResult Avatar(string userId)
+        {
+            var user = _userRepository.GetUserById(userId);
+            return Json(user.ImagePath == null ? new {avatar = "DefaultAvatar.jpeg"} : new {avatar = user.ImagePath});
+        }
     }
 }
