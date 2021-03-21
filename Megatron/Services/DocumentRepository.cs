@@ -168,6 +168,19 @@ namespace Megatron.Services
             return name;
         }
 
+        public bool DeleteDocumentByName(string name)
+        {
+            var documentInDb = _dbContext.ArticleDocuments.FirstOrDefault(d => d.DocumentFile == name);
+            if (documentInDb == null)
+            {
+                return false;
+            }
+
+            _dbContext.ArticleDocuments.Remove(documentInDb);
+            _dbContext.SaveChanges();
+            return true;
+        }
+
         private string GetZipDir()
         {
             return Path.Combine(_webHostEnvironment.WebRootPath, "zips");

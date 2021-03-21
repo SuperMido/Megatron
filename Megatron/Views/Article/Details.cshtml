@@ -138,6 +138,7 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
             <tr>
                 <th scope="col">Document Uploaded</th>
                 <th scope="col">Upload At</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -146,6 +147,13 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
                 <tr>
                     <td>@item.DocumentFile</td>
                     <td>@Html.DisplayFor(t => t.Article.UpdateAt)</td>
+                    <td>
+                        <form>
+                            <a onclick="return confirm('Do you want to remove this document?')" type="submit" class="btn btn-danger" asp-action="DeleteDocument" asp-controller="Student" asp-route-name="@item.DocumentFile">
+                                <span class="material-icons">delete_forever</span>
+                            </a>
+                        </form>
+                    </td>
                 </tr>
             }
             </tbody>
