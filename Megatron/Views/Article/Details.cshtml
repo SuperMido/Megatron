@@ -116,9 +116,12 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
     <div class="card-body">
         <h5 class="card-title">
             Author: <a class="text-primary">@Html.DisplayFor(m => m.Article.Author)</a>
-            <a asp-action="EditArticle" asp-controller="Student" asp-route-id="@Model.Article.Id" type="button" class="btn btn-primary float-right">
-                <i class="material-icons">edit</i>
-            </a>
+            @if (Model.Article.Status == false)
+            {
+                <a asp-action="EditArticle" asp-controller="Student" asp-route-id="@Model.Article.Id" type="button" class="btn btn-primary float-right">
+                    <i class="material-icons">edit</i>
+                </a>
+            }
         </h5>
         @if (Model.Article.Content != null)
         {
@@ -136,6 +139,7 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
                 <th scope="col">Document Uploaded</th>
                 <th scope="col">Upload At</th>
                 <th scope="col">Update At</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -145,6 +149,14 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
                     <td>@item.DocumentFile</td>
                     <td>@item.CreateAt</td>
                     <td>@item.UpdateAt</td>
+                    <td>@Html.DisplayFor(t => t.Article.UpdateAt)</td>
+                    <td>
+                        <form>
+                            <a onclick="return confirm('Do you want to remove this document?')" type="submit" class="btn btn-danger" asp-action="DeleteDocument" asp-controller="Student" asp-route-name="@item.DocumentFile">
+                                <span class="material-icons">delete_forever</span>
+                            </a>
+                        </form>
+                    </td>
                 </tr>
             }
             </tbody>
@@ -155,7 +167,7 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
 {
     <div id="MessageResult"></div>
     <div class="d-flex flex-row add-comment-section mt-4 mb-2">
-        <img class="img-fluid img-responsive rounded-circle mr-2" src="https://i.imgur.com/qdiP4DB.jpg" width="38" alt="">
+        <img id="userAvatarComment" class="img-fluid img-responsive rounded-circle mr-2" src="" height="38" width="38" alt="">
         <input type="text" id="messageInput" class="form-control mr-3" placeholder="Add comment">
         <button class="btn btn-primary" id="sendButton" type="button">Comment</button>
     </div>
@@ -176,7 +188,14 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
                 <div class="card p-3 mt-1">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="user d-flex flex-row align-items-center">
-                            <img src="https://i.imgur.com/C4egmYM.jpg" width="30" class="user-img rounded-circle mr-2" alt="">
+                            @if (item.ApplicationUser.ImagePath == null)
+                            {
+                                <img src="~/uploads/DefaultAvatar.jpeg" height="30px" width="30px" class="user-img rounded-circle mr-2" alt="">
+                            }
+                            else
+                            {
+                                <img src="/uploads/@item.ApplicationUser.ImagePath" height="30px" width="30px" class="user-img rounded-circle mr-2" alt="">
+                            }
                             <span>
                                 <small class="font-weight-bold text-primary">@item.ApplicationUser.FullName:</small>
                             </span>

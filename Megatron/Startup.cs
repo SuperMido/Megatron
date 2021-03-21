@@ -51,6 +51,7 @@ namespace Megatron
             services.AddScoped<IFacultyRepository, FacultyRepository>();
             services.AddScoped<IDocumentRepository, DocumentRepository>();
             services.AddScoped<IChartRepository, ChartRepository>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddControllersWithViews();
         }
