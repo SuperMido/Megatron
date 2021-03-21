@@ -1,8 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Megatron.Data;
+using Megatron.Models;
+using Megatron.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,36 +15,44 @@ namespace Megatron.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly ApplicationDbContext _dbContext;
+        private readonly IUnitOfWork _unitOfWork;
+
 
         public IndexModel(
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            SignInManager<IdentityUser> signInManager, ApplicationDbContext dbContext, IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _dbContext = dbContext;
+            _unitOfWork = unitOfWork;
         }
 
+        public string ImagePath { get; set; }
         public string Username { get; set; }
 
-        [TempData]
-        public string StatusMessage { get; set; }
+        [TempData] public string StatusMessage { get; set; }
 
-        [BindProperty]
-        public InputModel Input { get; set; }
+        [BindProperty] public InputModel Input { get; set; }
 
         public class InputModel
         {
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [Display(Name = "Image")] public string ImagePath { get; set; }
         }
 
         private async Task LoadAsync(IdentityUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var userInDb = GetUser(user);
 
             Username = userName;
+            ImagePath = userInDb.ImagePath;
 
             Input = new InputModel
             {
@@ -62,10 +72,11 @@ namespace Megatron.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(IFormFile file)
         {
             var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var userInDb = GetUser(user);
+            if (userInDb == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
@@ -87,9 +98,19 @@ namespace Megatron.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            _unitOfWork.UploadImage(file);
+            userInDb.ImagePath = file.FileName;
+            _dbContext.ApplicationUsers.Update(userInDb);
+            await _dbContext.SaveChangesAsync();
+            await _userManager.UpdateAsync(userInDb);
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
+        }
+
+        private ApplicationUser GetUser(IdentityUser user)
+        {
+            return _dbContext.ApplicationUsers.FirstOrDefault(u => u.Id == user.Id);
         }
     }
 }
