@@ -79,21 +79,20 @@ namespace Megatron.Data.Migrations
                 b.Property<int>("ArticleId")
                     .HasColumnType("int");
 
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("CreateAt")
+                    .HasColumnType("datetime2");
 
-                    b.Property<string>("DocumentFile")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("DocumentFile")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("UpdateAt")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime?>("UpdateAt")
+                    .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("ArticleId");
+                b.HasIndex("ArticleId");
 
-                    b.ToTable("ArticleDocuments");
-                });
+                b.ToTable("ArticleDocuments");
                 b.Property<string>("DocumentFile")
                     .HasColumnType("nvarchar(max)");
 
@@ -169,11 +168,11 @@ namespace Megatron.Data.Migrations
                 b.Property<DateTime>("CreateAt")
                     .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("SemesterClosureDate")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("SemesterClosureDate")
+                    .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("SemesterEndDate")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("SemesterEndDate")
+                    .HasColumnType("datetime2");
 
                 b.Property<string>("SemesterName")
                     .HasColumnType("nvarchar(max)");
@@ -479,15 +478,15 @@ namespace Megatron.Data.Migrations
             });
 
             modelBuilder.Entity("Megatron.Models.ArticleDocument", b =>
-                {
-                    b.HasOne("Megatron.Models.Article", "Article")
-                        .WithMany()
-                        .HasForeignKey("ArticleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("Megatron.Models.Article", "Article")
+                    .WithMany()
+                    .HasForeignKey("ArticleId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Article");
-                });
+                b.Navigation("Article");
+            });
 
             modelBuilder.Entity("Megatron.Models.CommentArticle", b =>
             {
