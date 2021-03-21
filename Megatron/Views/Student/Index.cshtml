@@ -52,14 +52,20 @@
                         }
                     },
                     {
-                                            data: 'id',
-                                            className: "center",
-                                            title: 'Actions',
-                                            render: function (data) {
-                                                return '<a href="Student/EditArticle/' + data + '" class="btn btn-success mr-1"> Edit </a>';
-                                            }
-                    
-                                        }
+                        data: 'id',
+                        className: "center",
+                        title: 'Actions',
+                        render: function (data, type, row) {
+                            if (row.status === true)
+                            {
+                                return '<button onclick="('+"Student/EditArticle/"+ data+')" class="btn btn-success mr-1" disabled> Edit </button>';
+                            }
+                            else
+                            {
+                                return '<a href="Student/EditArticle/' + data + '" class="btn btn-success mr-1"> Edit </a>';
+                            }
+                        }                    
+                    }
                 ],
                 order: [1, 'asc']
             });
