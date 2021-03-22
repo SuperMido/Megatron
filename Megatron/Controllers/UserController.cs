@@ -4,6 +4,7 @@ using Megatron.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using Microsoft.Extensions.Logging;
 
 namespace Megatron.Controllers
 {
@@ -11,10 +12,12 @@ namespace Megatron.Controllers
     public class UserController : Controller
     {
         private readonly IUserRepository _userRepository;
+        private readonly ILogger<UserController> _logger;
 
-        public UserController(IUserRepository userRepository)
+        public UserController(IUserRepository userRepository, ILogger<UserController> logger)
         {
             _userRepository = userRepository;
+            _logger = logger;
         }
 
         // GET
@@ -38,6 +41,7 @@ namespace Megatron.Controllers
                 throw new ArgumentException("Error");
             }
 
+            _logger.LogInformation($"Delete user account with id: {id}");
             return RedirectToAction("Index");
         }
 
@@ -67,6 +71,7 @@ namespace Megatron.Controllers
                 throw new ArgumentException("Error");
             }
 
+            _logger.LogInformation($"User account updated!");
             return RedirectToAction("Index");
         }
 
@@ -82,6 +87,7 @@ namespace Megatron.Controllers
                 return NotFound();
             }
 
+            _logger.LogInformation($"Lock user with id: {id}");
             return RedirectToAction(nameof(Index));
         }
 
@@ -97,6 +103,7 @@ namespace Megatron.Controllers
                 return NotFound();
             }
 
+            _logger.LogInformation($"UnLock user with id: {id}");
             return RedirectToAction(nameof(Index));
         }
 

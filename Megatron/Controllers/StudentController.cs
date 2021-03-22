@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Megatron.Controllers
 {
@@ -22,10 +23,12 @@ namespace Megatron.Controllers
         private readonly IStudentRepository _studentRepository;
         private readonly IUserRepository _userRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ILogger<StudentController> _logger;
 
         public StudentController(IStudentRepository studentRepository,
             IUserRepository userRepository, IFacultyRepository facultyRepository, IEmailSender emailSender,
-            IDocumentRepository documentRepository, IWebHostEnvironment webHostEnvironment)
+            IDocumentRepository documentRepository, IWebHostEnvironment webHostEnvironment,
+            ILogger<StudentController> logger)
         {
             _studentRepository = studentRepository;
             _userRepository = userRepository;
@@ -33,6 +36,7 @@ namespace Megatron.Controllers
             _emailSender = emailSender;
             _documentRepository = documentRepository;
             _webHostEnvironment = webHostEnvironment;
+            _logger = logger;
         }
 
         [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.Student)]
@@ -92,6 +96,7 @@ namespace Megatron.Controllers
                         "[Megatron] " + userFullname + " already submit article: " +
                         articleFacultyViewModel.Article.Title,
                         emailTemplate);
+                _logger.LogInformation("User has been submitted an new article!");
                 return RedirectToAction(nameof(Index));
             }
 
@@ -124,13 +129,14 @@ namespace Megatron.Controllers
 
             if (articleToEdit == null)
             {
+                _logger.LogInformation("Article has been updated!");
                 return RedirectToAction(nameof(Index));
             }
 
             ViewData["Message"] = articleToEdit.StatusMessage;
             return View(articleToEdit);
         }
-        
+
         public IActionResult DeleteDocument(string name)
         {
             if (name == null)
@@ -139,6 +145,7 @@ namespace Megatron.Controllers
             }
 
             _documentRepository.DeleteDocumentByName(name);
+            _logger.LogInformation($"Remove document {name}!");
             return RedirectToAction(nameof(Index));
         }
     }
