@@ -22,5 +22,6 @@ namespace Megatron.Services
         Semester GetActiveSemester();
         Semester GetActiveSemesterForContributor();
         void AddArticleSemester(int articleId, int semesterId);
+        IEnumerable<Semester> GetListSemestersAfterFinalDate();
     }
 }

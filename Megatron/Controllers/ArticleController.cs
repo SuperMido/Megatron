@@ -13,18 +13,22 @@ namespace Megatron.Controllers
         private readonly ICommentRepository _commentRepository;
         private readonly IUserRepository _userRepository;
         private readonly IDocumentRepository _documentRepository;
+        private readonly ISemesterRepository _semesterRepository;
 
         public ArticleController(IArticleRepository articleRepository, ICommentRepository commentRepository,
-            IUserRepository userRepository, IDocumentRepository documentRepository)
+            IUserRepository userRepository, IDocumentRepository documentRepository,
+            ISemesterRepository semesterRepository)
         {
             _articleRepository = articleRepository;
             _commentRepository = commentRepository;
             _userRepository = userRepository;
             _documentRepository = documentRepository;
+            _semesterRepository = semesterRepository;
         }
 
         // GET
-        [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator + "," + SystemRoles.MarketingManager)]
+        [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator + "," +
+                           SystemRoles.MarketingManager)]
         public IActionResult Index()
         {
             if (User.IsInRole(SystemRoles.MarketingCoordinator))
@@ -33,25 +37,31 @@ namespace Megatron.Controllers
                 var facultyOfMc = _articleRepository.GetFacultiesForMC(currentUser);
                 return View(facultyOfMc);
             }
+
             return View(_articleRepository.GetFaculties());
         }
 
-        [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator + "," + SystemRoles.MarketingManager)]
+        [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator + "," +
+                           SystemRoles.MarketingManager)]
         public IActionResult ListArticles(int id)
         {
             var listArticles = _articleRepository.GetListArticlesByFaculty(id);
             return View(listArticles);
         }
-        [Authorize(Roles = SystemRoles.Administrator + "," +SystemRoles.MarketingManager)]
+
+        [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.MarketingManager)]
         public IActionResult ListArticlesApproved()
         {
-            return View();
+            var listSemesterAfterFinalDate = _semesterRepository.GetListSemestersAfterFinalDate();
+            return View(listSemesterAfterFinalDate);
         }
+
         public IActionResult GetArticlesApproved(int id)
         {
             var listArticlesApproved = _articleRepository.GetListArticlesApprovedByFaculty(id);
             return new JsonResult(listArticlesApproved);
         }
+
         [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator + "," +
                            SystemRoles.MarketingManager + "," + SystemRoles.Student)]
         public IActionResult Details(int id)
@@ -94,12 +104,12 @@ namespace Megatron.Controllers
         }
 
         [HttpPost]
-        public FileResult DownloadArticle(int id)
+        public FileResult DownloadArticle(int id, int semesterId)
         {
-            _documentRepository.ConvertHtmlToDoc(id);
-            _documentRepository.DownloadZip(id);
-            var finalResult = _documentRepository.FinalResult(id);
-            var zipFileName = _documentRepository.FileZipName(id);
+            _documentRepository.ConvertHtmlToDoc(id, semesterId);
+            _documentRepository.DownloadZip(id, semesterId);
+            var finalResult = _documentRepository.FinalResult(id, semesterId);
+            var zipFileName = _documentRepository.FileZipName(id, semesterId);
             return File(finalResult, "application/zip", zipFileName);
         }
     }

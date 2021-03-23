@@ -1,5 +1,3 @@
-﻿@model Megatron.Models.Article
-
 @{
     ViewData["Title"] = "Article";
     Layout = "_Authenticated_Layout";
@@ -33,6 +31,7 @@
                 rowId: "article.id",
                 columns: [
                     { data: 'article.id',title: 'id', visible: false},
+                    { data: 'article.status',title: 'id', visible: false},
                     { data: 'article.title', title: 'Title' },
                     { data: 'faculties.facultyName' , title: 'Faculty'  },
                     {
@@ -56,12 +55,13 @@
                         data: 'checkValidEdit',
                         className: "center",
                         title: 'Actions',render: function (data, type, row) {
-                            if (data == true)
+                            if (data == true && row.article.status === true)
                                 {
                                    return '<a href="Student/EditArticle/'+row.article.id+'" class="btn btn-success mr-1"> Edit </a>';                                   
                                 } else {
                                    return '<a class="btn btn-success mr-1 disabled">Edit</a>';
                                 }                                                    
+
                         }                    
                     }
                 ],
