@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Megatron.Data;
 using Megatron.Models;
@@ -40,13 +41,13 @@ namespace Megatron.Services
                 join faculty in _dbContext.Faculties on article.FacultyId equals faculty.Id
                 select new
                 {
-                    Article = article, Semester = semester, Faculty = faculty
+                    Article = article, SemesterEndDate = semester.SemesterEndDate, Faculty = faculty
                 })
                 .Select(a => new ArticleSemesterFacultyViewModel()
             {
                 Article = a.Article,
-                Semester = a.Semester,
-                Faculties = a.Faculty
+                Faculties = a.Faculty,
+                CheckValidEdit = CheckValidEditArticle(a.SemesterEndDate),
             }).Distinct().ToList();
             return listPersonalArticles;
         }
@@ -125,6 +126,16 @@ namespace Megatron.Services
             };
 
             return model;
+        }
+
+        private static bool CheckValidEditArticle(DateTime semesterEndDate)
+        {
+            var currentDate = DateTime.Now;
+            if (currentDate < semesterEndDate)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

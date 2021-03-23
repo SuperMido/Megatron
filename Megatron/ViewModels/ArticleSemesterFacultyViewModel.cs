@@ -7,6 +7,6 @@ namespace Megatron.ViewModels
     {
         public Article Article { get; set; }
         public Faculty Faculties { get; set; }
-        public Semester Semester { get; set; }
+        public  bool CheckValidEdit { get; set; }
     }
 }
