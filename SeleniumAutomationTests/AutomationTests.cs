@@ -21,10 +21,7 @@ namespace SeleniumAutomationTests
             try
             {
                 var options = new ChromeOptions();
-                options.AddArguments("--window-size=1440x800");
-                options.AddArguments("--headless");
-                options.AddArguments("--no-sandbox");
-                options.AddArguments("--disable-dev-shm-usage");
+                options.AddArguments("--window-size=1440x800" , "--headless" , "--no-sandbox" , "--disable-dev-shm-usage");
                 driver = new ChromeDriver("/usr/local/bin/chromedriver", options);
                 vars = new Dictionary<string, object>();
             }
@@ -35,16 +32,7 @@ namespace SeleniumAutomationTests
         }
 
         [Test]
-        public void test_GoToIndex()
-        {
-            driver.Url = url;
-            string homeTitle = driver.FindElement(By.XPath("/html/body/header/div[1]/div/h1")).Text;
-            Assert.AreEqual("Megatron", homeTitle);
-            driver.Quit();
-        }
-
-        [Test]
-        public void test_GoToLoginPageFromIndexPageOnWebView()
+        public void test01_GoToLoginPageFromIndexPageOnWebView()
         {
             driver.Url = url;
             driver.Manage().Window.Maximize();
@@ -55,7 +43,7 @@ namespace SeleniumAutomationTests
         }
 
         [Test]
-        public void test_LoginPageOnWebView()
+        public void test02_LoginPageOnWebView()
         {
             driver.Url = url;
             driver.Manage().Window.Maximize();
@@ -75,10 +63,10 @@ namespace SeleniumAutomationTests
         }
 
         [Test]
-        public void test_Logout()
+        public void test03_Logout()
         {
             driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            driver.Manage().Window.Size = new System.Drawing.Size(1440, 800);
+            driver.Manage().Window.Maximize();
             driver.FindElement(By.LinkText("Login")).Click();
             driver.FindElement(By.Id("Input_Email")).Click();
             driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
@@ -91,12 +79,39 @@ namespace SeleniumAutomationTests
             driver.Quit();
         }
 
-
         [Test]
-        public void test_CreateArticle()
+        public void test04_CreateFaculty()
         {
             driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            driver.Manage().Window.Size = new System.Drawing.Size(1440, 800);
+            driver.Manage().Window.Maximize();
+            driver.FindElement(By.LinkText("Login")).Click();
+            driver.FindElement(By.Id("Input_Email")).Click();
+            driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
+            driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
+            driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
+            driver.FindElement(By.CssSelector(".flex-column > .nav-item:nth-child(4) > .nav-link")).Click();
+            driver.FindElement(By.LinkText("Create New Faculty")).Click();
+            Thread.Sleep(1000);
+            driver.FindElement(By.Id("FacultyName")).Click();
+            driver.FindElement(By.Id("FacultyName")).SendKeys("Test Automation");
+            Thread.Sleep(1000);
+            driver.FindElement(By.Id("Description")).Click();
+            driver.FindElement(By.Id("Description")).SendKeys("testing only");
+            Thread.Sleep(1000);
+            driver.FindElement(By.CssSelector(".btn")).Click();
+
+            Thread.Sleep(1000);
+            string createFaculty =
+                driver.FindElement(By.XPath("//td[contains(text(),'Test Automation')]")).Text;
+            Assert.AreEqual("Test Automation", createFaculty);
+            driver.Quit();
+        }
+
+        [Test]
+        public void test05_CreateArticle()
+        {
+            driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
+            driver.Manage().Window.Maximize();
             driver.FindElement(By.LinkText("Login")).Click();
             driver.FindElement(By.Id("Input_Email")).Click();
             driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
@@ -113,17 +128,19 @@ namespace SeleniumAutomationTests
             driver.FindElement(By.Id("termAndCondition")).Click();
             driver.FindElement(By.Id("submitButton")).Click();
             Thread.Sleep(1000);
+            driver.FindElement(By.CssSelector("#studentArticleTable_filter .form-control")).Click();
+            driver.FindElement(By.CssSelector("#studentArticleTable_filter .form-control")).SendKeys("Test create article automation");
             string createArticle =
-                driver.FindElement(By.XPath("//h3[contains(text(),'Article Overview')]")).Text;
-            Assert.AreEqual("Article Overview", createArticle);
+                driver.FindElement(By.XPath("//td[contains(text(),'Test create article automation')]")).Text;
+            Assert.AreEqual("Test create article automation", createArticle);
             driver.Quit();
         }
-
-        [Test]
-        public void test_ArticleReview()
+        
+         [Test]
+        public void test06_ArticleReview()
         {
             driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            driver.Manage().Window.Size = new System.Drawing.Size(1440, 800);
+            driver.Manage().Window.Maximize();
             driver.FindElement(By.LinkText("Login")).Click();
             driver.FindElement(By.Id("Input_Email")).Click();
             driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
@@ -134,7 +151,9 @@ namespace SeleniumAutomationTests
             driver.FindElement(By.LinkText("View Article")).Click();
             driver.FindElement(By.CssSelector(".page-title")).Click();
             Thread.Sleep(1000);
-            driver.FindElement(By.CssSelector("#\\31 5 > td:nth-child(1)")).Click();
+            driver.FindElement(By.XPath("//body/div[1]/div[1]/main[1]/div[2]/div[2]/div[1]/div[2]/div[1]/label[1]/input[1]")).SendKeys("Test create article automation");
+            Thread.Sleep(1000);
+            driver.FindElement(By.XPath("//td[contains(text(),'Test create article automation')]")).Click();
             Thread.Sleep(1000);
             driver.FindElement(By.XPath("//button[contains(text(),'Take review')]")).Click();
             Thread.Sleep(1000);
@@ -161,40 +180,12 @@ namespace SeleniumAutomationTests
             driver.FindElement(By.Id("UpdateStatusButton")).Click();
             driver.Quit();
         }
-
+        
         [Test]
-        public void test_CreateFaculty()
+        public void test07_CreateSemester()
         {
             driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            driver.Manage().Window.Size = new System.Drawing.Size(1440, 800);
-            driver.FindElement(By.LinkText("Login")).Click();
-            driver.FindElement(By.Id("Input_Email")).Click();
-            driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
-            driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
-            driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
-            driver.FindElement(By.CssSelector(".flex-column > .nav-item:nth-child(4) > .nav-link")).Click();
-            driver.FindElement(By.LinkText("Create New Faculty")).Click();
-            Thread.Sleep(1000);
-            driver.FindElement(By.Id("FacultyName")).Click();
-            driver.FindElement(By.Id("FacultyName")).SendKeys("Test Automation");
-            Thread.Sleep(1000);
-            driver.FindElement(By.Id("Description")).Click();
-            driver.FindElement(By.Id("Description")).SendKeys("testing only");
-            Thread.Sleep(1000);
-            driver.FindElement(By.CssSelector(".btn")).Click();
-
-            Thread.Sleep(1000);
-            string createFaculty =
-                driver.FindElement(By.XPath("//td[contains(text(),'Test Automation')]")).Text;
-            Assert.AreEqual("Test Automation", createFaculty);
-            driver.Quit();
-        }
-
-        [Test]
-        public void test_CreateSemester()
-        {
-            driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            driver.Manage().Window.Size = new System.Drawing.Size(1440, 800);
+            driver.Manage().Window.Maximize();
             driver.FindElement(By.LinkText("Login")).Click();
             driver.FindElement(By.Id("Input_Email")).Click();
             driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
@@ -206,7 +197,7 @@ namespace SeleniumAutomationTests
             driver.FindElement(By.Id("Semester_SemesterName")).SendKeys("Test semester automation");
             Actions actions = new Actions(driver);
             actions.Click(driver.FindElement(By.Id("Semester_SemesterStartDate")))
-                .SendKeys("31-03-2021" + Keys.Tab).SendKeys("22:38").Build().Perform();
+                .SendKeys("19-03-2021" + Keys.Tab).SendKeys("22:38").Build().Perform();
 
             Actions actions2 = new Actions(driver);
             actions2.Click(driver.FindElement(By.Id("Semester_SemesterClosureDate")))
@@ -223,12 +214,13 @@ namespace SeleniumAutomationTests
             Assert.AreEqual("Test semester automation", createSemester);
             driver.Quit();
         }
-
+        
+       
         [Test]
-        public void test_CreateUser()
+        public void test08_CreateUser()
         {
             driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            driver.Manage().Window.Size = new System.Drawing.Size(1440, 800);
+            driver.Manage().Window.Maximize();
             driver.FindElement(By.LinkText("Login")).Click();
             driver.FindElement(By.Id("Input_Email")).Click();
             driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
@@ -254,6 +246,7 @@ namespace SeleniumAutomationTests
             Thread.Sleep(1000);
             driver.FindElement(By.CssSelector(".nav-item:nth-child(6) > .nav-link")).Click();
             Thread.Sleep(1000);
+            driver.FindElement(By.CssSelector("#UserTable_filter .form-control")).SendKeys("Selenium");
             string createUser =
                 driver.FindElement(By.XPath("//td[contains(text(),'Selenium')]")).Text;
             Assert.AreEqual("Selenium", createUser);
@@ -261,10 +254,10 @@ namespace SeleniumAutomationTests
         }
 
         [Test]
-        public void test_AssignMC()
+        public void test09_AssignMC()
         {
             driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            driver.Manage().Window.Size = new System.Drawing.Size(1440, 800);
+            driver.Manage().Window.Maximize();
             driver.FindElement(By.LinkText("Login")).Click();
             driver.FindElement(By.Id("Input_Email")).Click();
             driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
@@ -293,10 +286,10 @@ namespace SeleniumAutomationTests
         }
 
         [Test]
-        public void test_AssignGuest()
+        public void test10_AssignGuest()
         {
             driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            driver.Manage().Window.Size = new System.Drawing.Size(1440, 800);
+            driver.Manage().Window.Maximize();
             driver.FindElement(By.LinkText("Login")).Click();
             driver.FindElement(By.Id("Input_Email")).Click();
             driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
@@ -319,10 +312,10 @@ namespace SeleniumAutomationTests
         }
 
         [Test]
-        public void test_loginEachRoles()
+        public void test11_loginEachRoles()
         {
             driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            driver.Manage().Window.Size = new System.Drawing.Size(1440, 800);
+            driver.Manage().Window.Maximize();
             driver.FindElement(By.LinkText("Login")).Click();
             driver.FindElement(By.Id("Input_Email")).Click();
             driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
@@ -364,7 +357,7 @@ namespace SeleniumAutomationTests
         }
 
         [Test]
-        public void test_PhoneResponsive()
+        public void test12_PhoneResponsive()
         {
             driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
             driver.Manage().Window.Size = new System.Drawing.Size(375, 812);
