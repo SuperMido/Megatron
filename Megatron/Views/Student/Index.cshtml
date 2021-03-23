@@ -57,13 +57,13 @@
                         className: "center",
                         title: 'Actions',render: function (data, type, row) {
                             var d = new Date();
-                            var currentDate = moment(d).format("DD/MM/YYYY - HH:mm");
-                            var semesterEndDate = moment(data).format("DD/MM/YYYY - HH:mm");
+                            var currentDate = moment(d).format("YYYY-MM-DD hh:mm:ss A Z");
+                            var semesterEndDate = moment(data).format("YYYY-MM-DD hh:mm:ss A Z");
                             if (currentDate > semesterEndDate)
                                 {
                                    return '<a class="btn btn-success mr-1 disabled">Edit</a>';
                                 } else if (currentDate < semesterEndDate) {
-                                   return '<a href="Student/EditArticle/' + row.article['id'] + '" class="btn btn-success mr-1"> Edit </a>';
+                                   return '<a href="Student/EditArticle/'+row.article.id+'" class="btn btn-success mr-1"> Edit </a>';
                                 }                                                    
                         }                    
                     }
