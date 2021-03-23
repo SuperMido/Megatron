@@ -30,10 +30,10 @@ namespace Megatron.Services
 
         private string GetPathAndFileName(string fileName)
         {
-            var path = _webHostEnvironment.WebRootPath + "\\uploads\\";
+            var path = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
-            return path + fileName;
+            return Path.Combine(path, fileName);
         }
 
         private static string EnsureFileName(string fileName)
