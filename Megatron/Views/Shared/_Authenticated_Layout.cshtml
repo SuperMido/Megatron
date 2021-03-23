@@ -313,8 +313,8 @@
             type: 'GET',
             data: {userId: '@User.FindFirstValue(ClaimTypes.NameIdentifier)'},
             success: function (data){
-              $('#userAvatar').attr('src', '/Uploads/' + data.avatar);
-              $('#userAvatarComment').attr('src', '/Uploads/' + data.avatar);
+              $('#userAvatar').attr('src', '/uploads/' + data.avatar);
+              $('#userAvatarComment').attr('src', '/uploads/' + data.avatar);
               }
             });  
     })  
