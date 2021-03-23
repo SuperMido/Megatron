@@ -167,7 +167,7 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
 {
     <div id="MessageResult"></div>
     <div class="d-flex flex-row add-comment-section mt-4 mb-2">
-        <img id="userAvatarComment" class="img-fluid img-responsive rounded-circle mr-2" src="" height="38" width="38" alt="">
+        <img id="userAvatarComment" class="img-fluid img-responsive rounded-circle mr-2" src="uploads/DefaultAvatar.jpeg" height="38" width="38" alt="">
         <input type="text" id="messageInput" class="form-control mr-3" placeholder="Add comment">
         <button class="btn btn-primary" id="sendButton" type="button">Comment</button>
     </div>
@@ -190,7 +190,7 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
                         <div class="user d-flex flex-row align-items-center">
                             @if (item.ApplicationUser.ImagePath == null)
                             {
-                                <img src="~/uploads/DefaultAvatar.jpeg" height="30px" width="30px" class="user-img rounded-circle mr-2" alt="">
+                                <img src="uploads/DefaultAvatar.jpeg" height="30px" width="30px" class="user-img rounded-circle mr-2" alt="">
                             }
                             else
                             {
