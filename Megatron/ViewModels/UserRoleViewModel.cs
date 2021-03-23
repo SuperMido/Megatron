@@ -9,6 +9,8 @@ namespace Megatron.ViewModels
         public string Email { get; set; }
         public string Role { get; set; }
         public string DateCreate { get; set; }
-        public DateTimeOffset? LockUser { get; set; }
+        public DateTimeOffset? LockoutEnd { get; set; }
+        public bool LockoutStatus { get; set; }
+        
     }
 }
