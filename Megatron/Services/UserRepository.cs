@@ -44,7 +44,8 @@ namespace Megatron.Services
                     Email = u.Email,
                     Role = u.RoleName,
                     DateCreate = u.DateCreate.ToString("HH:mm - MM/dd/yyyy"),
-                    LockUser = u.LockUser
+                    LockoutEnd = u.LockUser,
+                    LockoutStatus = CheckUserLockOrNot(u.LockUser)
                 });
             return listUsers;
         }
@@ -203,6 +204,15 @@ namespace Megatron.Services
             _dbContext.UserFaculties.Remove(userInFaculty);
             _dbContext.SaveChanges();
             return true;
+        }
+
+        private static bool CheckUserLockOrNot(DateTimeOffset? timeOffset)
+        {
+            if (timeOffset == null)
+            {
+                return true;
+            }
+            return timeOffset < DateTime.Now;
         }
     }
 }
