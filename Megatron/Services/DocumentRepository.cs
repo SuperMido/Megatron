@@ -181,6 +181,12 @@ namespace Megatron.Services
             return true;
         }
 
+        public byte[] GetDocumentByName(string name)
+        {
+            var path = GetDocPath(name);
+            return File.ReadAllBytes(path);
+        }
+
         private string GetZipDir()
         {
             return Path.Combine(_webHostEnvironment.WebRootPath, "zips");

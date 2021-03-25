@@ -112,5 +112,11 @@ namespace Megatron.Controllers
             var zipFileName = _documentRepository.FileZipName(id, semesterId);
             return File(finalResult, "application/zip", zipFileName);
         }
+
+        public FileResult DownloadDocument(string fileName)
+        {
+            var fileBytes = _documentRepository.GetDocumentByName(fileName);
+            return File(fileBytes, "application/force-download", fileName);
+        }
     }
 }
