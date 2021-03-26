@@ -13,8 +13,6 @@ namespace Megatron.Services
         SemesterViewModel EditSemester(SemesterViewModel semesterViewModel);
         SemesterViewModel GetSemesterViewModel(int id);
 
-        bool DeleteSemester(int id);
-
         Semester GetSemesterById(int id);
 
         bool CheckExistSemester(string name);
