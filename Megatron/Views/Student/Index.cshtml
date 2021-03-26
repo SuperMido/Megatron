@@ -55,13 +55,12 @@
                         data: 'checkValidEdit',
                         className: "center",
                         title: 'Actions',render: function (data, type, row) {
-                            if (data == true && row.article.status === true)
+                            if (data === true && row.article.status === false)
                                 {
                                    return '<a href="Student/EditArticle/'+row.article.id+'" class="btn btn-success mr-1"> Edit </a>';                                   
                                 } else {
-                                   return '<a class="btn btn-success mr-1 disabled">Edit</a>';
+                                   return '<button onclick="" class="btn btn-success mr-1" disabled> Edit </button>';
                                 }                                                    
-
                         }                    
                     }
                 ],
