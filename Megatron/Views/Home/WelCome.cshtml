@@ -6,7 +6,8 @@
 }
 
 <h2>Welcome</h2>
-@if (User.IsInRole(SystemRoles.Student))
+@if (User.IsInRole(SystemRoles.Student) || User.IsInRole(SystemRoles.Administrator) || User.IsInRole(SystemRoles.MarketingCoordinator) 
+     || User.IsInRole(SystemRoles.MarketingManager) || User.IsInRole(SystemRoles.Guest))
 {
     if (Model != null)
     {
@@ -55,7 +56,10 @@
                         <p class="mt-1">End date</p>
                     </div>
                 </div>
-                <a asp-controller="Student" asp-action="SubmitArticle" id="createNewArticle" class="btn btn-primary" >Create new article</a>
+                @if (User.IsInRole(SystemRoles.Student))
+                {
+                    <a asp-controller="Student" asp-action="SubmitArticle" id="createNewArticle" class="btn btn-primary">Create new article</a>
+                }
             </div>    
         </div>
     }
