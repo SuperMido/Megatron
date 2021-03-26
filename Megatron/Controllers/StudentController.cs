@@ -72,6 +72,16 @@ namespace Megatron.Controllers
         public async Task<IActionResult> SubmitArticle(ArticleFacultyViewModel articleFacultyViewModel)
         {
             var files = Request.Form.Files;
+            var currentUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userFullname = _userRepository.GetUserFullName(currentUser).Result;
+            var articleFacultyViewModelError = _studentRepository.ArticleFacultyViewModel(userFullname);
+            
+            if (!files.Any() && articleFacultyViewModel.Article.Content == null)
+            {
+                ViewData["Message"] = "Error: Content or file must be input!";
+                return View(articleFacultyViewModelError);
+            }
+            
             var articleSubmit = _studentRepository.SubmitArticle(articleFacultyViewModel);
             var templateFolderPath = Path.Combine(_webHostEnvironment.WebRootPath, "EmailTemplate");
             var emailSubmitTemplatePath = Path.Combine(templateFolderPath, "ArticleSubmit.html");
@@ -88,9 +98,6 @@ namespace Megatron.Controllers
                 var listUserInSelectedFaculty =
                     _studentRepository.GetUserInFacultyByFacultyId(articleFacultyViewModel.Article.FacultyId);
 
-                var currentUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var userFullname = _userRepository.GetUserFullName(currentUser).Result;
-
                 foreach (var applicationUser in listUserInSelectedFaculty)
                     await _emailSender.SendEmailAsync(applicationUser.Email,
                         "[Megatron] " + userFullname + " already submit article: " +
@@ -101,7 +108,7 @@ namespace Megatron.Controllers
             }
 
             ViewData["Message"] = articleSubmit.StatusMessage;
-            return View(articleSubmit);
+            return View(articleFacultyViewModelError);
         }
 
         [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.Student)]
