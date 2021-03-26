@@ -138,6 +138,12 @@ namespace Megatron.Controllers
             return File(finalResult, "application/zip", zipFileName);
         }
 
+        public FileResult DownloadDocument(string fileName)
+        {
+            var fileBytes = _documentRepository.GetDocumentByName(fileName);
+            return File(fileBytes, "application/force-download", fileName);
+        }
+        
         [HttpPost]
         public IActionResult ViewDocument(string fileName)
         {
@@ -149,6 +155,7 @@ namespace Megatron.Controllers
 
             var fileStream = new FileStream(outputFilePath, FileMode.Open, FileAccess.Read);
             return new FileStreamResult(fileStream, "application/pdf");
+
         }
     }
 }

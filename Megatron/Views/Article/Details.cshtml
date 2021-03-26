@@ -147,9 +147,10 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
             @foreach (var item in @Model.Document)
             {
                 <tr>
-                    <td>@item.DocumentFile</td>
+                    <td>
+                        <a asp-action="DownloadDocument" asp-route-fileName="@item.DocumentFile">@item.DocumentFile</a>
+                    </td>
                     <td>@item.CreateAt</td>
-                    <td>@item.UpdateAt</td>
                     <td>@Html.DisplayFor(t => t.Article.UpdateAt)</td>
                     <td>
                         <form>

@@ -14,5 +14,7 @@ namespace Megatron.Services
         string GetOutPutDirectory();
 
         bool DeleteDocumentByName(string name);
+
+        byte[] GetDocumentByName(string name);
     }
 }
