@@ -54,7 +54,18 @@ namespace Megatron.Controllers
             ViewData["Message"] = semester.StatusMessage;
             return View(semesterViewModel);
         }
-        
+
+        [Authorize(Roles = (SystemRoles.Administrator))]
+        public ActionResult Delete(int id)
+        {
+            if (!_semesterRepository.DeleteSemester(id))
+            {
+                throw new ArgumentException("Error when delete Semester");
+            }
+
+            return RedirectToAction("Index");
+        }
+
         [Authorize(Roles = (SystemRoles.Administrator))]
         public ActionResult Edit(int id)
         {
