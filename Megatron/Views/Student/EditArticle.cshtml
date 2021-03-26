@@ -1,4 +1,4 @@
-﻿@model Megatron.ViewModels.ArticleFacultyViewModel
+@model Megatron.ViewModels.ArticleFacultyViewModel
 @{
     ViewData["Title"] = "Edit Article";
     Layout = "_Authenticated_Layout";
@@ -10,7 +10,7 @@
     </div>
 </div>
 <div>
-    <form enctype="multipart/form-data" asp-action="EditArticle">
+    <form id="SubmitForm" enctype="multipart/form-data" asp-action="EditArticle">
         <partial name="_StatusMessage" model="@ViewData["Message"]"/>
         <div>
             @Html.HiddenFor(a => a.Article.Id)
@@ -66,7 +66,6 @@
                     @Html.TextAreaFor(a => a.Article.Content, new {@id = "editor"})
                 </div>
             </div>
-
             <div class="form-group row">
 	            <div class="col-2">
 		            <label asp-for="Article.FacultyId" class="col-form-label"></label>
@@ -81,17 +80,16 @@
 		            <div class="col-5 offset-2">
 			            <input type="submit" class="btn btn-info form-control " value="Update"/>
 		            </div>
-		        </div>
+		          </div>
             }
             @if (Model.Semester.SemesterEndDate < DateTime.Now)
-			{
-				<div class="form-group row">
-					<div class="col-5 offset-2">
-						<h2 class="btn btn-danger form-control disabled">This Semester is ended</h2>
-					</div>
-				</div>
-			}
-            
+			      {
+				      <div class="form-group row">
+					      <div class="col-5 offset-2">
+						    <h2 class="btn btn-danger form-control disabled">This Semester is ended</h2>
+					      </div>
+				      </div>
+			      }            
         </div>
     </form>
 </div>
@@ -102,7 +100,7 @@
 		ClassicEditor
 			.create(document.querySelector('#editor'), {
 				ckfinder: {
-					uploadUrl: '/Student/UploadImage'
+					uploadUrl: 'https://ckeditor.com/apps/ckfinder/3.5.0/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json'
 				},
 				toolbar: {
 					items: [
@@ -164,6 +162,14 @@
 			toggle: true
 		})
 	</script>
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                let fileName = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(fileName);
+            });
+        });
+    </script>
     <script>
 		$("#button-collapse").click(function () {
 			const button_text = $('#button-collapse').text();

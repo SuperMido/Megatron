@@ -121,6 +121,8 @@ namespace Megatron.Controllers
         [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.Student)]
         public ActionResult EditArticle(ArticleFacultyViewModel articleFacultyViewModel)
         {
+            var files = Request.Form.Files;
+            if (files.Any()) _documentRepository.UploadDocument(files, articleFacultyViewModel.Article.Id);
             var articleToEdit = _studentRepository.EditArticle(articleFacultyViewModel);
 
             if (articleToEdit == null)
@@ -130,6 +132,17 @@ namespace Megatron.Controllers
 
             ViewData["Message"] = articleToEdit.StatusMessage;
             return View(articleToEdit);
+        }
+        
+        public IActionResult DeleteDocument(string name)
+        {
+            if (name == null)
+            {
+                return NotFound();
+            }
+
+            _documentRepository.DeleteDocumentByName(name);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

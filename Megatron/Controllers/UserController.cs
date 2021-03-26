@@ -30,14 +30,17 @@ namespace Megatron.Controllers
 
             return new JsonResult(users);
         }
+
         public ActionResult DeleteAccount(string id)
         {
             if (!_userRepository.DeleteAccount(id))
             {
                 throw new ArgumentException("Error");
             }
+
             return RedirectToAction("Index");
         }
+
         [HttpGet]
         public ActionResult EditAccount(string id)
         {
@@ -46,6 +49,7 @@ namespace Megatron.Controllers
             {
                 return NotFound();
             }
+
             return View(accountInDb);
         }
 
@@ -53,15 +57,54 @@ namespace Megatron.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditAccount(ApplicationUser applicationUsers)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View();
             }
-            if(!_userRepository.EditAccount(applicationUsers))
+
+            if (!_userRepository.EditAccount(applicationUsers))
             {
                 throw new ArgumentException("Error");
             }
+
             return RedirectToAction("Index");
+        }
+
+        public IActionResult Lock(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            if (!_userRepository.LockUser(id))
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult UnLock(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            if (!_userRepository.UnLockUser(id))
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [AllowAnonymous]
+        public IActionResult Avatar(string userId)
+        {
+            var user = _userRepository.GetUserById(userId);
+            return Json(user.ImagePath == null ? new {avatar = "DefaultAvatar.jpeg"} : new {avatar = user.ImagePath});
         }
     }
 }
