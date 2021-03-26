@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Megatron.Utility;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace Megatron.Controllers
 {
@@ -11,21 +12,25 @@ namespace Megatron.Controllers
     public class FacultyController : Controller
     {
         private readonly IFacultyRepository _facultyRepository;
-        public FacultyController(IFacultyRepository facultyRepository)
+        private readonly ILogger<FacultyController> _logger;
+
+        public FacultyController(IFacultyRepository facultyRepository, ILogger<FacultyController> logger)
         {
             _facultyRepository = facultyRepository;
+            _logger = logger;
         }
 
         public IActionResult Index()
         {
             return View(_facultyRepository.GetFaculties().ToList());
         }
+
         public IActionResult GetAllFaculty()
         {
             var faculties = _facultyRepository.GetFaculties();
             return new JsonResult(faculties);
         }
-        
+
         public IActionResult Details(int id)
         {
             var facultyById = _facultyRepository.GetFacultyById(id);
@@ -45,6 +50,8 @@ namespace Megatron.Controllers
             {
                 _facultyRepository.CreateFaculty(faculty);
             }
+
+            _logger.LogInformation("Create new faculty!");
             return RedirectToAction("Index");
         }
 
@@ -63,12 +70,15 @@ namespace Megatron.Controllers
                 _facultyRepository.EditFaculty(faculty);
             }
 
+            _logger.LogInformation("Updated faculty!");
             return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int id)
         {
             _facultyRepository.DeleteFaculty(id);
+
+            _logger.LogInformation($"Delete faculty with id: {id}!");
             return RedirectToAction("Index");
         }
     }

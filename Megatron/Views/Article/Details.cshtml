@@ -159,6 +159,15 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
                             </a>
                         </form>
                     </td>
+                    <td>
+                        <form asp-action="ViewDocument" asp-route-fileName="@item.DocumentFile" method="post" target="_blank">
+                            <button type="submit">
+                                <span class="material-icons">
+                                    remove_red_eye
+                                </span>
+                            </button>
+                        </form>
+                    </td>
                 </tr>
             }
             </tbody>

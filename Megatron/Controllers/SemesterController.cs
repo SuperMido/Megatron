@@ -4,6 +4,7 @@ using System;
 using Megatron.Utility;
 using Megatron.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace Megatron.Controllers
 {
@@ -11,10 +12,12 @@ namespace Megatron.Controllers
     public class SemesterController : Controller
     {
         private readonly ISemesterRepository _semesterRepository;
+        private readonly ILogger<SemesterController> _logger;
 
-        public SemesterController(ISemesterRepository semesterRepository)
+        public SemesterController(ISemesterRepository semesterRepository, ILogger<SemesterController> logger)
         {
             _semesterRepository = semesterRepository;
+            _logger = logger;
         }
 
         public IActionResult Index()
@@ -51,6 +54,7 @@ namespace Megatron.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            _logger.LogInformation("Create new Semester!");
             ViewData["Message"] = semester.StatusMessage;
             return View(semesterViewModel);
         }
@@ -63,6 +67,7 @@ namespace Megatron.Controllers
                 throw new ArgumentException("Error when delete Semester");
             }
 
+            _logger.LogInformation($"Delete semester with id: {id}!");
             return RedirectToAction("Index");
         }
 
@@ -92,6 +97,7 @@ namespace Megatron.Controllers
 
             if (semester == null)
             {
+                _logger.LogInformation("Updated semester!");
                 return RedirectToAction(nameof(Index));
             }
 

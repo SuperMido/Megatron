@@ -168,6 +168,23 @@ namespace Megatron.Services
             return name;
         }
 
+        public string GetFilePath(string fileName)
+        {
+            var path = Path.Combine(_webHostEnvironment.WebRootPath, "files");
+            return Path.Combine(path, fileName);
+        }
+
+        public string GetOutPutDirectory()
+        {
+            var path = Path.Combine(_webHostEnvironment.WebRootPath, "Output");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            return Path.Combine(path, "output.pdf");
+        }
+
         public bool DeleteDocumentByName(string name)
         {
             var documentInDb = _dbContext.ArticleDocuments.FirstOrDefault(d => d.DocumentFile == name);
