@@ -1,5 +1,8 @@
+using System.IO;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using GroupDocs.Viewer;
+using GroupDocs.Viewer.Options;
 using Megatron.Services;
 using Megatron.Utility;
 using Microsoft.AspNetCore.Authorization;
@@ -133,6 +136,19 @@ namespace Megatron.Controllers
             var zipFileName = _documentRepository.FileZipName(id, semesterId);
             _logger.LogInformation("Articles downloaded!");
             return File(finalResult, "application/zip", zipFileName);
+        }
+
+        [HttpPost]
+        public IActionResult ViewDocument(string fileName)
+        {
+            var filePath = _documentRepository.GetFilePath(fileName);
+            var outputFilePath = _documentRepository.GetOutPutDirectory();
+            var viewer = new Viewer(filePath);
+            var options = new PdfViewOptions(outputFilePath);
+            viewer.View(options);
+
+            var fileStream = new FileStream(outputFilePath, FileMode.Open, FileAccess.Read);
+            return new FileStreamResult(fileStream, "application/pdf");
         }
     }
 }
