@@ -6,10 +6,8 @@
 }
 
 <h2>Welcome</h2>
-@if (User.IsInRole(SystemRoles.Student) || User.IsInRole(SystemRoles.Administrator) || User.IsInRole(SystemRoles.MarketingCoordinator) 
-     || User.IsInRole(SystemRoles.MarketingManager) || User.IsInRole(SystemRoles.Guest))
-{
-    if (Model != null)
+
+    @if (Model != null)
     {
         <div class="card">
             <div class="card-header">
@@ -71,7 +69,7 @@
             </div>
         </div>
     }
-}
+
 @section Scripts {
     <script>
         var result = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.Results))');       
