@@ -15,12 +15,12 @@ namespace Megatron.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ISemesterRepository _semesterRepository;
+        private readonly IReportRepository _reportRepository;
 
-        public HomeController(ILogger<HomeController> logger, ISemesterRepository semesterRepository)
+        public HomeController(ILogger<HomeController> logger, IReportRepository reportRepository)
         {
             _logger = logger;
-            _semesterRepository = semesterRepository;
+            _reportRepository = reportRepository;
         }
 
         public IActionResult Index()
@@ -37,34 +37,15 @@ namespace Megatron.Controllers
                            SystemRoles.MarketingManager + "," + SystemRoles.Student + "," + SystemRoles.Guest)]
         public IActionResult Welcome()
         {
-            var currentDate = DateTime.Now;
-            var semesterActive = _semesterRepository.GetActiveSemesterForContributor();
-            if (semesterActive != null)
-            {
-                if (currentDate > semesterActive.SemesterClosureDate &&
-                    currentDate > semesterActive.SemesterEndDate)
-                {
-                    ViewBag.Results = "Cannot";
-                }
-                else if (semesterActive.SemesterClosureDate < currentDate &&
-                         semesterActive.SemesterEndDate > currentDate)
-                {
-                    ViewBag.Results = "Edit";
-                }
-                else
-                {
-                    ViewBag.Results = "Submit & Edit";
-                }
+            var report = _reportRepository.HomeViewModel();
 
-                return View(semesterActive);
-            }
-            return View();
+            return View(report);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
     }
 }

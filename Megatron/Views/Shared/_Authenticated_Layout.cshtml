@@ -16,55 +16,6 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 </head>
 <body class="h-100">
-@* <div class="color-switcher animated"> *@
-@*     <h5>Accent Color</h5> *@
-@*     <ul class="accent-colors"> *@
-@*         <li class="accent-primary active" data-color="primary"> *@
-@*             <i class="material-icons">check</i> *@
-@*         </li> *@
-@*         <li class="accent-secondary" data-color="secondary"> *@
-@*             <i class="material-icons">check</i> *@
-@*         </li> *@
-@*         <li class="accent-success" data-color="success"> *@
-@*             <i class="material-icons">check</i> *@
-@*         </li> *@
-@*         <li class="accent-info" data-color="info"> *@
-@*             <i class="material-icons">check</i> *@
-@*         </li> *@
-@*         <li class="accent-warning" data-color="warning"> *@
-@*             <i class="material-icons">check</i> *@
-@*         </li> *@
-@*         <li class="accent-danger" data-color="danger"> *@
-@*             <i class="material-icons">check</i> *@
-@*         </li> *@
-@*     </ul> *@
-@*     <div class="actions mb-4"> *@
-@*         <a class="mb-2 btn btn-sm btn-primary w-100 d-table mx-auto extra-action" href="https://designrevision.com/downloads/shards-dashboard-lite/"> *@
-@*             <i class="material-icons">cloud</i> Download *@
-@*         </a> *@
-@*         <a class="mb-2 btn btn-sm btn-white w-100 d-table mx-auto extra-action" href="https://designrevision.com/docs/shards-dashboard-lite"> *@
-@*             <i class="material-icons">book</i> Documentation *@
-@*         </a> *@
-@*     </div> *@
-@*     <div class="social-wrapper"> *@
-@*         <div class="social-actions"> *@
-@*             <h5 class="my-2">Help us Grow</h5> *@
-@*             <div class="inner-wrapper"> *@
-@*                 <a class="github-button" href="https://github.com/DesignRevision/shards-dashboard" data-icon="octicon-star" data-show-count="true" aria-label="Star DesignRevision/shards-dashboard on GitHub">Star</a> *@
-@*             </div> *@
-@*         </div> *@
-@*         <div id="social-share" data-url="https://designrevision.com/downloads/shards-dashboard-lite/" data-text="🔥 Check out Shards Dashboard Lite, a free and beautiful Bootstrap 4 admin dashboard template!" data-title="share"></div> *@
-@*         <div class="loading-overlay"> *@
-@*             <div class="spinner"></div> *@
-@*         </div> *@
-@*     </div> *@
-@*     <div class="close"> *@
-@*         <i class="material-icons">close</i> *@
-@*     </div> *@
-@* </div> *@
-@* <div class="color-switcher-toggle animated pulse infinite"> *@
-@*     <i class="material-icons">settings</i> *@
-@* </div> *@
 <div class="container-fluid">
 <div class="row">
 <!-- Main Sidebar -->
@@ -73,8 +24,8 @@
         <nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
             <a class="navbar-brand w-100 mr-0" asp-controller="Home" asp-action="Welcome" style="line-height: 25px;">
                 <div class="d-table m-auto">
-                    <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="~/shards/images/shards-dashboards-logo.svg" alt="Megatron">
-                    <span class="d-none d-md-inline ml-1">Megatron</span>
+                    <img id="main-logo" class="d-inline-block align-top" style="max-width: 25px; border-radius: 35%; margin-top: 2px" src="~/images/Logo.PNG" alt="Megatron">
+                    <span class="d-none d-md-inline">egatron</span>
                 </div>
             </a>
             <a class="toggle-sidebar d-sm-inline d-md-none d-lg-none">
@@ -103,7 +54,7 @@
                     </a>
                 </li>
             }
-            @if (User.IsInRole(SystemRoles.Student) || User.IsInRole(SystemRoles.Administrator))
+            @if (User.IsInRole(SystemRoles.Student))
             {
                 <li class="nav-item">
 
@@ -147,7 +98,7 @@
                     </a>
                 </li>
             }
-            @if (User.IsInRole(SystemRoles.Guest))
+            @if (User.IsInRole(SystemRoles.Guest) || User.IsInRole(SystemRoles.Administrator) || User.IsInRole(SystemRoles.MarketingCoordinator) || User.IsInRole(SystemRoles.MarketingManager))
             {
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="Guest" asp-action="Index">
@@ -223,7 +174,7 @@
                         <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">
                             <i class="material-icons">&#xE7FD;</i> Profile
                         </a>
-                        @if (User.IsInRole(SystemRoles.Student) || User.IsInRole(SystemRoles.Administrator))
+                        @if (User.IsInRole(SystemRoles.Student))
                         {
                             <a class="dropdown-item" asp-controller="Student" asp-action="Index">
                                 <i class="material-icons">vertical_split</i> My Articles
@@ -277,24 +228,24 @@
 </main>
 </div>
 </div>
-@* <div class="promo-popup animated"> *@
-@*     <a href="http://bit.ly/shards-dashboard-pro" class="pp-cta extra-action"> *@
-@*     </a> *@
-@*     <div class="pp-intro-bar"> *@
-@*         Contact Us *@
-@*         <span class="close"> *@
-@*             <i class="material-icons">close</i> *@
-@*         </span> *@
-@*         <span class="up"> *@
-@*             <i class="material-icons">keyboard_arrow_up</i> *@
-@*         </span> *@
-@*     </div> *@
-@*     <div class="pp-inner-content"> *@
-@*         <h2>Megatron Project</h2> *@
-@*         <p>Write something hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee!</p> *@
-@*         <a class="pp-cta extra-action" href="https://www.facebook.com/">Facebook</a> *@
-@*     </div> *@
-@* </div> *@
+<div class="promo-popup animated">
+    <a href="https://github.com/SuperMido/Megatron" class="pp-cta extra-action">
+    </a>
+    <div class="pp-intro-bar">
+        Teddy Team welcome
+        <span class="close">
+            <i class="material-icons mt-2">close</i>
+        </span>
+        <span class="up">
+            <i class="material-icons">keyboard_arrow_up</i>
+        </span>
+    </div>
+    <div class="pp-inner-content">
+        <h2>Megatron</h2>
+        <p>Welcome to Megatron. It' s nice to see you again! you can visit us as:</p>
+        <a class="pp-cta extra-action" href="https://github.com/SuperMido/Megatron">Repository</a>
+    </div>
+</div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
@@ -313,11 +264,11 @@
             type: 'GET',
             data: {userId: '@User.FindFirstValue(ClaimTypes.NameIdentifier)'},
             success: function (data){
-              $('#userAvatar').attr('src', '/uploads/' + data.avatar);
-              $('#userAvatarComment').attr('src', '/uploads/' + data.avatar);
-              }
-            });  
-    })  
+                $('#userAvatar').attr('src', '/uploads/' + data.avatar);
+                $('#userAvatarComment').attr('src', '/uploads/' + data.avatar);
+            }
+        });  
+    })
 </script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>

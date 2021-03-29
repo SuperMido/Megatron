@@ -35,48 +35,26 @@
 </head>
 <body>
 
-<div class="limiter">
-    <div class="container-login100" style="background-image: url(/Login_v4/images/bg-01.jpg);">
-        <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-            <form id="account" method="post" class="login100-form validate-form">
-                <span class="login100-form-title p-b-49">
+<div class="blurred-box">
+    <form id="account" method="post" class="validate-form">
+        <div class="user-login-box">
+            <div class="user-name">LOGIN</div>
+            @if (!ModelState.IsValid)
+            {
+                <div asp-validation-summary="All" class="text-warning small">
+                </div>
+            }
+            <input class="user-password" asp-for="Input.Email" type="text" placeholder="Email"/>
+            <input class="user-password" asp-for="Input.Password" type="password" placeholder="Password"/>
+            <div class="wrap-login100-form-btn">
+                <div class="login100-form-bgbtn"></div>
+                <button type="submit" class="login100-form-btn">
                     Login
-                </span>
-                @if (!ModelState.IsValid)
-                {
-                    <div asp-validation-summary="All" class="alert alert-danger alert-dismissible" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                }
-                <div class="wrap-input100 validate-input m-b-23" data-validate="Username is reauired">
-                    <span class="label-input100">Username</span>
-                    <input class="input100" asp-for="Input.Email" placeholder="Type your username">
-                    <span class="focus-input100" data-symbol="&#xf206;"></span>
-                </div>
-
-                <div class="wrap-input100 validate-input" data-validate="Password is required">
-                    <span class="label-input100">Password</span>
-                    <input class="input100" asp-for="Input.Password" placeholder="Type your password">
-                    <span class="focus-input100" data-symbol="&#xf190;"></span>
-                </div>
-
-                <div class="container-login100-form-btn mt-4">
-                    <div class="wrap-login100-form-btn">
-                        <div class="login100-form-bgbtn"></div>
-                        <button type="submit" class="login100-form-btn">
-                            Login
-                        </button>
-                    </div>
-                </div>
-            </form>
+                </button>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
-
-
-<div id="dropDownSelect1"></div>
 
 <!--===============================================================================================-->
 <script src="~/Login_v4/vendor/jquery/jquery-3.2.1.min.js"></script>

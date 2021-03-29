@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "List Articles Without a Comment";
     Layout = "_Authenticated_Layout";
 }
@@ -9,7 +8,7 @@
         <span class="text-uppercase page-subtitle">Dashboard</span>
         <h3 class="page-title">List Articles Without a Comment</h3>
     </div>
-    
+
 </div>
 <div class="card shadow">
     <div class="card-body">
@@ -44,10 +43,9 @@
                     {
                         data: 'status', title: 'Status', render: function (data) {
                             if (data === false) {
-                                return '<span>&nbsp;&nbsp;&nbsp;</span><div class="spinner-border text-warning" role="status"></div ><span style="color:#ffb400">&nbsp;&nbsp;&nbsp;Pending</span>';
-                             } 
-                            else { 
-                                return '<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><i class="fa fa-check-circle fa-2x" aria-hidden="true" style="color:green"></i>'; 
+                                return '<img src="/images/PendingIcon.png" height="35" alt="Waiting for approval"><span>&nbsp;Pending</span>';
+                            } else {
+                                return '<img src="/images/ApprovedIcon.png" height="35px" alt="Approved"/>';
                             }
                         }
                     },                                      

@@ -84,9 +84,8 @@ else
             <span role="status" aria-hidden="true"></span>
             Active
         </button>
-        <button class="btn btn-warning" type="button" disabled>
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Waiting for approve
+        <button class="btn btn-warning" type="button">
+            Waiting for approval
         </button>
     </div>
 }
@@ -125,7 +124,7 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
                     </a>
                 }
             }
-            
+
         </h5>
         @if (Model.Article.Content != null)
         {
@@ -140,6 +139,7 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
         <table class="table table-hover" id="docTable">
             <thead>
             <tr>
+                <th scope="Col">View</th>
                 <th scope="col">Document Uploaded</th>
                 <th scope="col">Upload At</th>
                 <th scope="col">Update At</th>
@@ -150,6 +150,15 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
             @foreach (var item in @Model.Document)
             {
                 <tr>
+                    <td>
+                        <form asp-action="ViewDocument" asp-route-fileName="@item.DocumentFile" method="post" target="_blank">
+                            <button type="submit">
+                                <span class="material-icons">
+                                    remove_red_eye
+                                </span>
+                            </button>
+                        </form>
+                    </td>
                     <td>
                         <a asp-action="DownloadDocument" asp-route-fileName="@item.DocumentFile">@item.DocumentFile</a>
                     </td>
@@ -164,17 +173,6 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
                                 </a>
                             </form>
                         }
-                       
-
-                    </td>
-                    <td>
-                        <form asp-action="ViewDocument" asp-route-fileName="@item.DocumentFile" method="post" target="_blank">
-                            <button type="submit">
-                                <span class="material-icons">
-                                    remove_red_eye
-                                </span>
-                            </button>
-                        </form>
                     </td>
                 </tr>
             }

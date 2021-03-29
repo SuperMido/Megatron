@@ -20,23 +20,23 @@
                     <partial name="_StatusMessage" model="@ViewData["Message"]"/>
                     <input asp-for="Article.TermCondition" id="Article_TermCondition" type="text" hidden class="form-control"/>
                     <div class="form-group row">
-                        <div class="col-2">
+                        <div class="col-lg-12">
                             <label asp-for="Article.Title" class="col-form-label">Post Title</label>
                         </div>
-                        <div class="col-10">
-                            <input asp-for="Article.Title" class="form-control form-control-lg mb-3" type="text" placeholder="Your Post Title" required>
+                        <div class="col-lg-12">
+                            <input asp-for="Article.Title" class="form-control form-control-lg mb-1" type="text" placeholder="Your Post Title" required>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-2">
+                        <div class="col-lg-12">
                             <label asp-for="Article.FacultyId" class="col-form-label"></label>
                         </div>
-                        <div class="col-5">
+                        <div class="col-lg-5">
                             <select asp-for="@Model.Article.FacultyId" asp-items="@Model.Faculties.Select(f => new SelectListItem {Text = f.FacultyName.ToString(), Value = f.Id.ToString()})" class="form-control"></select>
                         </div>
                     </div>
                     <div id="ImportFileCollapse" class="form-group row collapse multi-collapse">
-                        <div class="col-2">
+                        <div class="col-lg-2">
                             <label class="col-form-label">Import file</label>
                         </div>
                         <div class="input-group mb-3 col-auto">
@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <div id="TextAreaCollapse" class="form-group row collapse multi-collapse">
-                        <div class="col-2">
+                        <div class="col-lg-2">
                             <label asp-for="Article.Content" class="col-form-label"></label>
                         </div>
                         <div id="editor-container" class="ml-1 add-new-post__editor mb-1 col-12">
