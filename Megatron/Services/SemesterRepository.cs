@@ -165,14 +165,7 @@ namespace Megatron.Services
             return semesterForArticles;
         }
 
-        public bool DeleteSemester(int id)
-        {
-            var semesterExist = GetSemesterById(id);
-            if (semesterExist == null) return false;
-            _dbContext.Semesters.Remove(semesterExist);
-            _dbContext.SaveChanges();
-            return true;
-        }
+
         public bool CheckExistSemester(string name)
         {
             return _dbContext.Semesters.Any(s => s.SemesterName.Contains(name));

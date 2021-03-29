@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Megatron.Controllers
 {
@@ -23,10 +24,12 @@ namespace Megatron.Controllers
         private readonly IStudentRepository _studentRepository;
         private readonly IUserRepository _userRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ILogger<StudentController> _logger;
 
         public StudentController(IStudentRepository studentRepository,
-            IUserRepository userRepository, IFacultyRepository facultyRepository, ISemesterRepository semesterRepository, IEmailSender emailSender,
-            IDocumentRepository documentRepository, IWebHostEnvironment webHostEnvironment)
+            IUserRepository userRepository, IFacultyRepository facultyRepository, IEmailSender emailSender,
+            IDocumentRepository documentRepository, IWebHostEnvironment webHostEnvironment,
+            ILogger<StudentController> logger)
         {
             _studentRepository = studentRepository;
             _userRepository = userRepository;
@@ -35,6 +38,7 @@ namespace Megatron.Controllers
             _emailSender = emailSender;
             _documentRepository = documentRepository;
             _webHostEnvironment = webHostEnvironment;
+            _logger = logger;
         }
 
         [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.Student)]
@@ -70,6 +74,16 @@ namespace Megatron.Controllers
         public async Task<IActionResult> SubmitArticle(ArticleFacultyViewModel articleFacultyViewModel)
         {
             var files = Request.Form.Files;
+            var currentUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userFullname = _userRepository.GetUserFullName(currentUser).Result;
+            var articleFacultyViewModelError = _studentRepository.ArticleFacultyViewModel(userFullname);
+            
+            if (!files.Any() && articleFacultyViewModel.Article.Content == null)
+            {
+                ViewData["Message"] = "Error: Content or file must be input!";
+                return View(articleFacultyViewModelError);
+            }
+            
             var articleSubmit = _studentRepository.SubmitArticle(articleFacultyViewModel);
             var templateFolderPath = Path.Combine(_webHostEnvironment.WebRootPath, "EmailTemplate");
             var emailSubmitTemplatePath = Path.Combine(templateFolderPath, "ArticleSubmit.html");
@@ -86,19 +100,17 @@ namespace Megatron.Controllers
                 var listUserInSelectedFaculty =
                     _studentRepository.GetUserInFacultyByFacultyId(articleFacultyViewModel.Article.FacultyId);
 
-                var currentUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var userFullname = _userRepository.GetUserFullName(currentUser).Result;
-
                 foreach (var applicationUser in listUserInSelectedFaculty)
                     await _emailSender.SendEmailAsync(applicationUser.Email,
                         "[Megatron] " + userFullname + " already submit article: " +
                         articleFacultyViewModel.Article.Title,
                         emailTemplate);
+                _logger.LogInformation("User has been submitted an new article!");
                 return RedirectToAction(nameof(Index));
             }
 
             ViewData["Message"] = articleSubmit.StatusMessage;
-            return View(articleSubmit);
+            return View(articleFacultyViewModelError);
         }
 
         [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.Student)]
@@ -127,13 +139,14 @@ namespace Megatron.Controllers
 
             if (articleToEdit == null)
             {
+                _logger.LogInformation("Article has been updated!");
                 return RedirectToAction(nameof(Index));
             }
 
             ViewData["Message"] = articleToEdit.StatusMessage;
             return View(articleToEdit);
         }
-        
+
         public IActionResult DeleteDocument(string name)
         {
             if (name == null)
@@ -142,6 +155,7 @@ namespace Megatron.Controllers
             }
 
             _documentRepository.DeleteDocumentByName(name);
+            _logger.LogInformation($"Remove document {name}!");
             return RedirectToAction(nameof(Index));
         }
     }

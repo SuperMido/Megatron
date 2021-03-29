@@ -73,6 +73,7 @@ namespace Megatron.Services
 
             var model = new ArticleFacultyViewModel
             {
+                
                 Article = articleFacultyViewModel.Article,
                 Faculties = _dbContext.Faculties.ToList(),
                 StatusMessage = "Error: Article already exists in " + _dbContext.Faculties

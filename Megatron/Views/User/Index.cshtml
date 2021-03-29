@@ -24,7 +24,7 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            const userTable = $('#UserTable').DataTable({
+            $('#UserTable').DataTable({
                 processing: true,
                 fixedHeader: true,
                 ajax: {
@@ -49,8 +49,8 @@
                             + '<a href="User/UnLock/' + data + '" class="btn btn-warning"> UnLock </a>';
                         }
                     },
-                    { data: "lockUser", title: "Status", className: 'text-center', render: function (data){
-                        if (data === null || data < '@DateTime.Now'){
+                    { data: "lockoutStatus", title: "Status", className: 'text-center', render: function (data){
+                        if (data){
                             return '<a class="btn btn-success text-white"><i class="fas fa-lock-open"></i></a>'
                         }
                         return '<a class="btn btn-danger text-white"><i class="fas fa-lock"></i></a>'

@@ -35,11 +35,12 @@
                     { data: 'article.title', title: 'Title' },
                     { data: 'faculties.facultyName' , title: 'Faculty'  },
                     {
+
                         data: 'article.status', title: 'Status', render: function (data) {
-                            if (data == false) {
-                                return 'Waiting for Approve';
+                            if (data === false) {
+                                return '<span>&nbsp;&nbsp;&nbsp;</span><div class="spinner-border text-warning" role="status"></div ><span style="color:#ffb400">&nbsp;&nbsp;&nbsp;Pending</span>';
                             } else {
-                                return 'Approved';
+                                return '<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><i class="fa fa-check-circle fa-2x" aria-hidden="true" style="color:green"></i>';
                             }
                         }
                     },
