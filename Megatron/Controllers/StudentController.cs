@@ -26,7 +26,7 @@ namespace Megatron.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ILogger<StudentController> _logger;
 
-        public StudentController(IStudentRepository studentRepository,
+        public StudentController(IStudentRepository studentRepository, ISemesterRepository semesterRepository,
             IUserRepository userRepository, IFacultyRepository facultyRepository, IEmailSender emailSender,
             IDocumentRepository documentRepository, IWebHostEnvironment webHostEnvironment,
             ILogger<StudentController> logger)
