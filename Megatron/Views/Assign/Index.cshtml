@@ -20,6 +20,23 @@
     <thead class="thead-light"></thead>
 </table>
 
+<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <i class="material-icons mx-auto" style="font-size:80px;color:red">error</i>
+            <div class="modal-header">
+                <h5 class="modal-title bg-light text-dark badge bg-primary text-wrap" id="delModalTitle" style="font-size:25px;">
+                    Are You Sure You Want To Remove This User From Faculty?
+                </h5>
+            </div>
+            <div id="modalBody" class="modal-body badge bg-light text-dark text-wrap" style="font-size:15px;"></div>
+            <div class="modal-footer">
+                <a id="handleDeleteClick" type="button" class="btn btn-primary mx-auto">Remove User</a>
+                <button type="button" class="btn btn-secondary mx-auto" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     <script>
@@ -33,9 +50,13 @@
                 },
                 rowId: "id",
                 columns: [
-                    { data: "applicationUser.fullName", title: "Full Name" },
+                    { data: "applicationUser.fullName", title: "Full Name", render: function (data, type, row){             
+                         return '<p id="userName' + row.id +'">'+ data +'</p>'; 
+                    }},
                     { data: "applicationUser.email", title: "Email"},
-                    { data: "faculty.facultyName", title: "Faculty"},
+                    { data: "faculty.facultyName", title: "Faculty", render: function (data, type, row){                                     
+                        return '<p id="falName' + row.id +'">'+ data +'</p>';
+                    }},
                     { data: "createAt", title: "Assign At",
                         render: function(data){
                         return moment(data).format("HH:mm - MM/DD/YYYY");
@@ -44,13 +65,20 @@
                         data: 'id',
                         className: "center",
                         title: 'Actions',
-                        render: function (data) {
-                        return '<a href="Assign/DeleteUserInFaculty/' + data + '" class="btn btn-danger"> Remove </a>';
+                        render: function () {
+                        return '<a id="DeleteHandleClick" class="btn btn-danger mr-1" data-toggle="modal" data-target="#delModal"> Remove </a>';
                         }
                                                             
                     }
                 ],
                 order: [2, 'asc']
+            });
+            $('#UserFacultyTable tbody').on( 'click', 'tr','#DeleteHandleClick' , function () {
+                const userById = $(this).closest('tr').attr('id');
+                document.getElementById('handleDeleteClick').setAttribute("href", "Assign/DeleteUserInFaculty/" + userById);
+                var title = $("#userName" + userById).text();
+                var fal = $("#falName" + userById).text();
+                document.getElementById('modalBody').innerHTML ="User Full Name: "+title+" "+"From"+" "+ "Faculty: " + fal;                            
             });
         });
     </script>

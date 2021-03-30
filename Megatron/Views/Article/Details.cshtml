@@ -133,13 +133,12 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
 @if (@Model.Document.Any())
 {
     <div class="card border-success mb-3">
-        <table class="table table-hover">
+        <table class="table table-hover" id="docTable">
             <thead>
             <tr>
                 <th scope="col">Document Uploaded</th>
                 <th scope="col">Upload At</th>
                 <th scope="col">Update At</th>
-                <th></th>
                 <th></th>
             </tr>
             </thead>
@@ -154,9 +153,25 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
                     <td>@Html.DisplayFor(t => t.Article.UpdateAt)</td>
                     <td>
                         <form>
-                            <a onclick="return confirm('Do you want to remove this document?')" type="submit" class="btn btn-danger" asp-action="DeleteDocument" asp-controller="Student" asp-route-name="@item.DocumentFile">
+                            <a class="btn btn-danger" id="DeleteHandleClick" data-toggle="modal" data-target="#delModal">
                                 <span class="material-icons">delete_forever</span>
                             </a>
+                            <div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalTitle" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <i class="material-icons mx-auto" style="font-size:80px;color:red">error</i>
+                                            <div class="modal-header">
+                                                <h5 class="modal-title bg-light text-dark badge bg-primary text-wrap" id="delModalTitle" style="font-size:25px;">
+                                                    Are You Sure You Want To Delete This Document?
+                                                </h5>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a id="handleDeleteClick" type="submit" asp-action="DeleteDocument" asp-controller="Student" asp-route-name="@item.DocumentFile" class="btn btn-primary mx-auto">Remove Document</a>
+                                                <button type="button" class="btn btn-secondary mx-auto" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                         </form>
                     </td>
                     <td>
@@ -174,6 +189,7 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
         </table>
     </div>
 }
+
 @if (User.IsInRole(SystemRoles.Administrator) || User.IsInRole(SystemRoles.Student) || User.IsInRole(SystemRoles.MarketingCoordinator))
 {
     <div id="MessageResult"></div>
