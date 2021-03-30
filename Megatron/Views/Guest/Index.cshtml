@@ -11,17 +11,47 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-5 col-md-12 border border-primary mr-5 shadow-lg bg-light rounded">
+    <div class="col-md-6 col-lg-6 col-xl-4 col-12 mb-4">
+        <div class="card shadow border-left-primary py-2">
+            <div class="card-body">
+                <div class="row align-items-center no-gutters">
+                    <div class="col mr-2">
+                        <div class="text-uppercase text-primary font-weight-bold text-xs mb-1"><a href="/Guest/ListArticlesWithoutComment"><span>Number of Articles without a comment</span></a></div>
+                        <div class="text-dark font-weight-bold h2 mb-0 text-center"><span id="withoutComment"></span></div>
+                    </div>
+                    <div class="col-auto"><i class="fas fa-comments fa-2x text-gray-300"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-6 col-xl-4 col-12 mb-4">
+        <div class="card shadow border-left-success py-2">
+            <div class="card-body">
+                <div class="row align-items-center no-gutters">
+                    <div class="col mr-2">
+                        <div class="text-uppercase  mb-1"><a class="text-success font-weight-bold text-xs" href="/Guest/ListArticlesWithoutCommentAfter14Days"><span>Articles without any comment after 14 days</span></a></div>
+                        <div class="text-dark font-weight-bold h2 mb-0 text-center"><span id="withoutComment14Days"></span></div>
+                    </div>
+                    <div class="col-auto"><i class="fas fa-calendar-times fa-2x text-gray-300"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-5 col-md-12 col-12 border border-primary mr-5 ml-3 mt-5 shadow-lg bg-light rounded">
         <canvas id="articleChart"></canvas>
     </div>
-    <div class="col-lg-5 col-md-12 border border-primary mr-2 shadow-lg bg-light rounded">
+    <div class="col-lg-5 col-md-12 col-12 mt-5 ml-3 border border-primary shadow-lg bg-light rounded">
         <form id="myForm" method="post" action="/Guest/Index" class="mt-1">
             <input name="yearSelected" id="yearSelected" type="number" placeholder="Enter academic year" class="p-1 border-info rounded">
             <input type="submit" value="View Report" class="btn btn-info mb-1" />
         </form>
         <canvas id="percentArticleFacultyChart"></canvas>
     </div>
-    <div class="col-lg-5 col-md-12 border border-primary mr-5 mt-5 shadow-lg bg-light rounded">
+</div>
+<div class="row">
+    <div class="col-lg-5 col-md-12 col-12 border border-primary mr-5 ml-3 mt-5 shadow-lg bg-light rounded">
         <canvas id="contributorsOfFacultyChart"></canvas>
     </div>
 </div>
@@ -36,8 +66,14 @@
         var percent = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.PercentContributionsOfFaculty))');
         var yearSelected = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.Year))');
 
-        var contributors = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CountContributorsOfFaculty))');
+        var contributors = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CountContributorsOfFaculty))');        
+        
+        var countArticles = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CountArticle))');
+        var countArticles14Days = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.CountArticle14Days))');
 
+        document.getElementById('withoutComment').innerHTML = countArticles;
+        document.getElementById('withoutComment14Days').innerHTML = countArticles14Days;
+        
         var currentYear = new Date().getFullYear();
         if (yearSelected == null) {
             yearSelected = currentYear;

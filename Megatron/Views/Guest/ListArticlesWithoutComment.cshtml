@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "List Articles Without a Comment";
+    Layout = "_Authenticated_Layout";
+}
+
+<div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <span class="text-uppercase page-subtitle">Dashboard</span>
+        <h3 class="page-title">List Articles Without a Comment</h3>
+    </div>
+    
+</div>
+<div class="card shadow">
+    <div class="card-body">
+        <div class="table-responsive-xl table mt-2">
+            <table class="table my-0 table-hover" id="ArticleTable">
+                <thead class="thead-light">
+                </thead>
+            </table>
+        </div>
+    </div>
+    <div class="col-12 mb-2">
+        <a asp-controller="Guest" asp-action="Index" class="btn btn-primary">
+            Back to Report
+        </a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#ArticleTable').DataTable({
+                processing: true,
+                fixedHeader: true,
+                ajax: {
+                    url: '/Guest/GetArticlesWithoutComment/',
+                    dataSrc: ''
+                },
+                columns: [
+                    { data: "title", title: "Title" },
+                    { data: "faculty.facultyName", title: "Faculty" },
+                    { data: "author", title: "Author" },  
+                    {
+                        data: 'status', title: 'Status', render: function (data) {
+                            if (data === false) {
+                                return '<span>&nbsp;&nbsp;&nbsp;</span><div class="spinner-border text-warning" role="status"></div ><span style="color:#ffb400">&nbsp;&nbsp;&nbsp;Pending</span>';
+                             } 
+                            else { 
+                                return '<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><i class="fa fa-check-circle fa-2x" aria-hidden="true" style="color:green"></i>'; 
+                            }
+                        }
+                    },                                      
+                    { data: "createAt", title: "Create At", render: function (data){
+                        return moment(data).format("HH:mm - DD/MM/YYYY");
+                    }},
+                    { data: "updateAt", title: "Update At", render: function (data){
+                        return moment(data).format("HH:mm - DD/MM/YYYY");
+                    }},
+                ],
+                order: [1, 'asc']
+            });
+        });
+    </script>
+}

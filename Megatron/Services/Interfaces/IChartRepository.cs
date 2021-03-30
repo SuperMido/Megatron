@@ -12,5 +12,9 @@ namespace Megatron.Services
         List<double> PercentContributionsOfFaculty(int year);
 
         List<double> CountContributorsOfFaculty();
+
+        int GetArticleWithoutComment();
+
+        int GetArticlesWithoutComment14Days();
     }
 }

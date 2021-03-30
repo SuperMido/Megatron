@@ -44,6 +44,27 @@ namespace Megatron.Services
             return data;
         }
 
+        public int GetArticleWithoutComment()
+        {
+            var articlesWithoutComment = _dbContext.Articles.Where(a => a.StatusMessage == null).Count();
+            return articlesWithoutComment;
+        }
+
+        public int GetArticlesWithoutComment14Days()
+        {
+            var articlesWithoutCommentList = _dbContext.Articles
+                .Where(a => a.StatusMessage == null).ToList();
+            var Count = 0;
+            for (var i = 0; i < articlesWithoutCommentList.Count; i++)
+            {
+                if (Check14DaysForArticle(articlesWithoutCommentList[i].CreateAt))
+                {
+                    Count = Count + 1;
+                }
+            }
+            return Count;
+        }
+
         public List<string> GetFacultyList()
         {
             List<string> data = new List<string>();
@@ -70,5 +91,19 @@ namespace Megatron.Services
             return data;
         }
 
+        private static bool Check14DaysForArticle(DateTime articleCreateAt)
+        {
+            var currenDate = DateTime.Now;
+            TimeSpan value = currenDate.Subtract(articleCreateAt);
+            TimeSpan limit = new TimeSpan(14, 0, 0, 0);
+            if (value > limit)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

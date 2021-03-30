@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Megatron.Data;
@@ -47,6 +48,26 @@ namespace Megatron.Services
                             && a.UpdateAt < semester.SemesterEndDate)
                 .ToList();
             return articles;
+        }
+
+        public IEnumerable<Article> GetListArticleWithoutComment()
+        {
+            var articlesList = _dbContext.Articles.Include(a => a.Faculty).Where(a => a.StatusMessage == null).ToList();
+            return articlesList;
+        }
+
+        public IEnumerable<Article> GetListArticleWithoutComment14Days()
+        {
+            List<Article> articlesWithoutComment = new List<Article>();
+            var articlesList = _dbContext.Articles.Include(a => a.Faculty).Where(a => a.StatusMessage == null).ToList();
+            for (var i = 0; i < articlesList.Count; i++)
+            {
+                if (Check14DaysForArticle(articlesList[i].CreateAt))
+                {
+                    articlesWithoutComment.Add(articlesList[i]);
+                }
+            }
+            return articlesWithoutComment;
         }
 
         public IEnumerable<Faculty> GetFaculties()
@@ -101,6 +122,20 @@ namespace Megatron.Services
                     CreateAt = m.DateCreate
                 }).Distinct().ToList();
             return listFaculty;
+        }
+        private static bool Check14DaysForArticle(DateTime articleCreateAt)
+        {
+            var currenDate = DateTime.Now;
+            TimeSpan value = currenDate.Subtract(articleCreateAt);
+            TimeSpan limit = new TimeSpan(14, 0, 0, 0);
+            if (value > limit)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
