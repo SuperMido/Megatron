@@ -8,7 +8,7 @@
 <div class="page-header row no-gutters py-4">
     <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
         <span class="text-uppercase page-subtitle">Dashboard</span>
-        <h3 class="page-title">Article in faculty Overview</h3>
+        <h3 class="page-title">Select Faculty</h3>
     </div>
 </div>
 <div class="row mt-2">
@@ -19,14 +19,20 @@
                 <div class="card-body">
                     <h5 class="card-title">@Html.DisplayFor(m => item.FacultyName)</h5>
                     <p class="card-text">@Html.DisplayFor(m => item.Description)</p>
-                    <div class="btn-group">
-                        <a class="btn btn-success text-white mr-1" asp-action="ListArticles" asp-route-id="@item.Id">View Article</a>
+                    
+                        @if (User.IsInRole(SystemRoles.MarketingCoordinator))
+                        {
+                            <div class="d-flex justify-content-center">
+                                <a class="btn btn-success text-white mr-1" asp-action="ListArticles" asp-route-id="@item.Id">View Articles</a>
+                            </div>
+                        }
                         @if (!User.IsInRole(SystemRoles.MarketingCoordinator))
                         {
+                            <div class="btn-group">
+                            <a class="btn btn-success text-white mr-1" asp-action="ListArticles" asp-route-id="@item.Id">View Articles</a>
                             <a class="btn btn-info" asp-action="ListArticlesApproved" asp-route-id="@item.Id">Articles Approved</a>
+                            </div>
                         }
-                    </div>
-                    <a asp-r></a>
                 </div>
             </div>
         }
