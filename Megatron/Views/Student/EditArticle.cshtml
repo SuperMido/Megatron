@@ -9,71 +9,89 @@
         <h3 class="page-title">Edit Article</h3>
     </div>
 </div>
-<div>
-    <form id="SubmitForm" enctype="multipart/form-data" asp-action="EditArticle">
-        <partial name="_StatusMessage" model="@ViewData["Message"]"/>
-        <div>
-            @Html.HiddenFor(a => a.Article.Id)
-            <div class="form-group row">
-                <div class="col-2">
-                    <label asp-for="Article.Title" class="col-form-label"></label>
-                </div>
-                <div class="col-5">
-                    <input asp-for="Article.Title" class="form-control"/>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-2">
-                    <label class="col-form-label">Type of contribution</label>
-                </div>
-                <div class="col-3">
-                    <button hidden class="btn btn-primary" type="button" data-toggle="collapse" data-target="#ImportFileCollapse" aria-expanded="false" aria-controls="ImportFileCollapse">
-                    </button>
-                    <button hidden class="btn btn-primary" type="button" data-toggle="collapse" data-target="#TextAreaCollapse" aria-expanded="false" aria-controls="TextAreaCollapse">
-                    </button>
-                    <button id="button-collapse" class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="ImportFileCollapse TextAreaCollapse">
-                        Switch to Editor
-                    </button>
-                </div>
-            </div>
-            <div id="ImportFileCollapse" class="form-group row collapse multi-collapse">
-                <div class="col-2">
-                    <label class="col-form-label">Import file</label>
-                </div>
-                <div class="input-group mb-3 col-5">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-                    </div>
-                    <div class="custom-file">
-                        <input multiple type="file" name="file" class="custom-file-input" id="inputGroupFile" aria-describedby="inputGroupFileAddon">
-                        <label class="custom-file-label" for="inputGroupFile">Choose file</label>
-                    </div>
-                </div>
-            </div>
-            <div id="TextAreaCollapse" class="form-group row collapse multi-collapse">
-                <div class="col-2">
-                    <label asp-for="Article.Content" class="col-form-label"></label>
-                </div>
-                <div class="col-auto">
-                    @Html.TextAreaFor(a => a.Article.Content, new {@id = "editor"})
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-2">
-                    <label asp-for="Article.FacultyId" class="col-form-label"></label>
-                </div>
-                <div class="col-5">
-                    <select asp-for="Article.FacultyId" asp-items="@Model.Faculties.Select(f => new SelectListItem {Text = f.FacultyName.ToString(), Value = f.Id.ToString()})" class="disabled form-control"></select>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-5 offset-2">
-                    <input type="submit" class="btn btn-info form-control" value="Update"/>
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
+<div class="row">
+	<div class="col-lg-9 col-md-9">
+		<div class="card card-small mb-3">
+			<div class="card-body">
+			    <form id="SubmitForm" enctype="multipart/form-data" asp-action="EditArticle">
+				    <partial name="_StatusMessage" model="@ViewData["Message"]"/>
+				    <div>
+					    @Html.HiddenFor(a => a.Article.Id)
+					    <div class="form-group row">
+						    <div class="col-2">
+							    <label asp-for="Article.Title" class="col-form-label"></label>
+						    </div>
+						    <div class="col-10">
+							    <input asp-for="Article.Title" class="form-control"/>
+						    </div>
+					    </div>
+					    <div class="form-group row">
+						    <div class="col-2">
+							    <label asp-for="Article.Author" class="col-form-label"></label>
+						    </div>
+						    <div class="col-5">
+							    <input disabled asp-for="Article.Author" class="form-control"/>
+						    </div>
+					    </div>
+					    <div class="form-group row">
+						    <div class="col-2">
+							    <label asp-for="Article.FacultyId" class="col-form-label"></label>
+						    </div>
+						    <div class="col-5">
+							    <select asp-for="Article.FacultyId" asp-items="@Model.Faculties.Select(f => new SelectListItem {Text = f.FacultyName.ToString(), Value = f.Id.ToString()})" class="disabled form-control"></select>
+						    </div>
+					    </div>
+					    <input disabled hidden asp-for="Article.Author" class="form-control"/>
+					    <div class="form-group row">
+						    <div class="col-2">
+							    <label class="col-form-label">Type of contribution</label>
+						    </div>
+						    <div class="col-10 mt-3">
+							    <button hidden class="btn btn-primary" type="button" data-toggle="collapse" data-target="#ImportFileCollapse" aria-expanded="false" aria-controls="ImportFileCollapse">
+							    </button>
+							    <button hidden class="btn btn-primary" type="button" data-toggle="collapse" data-target="#TextAreaCollapse" aria-expanded="false" aria-controls="TextAreaCollapse">
+							    </button>
+							    <button id="button-collapse" class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="ImportFileCollapse TextAreaCollapse">
+								    Switch to Editor
+							    </button>
+						    </div>
+					    </div>
+					    <div id="ImportFileCollapse" class="form-group row collapse multi-collapse">
+						    <div class="col-2">
+							    <label class="col-form-label">Import file</label>
+						    </div>
+						    <div class="input-group mb-3 col">
+							    <div class="input-group-prepend">
+								    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+							    </div>
+							    <div class="custom-file">
+								    <input multiple type="file" name="file" class="custom-file-input" id="inputGroupFile" aria-describedby="inputGroupFileAddon">
+								    <label class="custom-file-label" for="inputGroupFile">Choose file</label>
+							    </div>
+						    </div>
+					    </div>
+					    <div id="TextAreaCollapse" class="form-group row collapse multi-collapse">
+						    <div class="col-2">
+							    <label asp-for="Article.Content" class="col-form-label"></label>
+						    </div>
+						    <div class="col-auto">
+							    @Html.TextAreaFor(a => a.Article.Content, new {@id = "editor"})
+						    </div>
+					    </div>
+					    <div class="form-group row">
+						    <div class="col-6">
+							    <a asp-action="Index" class="btn btn-info w-100"><i class="fas fa-sign-out-alt"></i>Back to list</a>
+						    </div>
+						    <div class="col-6 ">
+							    <input type="submit" class="btn btn-success form-control" value="Save"/>
+						    </div>
+					    </div>
+					    </div>
+                </form>
+			</div>
+		</div>
+	</div>
+
 
 @section Scripts{
     <script type="text/javascript" src="~/lib/ckeditor5/build/ckeditor.js"></script>
