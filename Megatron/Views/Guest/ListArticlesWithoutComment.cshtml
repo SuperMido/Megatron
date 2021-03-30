@@ -1,18 +1,16 @@
-@using Microsoft.AspNetCore.Routing
-@model IEnumerable<Megatron.Models.Article>
-
+﻿
 @{
-    ViewBag.Title = "Article";
+    ViewBag.Title = "List Articles Without a Comment";
     Layout = "_Authenticated_Layout";
 }
 
 <div class="page-header row no-gutters py-4">
     <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
         <span class="text-uppercase page-subtitle">Dashboard</span>
-        <h3 class="page-title">Article Overview</h3>
+        <h3 class="page-title">List Articles Without a Comment</h3>
     </div>
+    
 </div>
-<input id="facultyId" type="hidden" value="@Context.GetRouteData().Values["id"]">
 <div class="card shadow">
     <div class="card-body">
         <div class="table-responsive-xl table mt-2">
@@ -22,22 +20,27 @@
             </table>
         </div>
     </div>
+    <div class="col-12 mb-2">
+        <a asp-controller="Guest" asp-action="Index" class="btn btn-primary">
+            Back to Report
+        </a>
+    </div>
 </div>
 
 @section Scripts {
     <script>
         $(document).ready(function () {
-            const facultyId = document.getElementById("facultyId").value;
             $('#ArticleTable').DataTable({
                 processing: true,
                 fixedHeader: true,
                 ajax: {
-                    url: '/Article/GetListArticles/' + facultyId,
+                    url: '/Guest/GetArticlesWithoutComment/',
                     dataSrc: ''
                 },
-                rowId: "id",
                 columns: [
                     { data: "title", title: "Title" },
+                    { data: "faculty.facultyName", title: "Faculty" },
+                    { data: "author", title: "Author" },  
                     {
                         data: 'status', title: 'Status', render: function (data) {
                             if (data === false) {
@@ -47,8 +50,7 @@
                                 return '<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><i class="fa fa-check-circle fa-2x" aria-hidden="true" style="color:green"></i>'; 
                             }
                         }
-                    },
-                    { data: "author", title: "Author" },
+                    },                                      
                     { data: "createAt", title: "Create At", render: function (data){
                         return moment(data).format("HH:mm - DD/MM/YYYY");
                     }},
@@ -58,11 +60,6 @@
                 ],
                 order: [1, 'asc']
             });
-        
-            $('#ArticleTable tbody').on( 'click', 'tr', function () {
-                const articleId = $(this).closest('tr').attr('id');
-                window.location.href = '/Article/Details/' + articleId;
-            } );
         });
     </script>
 }
