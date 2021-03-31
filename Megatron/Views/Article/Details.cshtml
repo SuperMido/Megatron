@@ -116,7 +116,7 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
     <div class="card-body">
         <h5 class="card-title">
             Author: <a class="text-primary">@Html.DisplayFor(m => m.Article.Author)</a>
-            @if (!User.IsInRole((SystemRoles.MarketingCoordinator)))
+            @if (User.IsInRole((SystemRoles.Administrator)) && User.IsInRole((SystemRoles.Student)))
             {
                 @if (Model.Article.Status == false)
                 {
@@ -157,7 +157,7 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
                     <td>@item.CreateAt</td>
                     <td>@Html.DisplayFor(t => t.Article.UpdateAt)</td>
                     <td>
-                        @if (!User.IsInRole((SystemRoles.MarketingCoordinator)))
+                        @if (User.IsInRole((SystemRoles.Administrator)) && User.IsInRole((SystemRoles.Student)))
                         {
                             <form>
                                 <a onclick="return confirm('Do you want to remove this document?')" type="submit" class="btn btn-danger" asp-action="DeleteDocument" asp-controller="Student" asp-route-name="@item.DocumentFile">
