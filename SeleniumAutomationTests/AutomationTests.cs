@@ -59,8 +59,8 @@ namespace SeleniumAutomationTests
         [Test]
         public void test03_Logout()
         {
-            _driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            _driver.Manage().Window.Maximize();
+            _driver.Navigate().GoToUrl(Url);
+
             _driver.FindElement(By.LinkText("Login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
@@ -76,8 +76,8 @@ namespace SeleniumAutomationTests
         [Test]
         public void test04_CreateFaculty()
         {
-            _driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            _driver.Manage().Window.Maximize();
+            _driver.Navigate().GoToUrl(Url);
+
             _driver.FindElement(By.LinkText("Login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
@@ -104,8 +104,8 @@ namespace SeleniumAutomationTests
         [Test]
         public void test05_CreateArticle()
         {
-            _driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            _driver.Manage().Window.Maximize();
+            _driver.Navigate().GoToUrl(Url);
+
             _driver.FindElement(By.LinkText("Login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
@@ -134,8 +134,8 @@ namespace SeleniumAutomationTests
         [Test]
         public void test06_ArticleReview()
         {
-            _driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            _driver.Manage().Window.Maximize();
+            _driver.Navigate().GoToUrl(Url);
+
             _driver.FindElement(By.LinkText("Login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
@@ -181,8 +181,8 @@ namespace SeleniumAutomationTests
         [Test]
         public void test07_CreateSemester()
         {
-            _driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            _driver.Manage().Window.Maximize();
+            _driver.Navigate().GoToUrl(Url);
+
             _driver.FindElement(By.LinkText("Login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
@@ -216,8 +216,8 @@ namespace SeleniumAutomationTests
         [Test]
         public void test08_CreateUser()
         {
-            _driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            _driver.Manage().Window.Maximize();
+            _driver.Navigate().GoToUrl(Url);
+
             _driver.FindElement(By.LinkText("Login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
@@ -253,8 +253,8 @@ namespace SeleniumAutomationTests
         [Test]
         public void test09_AssignMC()
         {
-            _driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            _driver.Manage().Window.Maximize();
+            _driver.Navigate().GoToUrl(Url);
+
             _driver.FindElement(By.LinkText("Login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
@@ -285,8 +285,8 @@ namespace SeleniumAutomationTests
         [Test]
         public void test10_AssignGuest()
         {
-            _driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            _driver.Manage().Window.Maximize();
+            _driver.Navigate().GoToUrl(Url);
+
             _driver.FindElement(By.LinkText("Login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
@@ -311,8 +311,8 @@ namespace SeleniumAutomationTests
         [Test]
         public void test11_loginEachRoles()
         {
-            _driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            _driver.Manage().Window.Maximize();
+            _driver.Navigate().GoToUrl(Url);
+
             _driver.FindElement(By.LinkText("Login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
@@ -356,8 +356,8 @@ namespace SeleniumAutomationTests
         [Test]
         public void test12_PhoneResponsive()
         {
-            _driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            _driver.Manage().Window.Size = new System.Drawing.Size(375, 812);
+            _driver.Navigate().GoToUrl(Url);
+
             _driver.FindElement(By.CssSelector(".navbar-toggler-icon")).Click();
             _driver.FindElement(By.LinkText("Login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
