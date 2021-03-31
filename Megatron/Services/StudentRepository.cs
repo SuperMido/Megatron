@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Megatron.Data;
 using Megatron.Models;
@@ -31,9 +32,24 @@ namespace Megatron.Services
             return articleFacultyViewModel;
         }
 
-        public IEnumerable<Article> GetPersonalArticles(string userName)
+        public IEnumerable<ArticleSemesterFacultyViewModel> GetPersonalArticles(string userName)
         {
-            return _dbContext.Articles.Include(a => a.Faculty).Where(a => a.Author == userName).ToList();
+            var listPersonalArticles = (from article in _dbContext.Articles
+                where article.Author.Contains(userName)
+                join semesterArticle in _dbContext.SemesterArticles on article.Id equals semesterArticle.ArticleId
+                join semester in _dbContext.Semesters on semesterArticle.SemesterId equals semester.Id
+                join faculty in _dbContext.Faculties on article.FacultyId equals faculty.Id
+                select new
+                {
+                    Article = article, SemesterEndDate = semester.SemesterEndDate, Faculty = faculty
+                })
+                .Select(a => new ArticleSemesterFacultyViewModel()
+            {
+                Article = a.Article,
+                Faculties = a.Faculty,
+                CheckValidEdit = CheckValidEditArticle(a.SemesterEndDate),
+            }).Distinct().ToList();
+            return listPersonalArticles;
         }
 
         public ArticleFacultyViewModel SubmitArticle(ArticleFacultyViewModel articleFacultyViewModel)
@@ -111,6 +127,16 @@ namespace Megatron.Services
             };
 
             return model;
+        }
+
+        private static bool CheckValidEditArticle(DateTime semesterEndDate)
+        {
+            var currentDate = DateTime.Now;
+            if (currentDate < semesterEndDate)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
