@@ -160,10 +160,10 @@ namespace SeleniumAutomationTests
             Actions actions3 = new Actions(_driver);
             actions3.Click(_driver.FindElement(By.Id("Semester_SemesterEndDate")))
                 .SendKeys("30-04-2021" + Keys.Tab).SendKeys("22:38").Build().Perform();
-            
+
             _driver.Quit();
         }
-        
+
         [Test]
         public void test08_CreateUser()
         {
@@ -287,7 +287,7 @@ namespace SeleniumAutomationTests
             _driver.Manage().Window.Size = new System.Drawing.Size(375, 812);
 
             _driver.Navigate().GoToUrl(Url);
-            
+
             _driver.FindElement(By.LinkText("Login")).Click();
             Thread.Sleep(500);
             _driver.FindElement(By.Id("Input_Email")).Click();
