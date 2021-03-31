@@ -29,8 +29,8 @@ namespace SeleniumAutomationTests
         [Test]
         public void test01_GoToLoginPageFromIndexPageOnWebView()
         {
-            _driver.Url = Url;
-            _driver.Manage().Window.Maximize();
+            _driver.Navigate().GoToUrl(Url);
+
             _driver.FindElement(By.XPath("//*[@id=\"navbarResponsive\"]/ul/a")).Click();
             var loginTitle = _driver.FindElement(By.XPath("//*[@id=\"account\"]/span")).Text;
             Assert.AreEqual("Login", loginTitle);
@@ -40,8 +40,7 @@ namespace SeleniumAutomationTests
         [Test]
         public void test02_LoginPageOnWebView()
         {
-            _driver.Url = Url;
-            _driver.Manage().Window.Maximize();
+            _driver.Navigate().GoToUrl(Url);
 
             _driver.FindElement(By.XPath("//*[@id=\"navbarResponsive\"]/ul/a")).Click();
             var actions = new Actions(_driver);
