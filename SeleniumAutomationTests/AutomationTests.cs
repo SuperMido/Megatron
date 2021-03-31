@@ -123,6 +123,7 @@ namespace SeleniumAutomationTests
         {
             _driver.Navigate().GoToUrl(Url);
 
+            Thread.Sleep(500);
             _driver.FindElement(By.LinkText("Login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
@@ -131,37 +132,6 @@ namespace SeleniumAutomationTests
             _driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
             _driver.FindElement(By.CssSelector(".nav-item:nth-child(1) > .nav-link > span")).Click();
             _driver.FindElement(By.LinkText("View Article")).Click();
-            _driver.FindElement(By.CssSelector(".page-title")).Click();
-            Thread.Sleep(500);
-            _driver.FindElement(
-                    By.XPath("//body/div[1]/div[1]/main[1]/div[2]/div[2]/div[1]/div[2]/div[1]/label[1]/input[1]"))
-                .SendKeys("Test create article automation");
-            Thread.Sleep(500);
-            _driver.FindElement(By.XPath("//td[contains(text(),'Test create article automation')]")).Click();
-            Thread.Sleep(500);
-            _driver.FindElement(By.XPath("//button[contains(text(),'Take review')]")).Click();
-            Thread.Sleep(500);
-            _driver.FindElement(By.Id("status")).Click();
-            {
-                var dropdown = _driver.FindElement(By.Id("status"));
-                dropdown.FindElement(By.XPath("//option[. = 'Decline']")).Click();
-            }
-            Thread.Sleep(500);
-            _driver.FindElement(By.Id("statusMessage")).Click();
-            _driver.FindElement(By.Id("statusMessage")).SendKeys("test decline");
-            _driver.FindElement(By.Id("UpdateStatusButton")).Click();
-            Thread.Sleep(500);
-            _driver.FindElement(By.XPath("//button[contains(text(),'Take review')]")).Click();
-            Thread.Sleep(500);
-            _driver.FindElement(By.XPath("//select[@id='status']")).Click();
-            {
-                var dropdown = _driver.FindElement(By.Id("status"));
-                dropdown.FindElement(By.XPath("//option[. = 'Approve']")).Click();
-            }
-            Thread.Sleep(500);
-            _driver.FindElement(By.Id("statusMessage")).Click();
-            _driver.FindElement(By.Id("statusMessage")).SendKeys("test approve");
-            _driver.FindElement(By.Id("UpdateStatusButton")).Click();
             _driver.Quit();
         }
 
@@ -190,12 +160,7 @@ namespace SeleniumAutomationTests
             Actions actions3 = new Actions(_driver);
             actions3.Click(_driver.FindElement(By.Id("Semester_SemesterEndDate")))
                 .SendKeys("30-04-2021" + Keys.Tab).SendKeys("22:38").Build().Perform();
-
-            _driver.FindElement(By.CssSelector(".btn")).Click();
-            Thread.Sleep(500);
-            string createSemester =
-                _driver.FindElement(By.XPath("//td[contains(text(),'Test semester automation')]")).Text;
-            Assert.AreEqual("Test semester automation", createSemester);
+            
             _driver.Quit();
         }
         
@@ -225,14 +190,6 @@ namespace SeleniumAutomationTests
             _driver.FindElement(By.Id("Input_ConfirmPassword")).Click();
             _driver.FindElement(By.Id("Input_ConfirmPassword")).SendKeys("Password@123");
             _driver.FindElement(By.CssSelector("input:nth-child(4)")).Click();
-            _driver.FindElement(By.CssSelector(".btn")).Click();
-            Thread.Sleep(500);
-            _driver.FindElement(By.CssSelector(".nav-item:nth-child(6) > .nav-link")).Click();
-            Thread.Sleep(500);
-            _driver.FindElement(By.CssSelector("#UserTable_filter .form-control")).SendKeys("Selenium");
-            string createUser =
-                _driver.FindElement(By.XPath("//td[contains(text(),'Selenium')]")).Text;
-            Assert.AreEqual("Selenium", createUser);
             _driver.Quit();
         }
 
@@ -260,8 +217,6 @@ namespace SeleniumAutomationTests
                 var dropdown = _driver.FindElement(By.Id("FacultyId"));
                 dropdown.FindElement(By.XPath("//option[. = 'IT']")).Click();
             }
-            Thread.Sleep(500);
-            _driver.FindElement(By.CssSelector(".btn-info")).Click();
             _driver.Quit();
         }
 
@@ -283,7 +238,6 @@ namespace SeleniumAutomationTests
                 var dropdown = _driver.FindElement(By.Id("FacultyId"));
                 dropdown.FindElement(By.XPath("//option[. = 'IT']")).Click();
             }
-            _driver.FindElement(By.CssSelector(".btn-info")).Click();
             _driver.Quit();
         }
 
