@@ -246,11 +246,8 @@ namespace SeleniumAutomationTests
         {
             _driver.Navigate().GoToUrl(Url);
 
-            Thread.Sleep(500);
             _driver.FindElement(By.LinkText("Login")).Click();
-            Thread.Sleep(500);
             _driver.FindElement(By.Id("Input_Email")).Click();
-            Thread.Sleep(500);
             _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
             _driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
             _driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
@@ -265,17 +262,6 @@ namespace SeleniumAutomationTests
             _driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
             _driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
             _driver.FindElement(By.XPath("//span[contains(.,\'megatronmc@gmail.com\')]")).Click();
-            Thread.Sleep(500);
-            _driver.FindElement(By.CssSelector(".form-inline > .dropdown-item")).Click();
-            Thread.Sleep(500);
-            _driver.FindElement(By.LinkText("Login")).Click();
-            Thread.Sleep(500);
-            _driver.FindElement(By.Id("Input_Email")).Click();
-            _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronmm@gmail.com");
-            _driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
-            _driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
-            Thread.Sleep(500);
-            _driver.FindElement(By.LinkText("megatronmm@gmail.com")).Click();
             Thread.Sleep(500);
             _driver.FindElement(By.CssSelector(".form-inline > .dropdown-item")).Click();
             Thread.Sleep(500);
@@ -299,7 +285,6 @@ namespace SeleniumAutomationTests
 
             _driver.Navigate().GoToUrl(Url);
             
-            _driver.FindElement(By.CssSelector(".navbar-toggler-icon")).Click();
             _driver.FindElement(By.LinkText("Login")).Click();
             Thread.Sleep(500);
             _driver.FindElement(By.Id("Input_Email")).Click();
