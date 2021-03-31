@@ -10,365 +10,363 @@ namespace SeleniumAutomationTests
 {
     class TestIndex
     {
-        string url = "https://megatron.gcd-gw.com/";
-        IWebDriver driver;
-        IDictionary<string, object> vars { get; set; }
+        private const string Url = "https://megatron.gcd-gw.com/";
+        private IWebDriver _driver;
+        private IDictionary<string, object> Vars { get; set; }
 
 
         [SetUp]
         public void start_Browser()
         {
-            try
-            {
-                var options = new ChromeOptions();
-                options.AddArguments("--window-size=1440x800" , "--headless" , "--no-sandbox" , "--disable-dev-shm-usage");
-                driver = new ChromeDriver("/usr/local/bin/chromedriver", options);
-                vars = new Dictionary<string, object>();
-            }
-            catch
-            {
-                driver = new ChromeDriver();
-            }
+            var options = new ChromeOptions();
+            options.AddArguments("start-maximized");
+            options.AddArguments("--disable-gpu");
+            options.AddArguments("--headless");
+            _driver = new ChromeDriver("/usr/local/bin/chromedriver", options);
+            Vars = new Dictionary<string, object>();
         }
 
         [Test]
         public void test01_GoToLoginPageFromIndexPageOnWebView()
         {
-            driver.Url = url;
-            driver.Manage().Window.Maximize();
-            driver.FindElement(By.XPath("//*[@id=\"navbarResponsive\"]/ul/a")).Click();
-            string loginTitle = driver.FindElement(By.XPath("//*[@id=\"account\"]/span")).Text;
+            _driver.Url = Url;
+            _driver.Manage().Window.Maximize();
+            _driver.FindElement(By.XPath("//*[@id=\"navbarResponsive\"]/ul/a")).Click();
+            var loginTitle = _driver.FindElement(By.XPath("//*[@id=\"account\"]/span")).Text;
             Assert.AreEqual("Login", loginTitle);
-            driver.Quit();
+            _driver.Quit();
         }
 
         [Test]
         public void test02_LoginPageOnWebView()
         {
-            driver.Url = url;
-            driver.Manage().Window.Maximize();
+            _driver.Url = Url;
+            _driver.Manage().Window.Maximize();
 
-            driver.FindElement(By.XPath("//*[@id=\"navbarResponsive\"]/ul/a")).Click();
-            Actions actions = new Actions(driver);
-            actions.Click(driver.FindElement(By.XPath("//*[@id=\"Input_Email\"]")))
+            _driver.FindElement(By.XPath("//*[@id=\"navbarResponsive\"]/ul/a")).Click();
+            var actions = new Actions(_driver);
+            actions.Click(_driver.FindElement(By.XPath("//*[@id=\"Input_Email\"]")))
                 .SendKeys("megatronadmin@gmail.com" + Keys.Tab).SendKeys("Password@123").Build().Perform();
 
-            driver.FindElement(By.XPath("//*[@id=\"account\"]/div[3]/div/button")).Click();
+            _driver.FindElement(By.XPath("//*[@id=\"account\"]/div[3]/div/button")).Click();
 
             Thread.Sleep(1000);
-            string loggedInHeaderTitle =
-                driver.FindElement(By.XPath("/html/body/div/div/aside/div[1]/nav/a[1]/div/span")).Text;
+            var loggedInHeaderTitle =
+                _driver.FindElement(By.XPath("/html/body/div/div/aside/div[1]/nav/a[1]/div/span")).Text;
             Assert.AreEqual("Megatron", loggedInHeaderTitle);
-            driver.Quit();
+            _driver.Quit();
         }
 
         [Test]
         public void test03_Logout()
         {
-            driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            driver.Manage().Window.Maximize();
-            driver.FindElement(By.LinkText("Login")).Click();
-            driver.FindElement(By.Id("Input_Email")).Click();
-            driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
-            driver.FindElement(By.Id("Input_Password")).Click();
-            driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
-            driver.FindElement(By.Id("Input_Password")).SendKeys(Keys.Enter);
-            driver.FindElement(By.CssSelector(".d-md-inline-block")).Click();
+            _driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
+            _driver.Manage().Window.Maximize();
+            _driver.FindElement(By.LinkText("Login")).Click();
+            _driver.FindElement(By.Id("Input_Email")).Click();
+            _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
+            _driver.FindElement(By.Id("Input_Password")).Click();
+            _driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
+            _driver.FindElement(By.Id("Input_Password")).SendKeys(Keys.Enter);
+            _driver.FindElement(By.CssSelector(".d-md-inline-block")).Click();
             Thread.Sleep(1000);
-            driver.FindElement(By.CssSelector(".form-inline > .dropdown-item")).Click();
-            driver.Quit();
+            _driver.FindElement(By.CssSelector(".form-inline > .dropdown-item")).Click();
+            _driver.Quit();
         }
 
         [Test]
         public void test04_CreateFaculty()
         {
-            driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            driver.Manage().Window.Maximize();
-            driver.FindElement(By.LinkText("Login")).Click();
-            driver.FindElement(By.Id("Input_Email")).Click();
-            driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
-            driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
-            driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
-            driver.FindElement(By.CssSelector(".flex-column > .nav-item:nth-child(4) > .nav-link")).Click();
-            driver.FindElement(By.LinkText("Create New Faculty")).Click();
+            _driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
+            _driver.Manage().Window.Maximize();
+            _driver.FindElement(By.LinkText("Login")).Click();
+            _driver.FindElement(By.Id("Input_Email")).Click();
+            _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
+            _driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
+            _driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
+            _driver.FindElement(By.CssSelector(".flex-column > .nav-item:nth-child(4) > .nav-link")).Click();
+            _driver.FindElement(By.LinkText("Create New Faculty")).Click();
             Thread.Sleep(1000);
-            driver.FindElement(By.Id("FacultyName")).Click();
-            driver.FindElement(By.Id("FacultyName")).SendKeys("Test Automation");
+            _driver.FindElement(By.Id("FacultyName")).Click();
+            _driver.FindElement(By.Id("FacultyName")).SendKeys("Test Automation");
             Thread.Sleep(1000);
-            driver.FindElement(By.Id("Description")).Click();
-            driver.FindElement(By.Id("Description")).SendKeys("testing only");
+            _driver.FindElement(By.Id("Description")).Click();
+            _driver.FindElement(By.Id("Description")).SendKeys("testing only");
             Thread.Sleep(1000);
-            driver.FindElement(By.CssSelector(".btn")).Click();
+            _driver.FindElement(By.CssSelector(".btn")).Click();
 
             Thread.Sleep(1000);
-            string createFaculty =
-                driver.FindElement(By.XPath("//td[contains(text(),'Test Automation')]")).Text;
+            var createFaculty =
+                _driver.FindElement(By.XPath("//td[contains(text(),'Test Automation')]")).Text;
             Assert.AreEqual("Test Automation", createFaculty);
-            driver.Quit();
+            _driver.Quit();
         }
 
         [Test]
         public void test05_CreateArticle()
         {
-            driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            driver.Manage().Window.Maximize();
-            driver.FindElement(By.LinkText("Login")).Click();
-            driver.FindElement(By.Id("Input_Email")).Click();
-            driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
-            driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
-            driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
-            driver.FindElement(By.CssSelector(".flex-column > .nav-item:nth-child(2) > .nav-link")).Click();
-            driver.FindElement(By.LinkText("Create New Article")).Click();
-            driver.FindElement(By.Id("Article_Title")).SendKeys("Test create article automation");
-            driver.FindElement(By.Id("Article_FacultyId")).Click();
+            _driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
+            _driver.Manage().Window.Maximize();
+            _driver.FindElement(By.LinkText("Login")).Click();
+            _driver.FindElement(By.Id("Input_Email")).Click();
+            _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
+            _driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
+            _driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
+            _driver.FindElement(By.CssSelector(".flex-column > .nav-item:nth-child(2) > .nav-link")).Click();
+            _driver.FindElement(By.LinkText("Create New Article")).Click();
+            _driver.FindElement(By.Id("Article_Title")).SendKeys("Test create article automation");
+            _driver.FindElement(By.Id("Article_FacultyId")).Click();
             {
-                var dropdown = driver.FindElement(By.Id("Article_FacultyId"));
+                var dropdown = _driver.FindElement(By.Id("Article_FacultyId"));
                 dropdown.FindElement(By.XPath("//option[. = 'IT']")).Click();
             }
-            driver.FindElement(By.Id("termAndCondition")).Click();
-            driver.FindElement(By.Id("submitButton")).Click();
+            _driver.FindElement(By.Id("termAndCondition")).Click();
+            _driver.FindElement(By.Id("submitButton")).Click();
             Thread.Sleep(1000);
-            driver.FindElement(By.CssSelector("#studentArticleTable_filter .form-control")).Click();
-            driver.FindElement(By.CssSelector("#studentArticleTable_filter .form-control")).SendKeys("Test create article automation");
+            _driver.FindElement(By.CssSelector("#studentArticleTable_filter .form-control")).Click();
+            _driver.FindElement(By.CssSelector("#studentArticleTable_filter .form-control"))
+                .SendKeys("Test create article automation");
             string createArticle =
-                driver.FindElement(By.XPath("//td[contains(text(),'Test create article automation')]")).Text;
+                _driver.FindElement(By.XPath("//td[contains(text(),'Test create article automation')]")).Text;
             Assert.AreEqual("Test create article automation", createArticle);
-            driver.Quit();
+            _driver.Quit();
         }
-        
-         [Test]
+
+        [Test]
         public void test06_ArticleReview()
         {
-            driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            driver.Manage().Window.Maximize();
-            driver.FindElement(By.LinkText("Login")).Click();
-            driver.FindElement(By.Id("Input_Email")).Click();
-            driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
-            driver.FindElement(By.Id("Input_Password")).Click();
-            driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
-            driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
-            driver.FindElement(By.CssSelector(".nav-item:nth-child(1) > .nav-link > span")).Click();
-            driver.FindElement(By.LinkText("View Article")).Click();
-            driver.FindElement(By.CssSelector(".page-title")).Click();
+            _driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
+            _driver.Manage().Window.Maximize();
+            _driver.FindElement(By.LinkText("Login")).Click();
+            _driver.FindElement(By.Id("Input_Email")).Click();
+            _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
+            _driver.FindElement(By.Id("Input_Password")).Click();
+            _driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
+            _driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
+            _driver.FindElement(By.CssSelector(".nav-item:nth-child(1) > .nav-link > span")).Click();
+            _driver.FindElement(By.LinkText("View Article")).Click();
+            _driver.FindElement(By.CssSelector(".page-title")).Click();
             Thread.Sleep(1000);
-            driver.FindElement(By.XPath("//body/div[1]/div[1]/main[1]/div[2]/div[2]/div[1]/div[2]/div[1]/label[1]/input[1]")).SendKeys("Test create article automation");
+            _driver.FindElement(
+                    By.XPath("//body/div[1]/div[1]/main[1]/div[2]/div[2]/div[1]/div[2]/div[1]/label[1]/input[1]"))
+                .SendKeys("Test create article automation");
             Thread.Sleep(1000);
-            driver.FindElement(By.XPath("//td[contains(text(),'Test create article automation')]")).Click();
+            _driver.FindElement(By.XPath("//td[contains(text(),'Test create article automation')]")).Click();
             Thread.Sleep(1000);
-            driver.FindElement(By.XPath("//button[contains(text(),'Take review')]")).Click();
+            _driver.FindElement(By.XPath("//button[contains(text(),'Take review')]")).Click();
             Thread.Sleep(1000);
-            driver.FindElement(By.Id("status")).Click();
+            _driver.FindElement(By.Id("status")).Click();
             {
-                var dropdown = driver.FindElement(By.Id("status"));
+                var dropdown = _driver.FindElement(By.Id("status"));
                 dropdown.FindElement(By.XPath("//option[. = 'Decline']")).Click();
             }
             Thread.Sleep(1000);
-            driver.FindElement(By.Id("statusMessage")).Click();
-            driver.FindElement(By.Id("statusMessage")).SendKeys("test decline");
-            driver.FindElement(By.Id("UpdateStatusButton")).Click();
+            _driver.FindElement(By.Id("statusMessage")).Click();
+            _driver.FindElement(By.Id("statusMessage")).SendKeys("test decline");
+            _driver.FindElement(By.Id("UpdateStatusButton")).Click();
             Thread.Sleep(1000);
-            driver.FindElement(By.XPath("//button[contains(text(),'Take review')]")).Click();
+            _driver.FindElement(By.XPath("//button[contains(text(),'Take review')]")).Click();
             Thread.Sleep(1000);
-            driver.FindElement(By.XPath("//select[@id='status']")).Click();
+            _driver.FindElement(By.XPath("//select[@id='status']")).Click();
             {
-                var dropdown = driver.FindElement(By.Id("status"));
+                var dropdown = _driver.FindElement(By.Id("status"));
                 dropdown.FindElement(By.XPath("//option[. = 'Approve']")).Click();
             }
             Thread.Sleep(1000);
-            driver.FindElement(By.Id("statusMessage")).Click();
-            driver.FindElement(By.Id("statusMessage")).SendKeys("test approve");
-            driver.FindElement(By.Id("UpdateStatusButton")).Click();
-            driver.Quit();
+            _driver.FindElement(By.Id("statusMessage")).Click();
+            _driver.FindElement(By.Id("statusMessage")).SendKeys("test approve");
+            _driver.FindElement(By.Id("UpdateStatusButton")).Click();
+            _driver.Quit();
         }
-        
+
         [Test]
         public void test07_CreateSemester()
         {
-            driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            driver.Manage().Window.Maximize();
-            driver.FindElement(By.LinkText("Login")).Click();
-            driver.FindElement(By.Id("Input_Email")).Click();
-            driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
-            driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
-            driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
-            driver.FindElement(By.CssSelector(".nav-item:nth-child(5) span")).Click();
-            driver.FindElement(By.LinkText("Create New Semester")).Click();
-            driver.FindElement(By.Id("Semester_SemesterName")).Click();
-            driver.FindElement(By.Id("Semester_SemesterName")).SendKeys("Test semester automation");
-            Actions actions = new Actions(driver);
-            actions.Click(driver.FindElement(By.Id("Semester_SemesterStartDate")))
+            _driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
+            _driver.Manage().Window.Maximize();
+            _driver.FindElement(By.LinkText("Login")).Click();
+            _driver.FindElement(By.Id("Input_Email")).Click();
+            _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
+            _driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
+            _driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
+            _driver.FindElement(By.CssSelector(".nav-item:nth-child(5) span")).Click();
+            _driver.FindElement(By.LinkText("Create New Semester")).Click();
+            _driver.FindElement(By.Id("Semester_SemesterName")).Click();
+            _driver.FindElement(By.Id("Semester_SemesterName")).SendKeys("Test semester automation");
+            Actions actions = new Actions(_driver);
+            actions.Click(_driver.FindElement(By.Id("Semester_SemesterStartDate")))
                 .SendKeys("19-03-2021" + Keys.Tab).SendKeys("22:38").Build().Perform();
 
-            Actions actions2 = new Actions(driver);
-            actions2.Click(driver.FindElement(By.Id("Semester_SemesterClosureDate")))
+            Actions actions2 = new Actions(_driver);
+            actions2.Click(_driver.FindElement(By.Id("Semester_SemesterClosureDate")))
                 .SendKeys("24-04-2021" + Keys.Tab).SendKeys("22:38").Build().Perform();
 
-            Actions actions3 = new Actions(driver);
-            actions3.Click(driver.FindElement(By.Id("Semester_SemesterEndDate")))
+            Actions actions3 = new Actions(_driver);
+            actions3.Click(_driver.FindElement(By.Id("Semester_SemesterEndDate")))
                 .SendKeys("30-04-2021" + Keys.Tab).SendKeys("22:38").Build().Perform();
 
-            driver.FindElement(By.CssSelector(".btn")).Click();
+            _driver.FindElement(By.CssSelector(".btn")).Click();
             Thread.Sleep(1000);
             string createSemester =
-                driver.FindElement(By.XPath("//td[contains(text(),'Test semester automation')]")).Text;
+                _driver.FindElement(By.XPath("//td[contains(text(),'Test semester automation')]")).Text;
             Assert.AreEqual("Test semester automation", createSemester);
-            driver.Quit();
+            _driver.Quit();
         }
-        
-       
+
+
         [Test]
         public void test08_CreateUser()
         {
-            driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            driver.Manage().Window.Maximize();
-            driver.FindElement(By.LinkText("Login")).Click();
-            driver.FindElement(By.Id("Input_Email")).Click();
-            driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
-            driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
-            driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
-            driver.FindElement(By.CssSelector(".nav-item:nth-child(6) > .nav-link")).Click();
+            _driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
+            _driver.Manage().Window.Maximize();
+            _driver.FindElement(By.LinkText("Login")).Click();
+            _driver.FindElement(By.Id("Input_Email")).Click();
+            _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
+            _driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
+            _driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
+            _driver.FindElement(By.CssSelector(".nav-item:nth-child(6) > .nav-link")).Click();
             Thread.Sleep(1000);
-            driver.FindElement(By.LinkText("Create New User")).Click();
-            driver.FindElement(By.Id("Input_FullName")).Click();
-            driver.FindElement(By.Id("Input_FullName")).SendKeys("Selenium");
-            driver.FindElement(By.Id("Input_Email")).Click();
-            driver.FindElement(By.Id("Input_Email")).SendKeys("automationtesting@gmail.com");
-            driver.FindElement(By.Id("Input_ConfirmEmail")).Click();
-            driver.FindElement(By.Id("Input_ConfirmEmail")).SendKeys("automationtesting@gmail.com");
-            driver.FindElement(By.Id("Input_PhoneNumber")).Click();
-            driver.FindElement(By.Id("Input_PhoneNumber")).SendKeys("0944444444");
-            driver.FindElement(By.Id("Input_Password")).Click();
-            driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
-            driver.FindElement(By.Id("Input_ConfirmPassword")).Click();
-            driver.FindElement(By.Id("Input_ConfirmPassword")).SendKeys("Password@123");
-            driver.FindElement(By.CssSelector("input:nth-child(4)")).Click();
-            driver.FindElement(By.CssSelector(".btn")).Click();
+            _driver.FindElement(By.LinkText("Create New User")).Click();
+            _driver.FindElement(By.Id("Input_FullName")).Click();
+            _driver.FindElement(By.Id("Input_FullName")).SendKeys("Selenium");
+            _driver.FindElement(By.Id("Input_Email")).Click();
+            _driver.FindElement(By.Id("Input_Email")).SendKeys("automationtesting@gmail.com");
+            _driver.FindElement(By.Id("Input_ConfirmEmail")).Click();
+            _driver.FindElement(By.Id("Input_ConfirmEmail")).SendKeys("automationtesting@gmail.com");
+            _driver.FindElement(By.Id("Input_PhoneNumber")).Click();
+            _driver.FindElement(By.Id("Input_PhoneNumber")).SendKeys("0944444444");
+            _driver.FindElement(By.Id("Input_Password")).Click();
+            _driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
+            _driver.FindElement(By.Id("Input_ConfirmPassword")).Click();
+            _driver.FindElement(By.Id("Input_ConfirmPassword")).SendKeys("Password@123");
+            _driver.FindElement(By.CssSelector("input:nth-child(4)")).Click();
+            _driver.FindElement(By.CssSelector(".btn")).Click();
             Thread.Sleep(1000);
-            driver.FindElement(By.CssSelector(".nav-item:nth-child(6) > .nav-link")).Click();
+            _driver.FindElement(By.CssSelector(".nav-item:nth-child(6) > .nav-link")).Click();
             Thread.Sleep(1000);
-            driver.FindElement(By.CssSelector("#UserTable_filter .form-control")).SendKeys("Selenium");
+            _driver.FindElement(By.CssSelector("#UserTable_filter .form-control")).SendKeys("Selenium");
             string createUser =
-                driver.FindElement(By.XPath("//td[contains(text(),'Selenium')]")).Text;
+                _driver.FindElement(By.XPath("//td[contains(text(),'Selenium')]")).Text;
             Assert.AreEqual("Selenium", createUser);
-            driver.Quit();
+            _driver.Quit();
         }
 
         [Test]
         public void test09_AssignMC()
         {
-            driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            driver.Manage().Window.Maximize();
-            driver.FindElement(By.LinkText("Login")).Click();
-            driver.FindElement(By.Id("Input_Email")).Click();
-            driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
-            driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
-            driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
-            driver.FindElement(By.CssSelector(".nav-item:nth-child(7) > .nav-link")).Click();
-            driver.FindElement(By.LinkText("Assign Marketing Coordinator")).Click();
-            driver.FindElement(By.Id("UserId")).Click();
+            _driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
+            _driver.Manage().Window.Maximize();
+            _driver.FindElement(By.LinkText("Login")).Click();
+            _driver.FindElement(By.Id("Input_Email")).Click();
+            _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
+            _driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
+            _driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
+            _driver.FindElement(By.CssSelector(".nav-item:nth-child(7) > .nav-link")).Click();
+            _driver.FindElement(By.LinkText("Assign Marketing Coordinator")).Click();
+            _driver.FindElement(By.Id("UserId")).Click();
             Thread.Sleep(1000);
             {
-                var dropdown = driver.FindElement(By.Id("UserId"));
+                var dropdown = _driver.FindElement(By.Id("UserId"));
                 dropdown.FindElement(By.XPath("//option[. = 'Megatron Marketing Coordinator']")).Click();
             }
-            driver.FindElement(By.Id("FacultyId")).Click();
+            _driver.FindElement(By.Id("FacultyId")).Click();
             Thread.Sleep(1000);
             {
-                var dropdown = driver.FindElement(By.Id("FacultyId"));
+                var dropdown = _driver.FindElement(By.Id("FacultyId"));
                 dropdown.FindElement(By.XPath("//option[. = 'IT']")).Click();
             }
             Thread.Sleep(1000);
-            driver.FindElement(By.CssSelector(".btn-info")).Click();
+            _driver.FindElement(By.CssSelector(".btn-info")).Click();
             string assignMc =
-                driver.FindElement(By.XPath("//h3[contains(text(),'Assign user into Faculty')]")).Text;
+                _driver.FindElement(By.XPath("//h3[contains(text(),'Assign user into Faculty')]")).Text;
             Assert.AreEqual("Assign user into Faculty", assignMc);
-            driver.Quit();
+            _driver.Quit();
         }
 
         [Test]
         public void test10_AssignGuest()
         {
-            driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            driver.Manage().Window.Maximize();
-            driver.FindElement(By.LinkText("Login")).Click();
-            driver.FindElement(By.Id("Input_Email")).Click();
-            driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
-            driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
-            driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
-            driver.FindElement(By.CssSelector(".nav-item:nth-child(7) span")).Click();
-            driver.FindElement(By.LinkText("Assign Guest")).Click();
-            driver.FindElement(By.Id("FacultyId")).Click();
+            _driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
+            _driver.Manage().Window.Maximize();
+            _driver.FindElement(By.LinkText("Login")).Click();
+            _driver.FindElement(By.Id("Input_Email")).Click();
+            _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
+            _driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
+            _driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
+            _driver.FindElement(By.CssSelector(".nav-item:nth-child(7) span")).Click();
+            _driver.FindElement(By.LinkText("Assign Guest")).Click();
+            _driver.FindElement(By.Id("FacultyId")).Click();
             Thread.Sleep(1000);
             {
-                var dropdown = driver.FindElement(By.Id("FacultyId"));
+                var dropdown = _driver.FindElement(By.Id("FacultyId"));
                 dropdown.FindElement(By.XPath("//option[. = 'IT']")).Click();
             }
-            driver.FindElement(By.CssSelector(".btn-info")).Click();
+            _driver.FindElement(By.CssSelector(".btn-info")).Click();
             Thread.Sleep(1000);
             string assignMc =
-                driver.FindElement(By.XPath("//h3[contains(text(),'Assign user into Faculty')]")).Text;
+                _driver.FindElement(By.XPath("//h3[contains(text(),'Assign user into Faculty')]")).Text;
             Assert.AreEqual("Assign user into Faculty", assignMc);
-            driver.Quit();
+            _driver.Quit();
         }
 
         [Test]
         public void test11_loginEachRoles()
         {
-            driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            driver.Manage().Window.Maximize();
-            driver.FindElement(By.LinkText("Login")).Click();
-            driver.FindElement(By.Id("Input_Email")).Click();
-            driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
-            driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
-            driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
-            driver.FindElement(By.XPath("//span[contains(.,\'megatronadmin@gmail.com\')]")).Click();
+            _driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
+            _driver.Manage().Window.Maximize();
+            _driver.FindElement(By.LinkText("Login")).Click();
+            _driver.FindElement(By.Id("Input_Email")).Click();
+            _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
+            _driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
+            _driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
+            _driver.FindElement(By.XPath("//span[contains(.,\'megatronadmin@gmail.com\')]")).Click();
             Thread.Sleep(1000);
-            driver.FindElement(By.CssSelector(".form-inline > .dropdown-item")).Click();
+            _driver.FindElement(By.CssSelector(".form-inline > .dropdown-item")).Click();
             Thread.Sleep(1000);
-            driver.FindElement(By.LinkText("Login")).Click();
-            driver.FindElement(By.Id("Input_Email")).Click();
-            driver.FindElement(By.Id("Input_Email")).SendKeys("megatronmc@gmail.com");
-            driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
-            driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
-            driver.FindElement(By.XPath("//span[contains(.,\'megatronmc@gmail.com\')]")).Click();
+            _driver.FindElement(By.LinkText("Login")).Click();
+            _driver.FindElement(By.Id("Input_Email")).Click();
+            _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronmc@gmail.com");
+            _driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
+            _driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
+            _driver.FindElement(By.XPath("//span[contains(.,\'megatronmc@gmail.com\')]")).Click();
             Thread.Sleep(1000);
-            driver.FindElement(By.CssSelector(".form-inline > .dropdown-item")).Click();
+            _driver.FindElement(By.CssSelector(".form-inline > .dropdown-item")).Click();
             Thread.Sleep(1000);
-            driver.FindElement(By.LinkText("Login")).Click();
+            _driver.FindElement(By.LinkText("Login")).Click();
             Thread.Sleep(1000);
-            driver.FindElement(By.Id("Input_Email")).Click();
-            driver.FindElement(By.Id("Input_Email")).SendKeys("megatronmm@gmail.com");
-            driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
-            driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
-            driver.FindElement(By.LinkText("megatronmm@gmail.com")).Click();
+            _driver.FindElement(By.Id("Input_Email")).Click();
+            _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronmm@gmail.com");
+            _driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
+            _driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
+            _driver.FindElement(By.LinkText("megatronmm@gmail.com")).Click();
             Thread.Sleep(1000);
-            driver.FindElement(By.CssSelector(".form-inline > .dropdown-item")).Click();
+            _driver.FindElement(By.CssSelector(".form-inline > .dropdown-item")).Click();
             Thread.Sleep(1000);
-            driver.FindElement(By.LinkText("Login")).Click();
-            driver.FindElement(By.Id("Input_Email")).Click();
+            _driver.FindElement(By.LinkText("Login")).Click();
+            _driver.FindElement(By.Id("Input_Email")).Click();
             Thread.Sleep(1000);
-            driver.FindElement(By.Id("Input_Email")).SendKeys("megatronstudent@gmail.com");
-            driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
-            driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
-            driver.FindElement(By.XPath("//span[contains(.,\'megatronstudent@gmail.com\')]")).Click();
+            _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronstudent@gmail.com");
+            _driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
+            _driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
+            _driver.FindElement(By.XPath("//span[contains(.,\'megatronstudent@gmail.com\')]")).Click();
             Thread.Sleep(1000);
-            driver.FindElement(By.CssSelector(".form-inline > .dropdown-item")).Click();
-            driver.Quit();
+            _driver.FindElement(By.CssSelector(".form-inline > .dropdown-item")).Click();
+            _driver.Quit();
         }
 
         [Test]
         public void test12_PhoneResponsive()
         {
-            driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
-            driver.Manage().Window.Size = new System.Drawing.Size(375, 812);
-            driver.FindElement(By.CssSelector(".navbar-toggler-icon")).Click();
-            driver.FindElement(By.LinkText("Login")).Click();
-            driver.FindElement(By.Id("Input_Email")).Click();
-            driver.FindElement(By.Id("Input_Email")).SendKeys("megatronstudent@gmail.com");
-            driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
-            driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
-            driver.FindElement(By.CssSelector(".nav-link-icon > .material-icons")).Click();
-            driver.Quit();
+            _driver.Navigate().GoToUrl("https://megatron.gcd-gw.com/");
+            _driver.Manage().Window.Size = new System.Drawing.Size(375, 812);
+            _driver.FindElement(By.CssSelector(".navbar-toggler-icon")).Click();
+            _driver.FindElement(By.LinkText("Login")).Click();
+            _driver.FindElement(By.Id("Input_Email")).Click();
+            _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronstudent@gmail.com");
+            _driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
+            _driver.FindElement(By.CssSelector(".login100-form-btn")).Click();
+            _driver.FindElement(By.CssSelector(".nav-link-icon > .material-icons")).Click();
+            _driver.Quit();
         }
     }
 }
