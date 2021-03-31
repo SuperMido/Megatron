@@ -244,10 +244,11 @@ namespace SeleniumAutomationTests
         [Test]
         public void test11_loginEachRoles()
         {
+            _driver.Manage().Window.Size = new System.Drawing.Size(1080, 720);
+
             _driver.Navigate().GoToUrl(Url);
 
-            Thread.Sleep(1000);
-            _driver.FindElement(By.LinkText("Login")).Click();
+            _driver.FindElement(By.XPath("//a[contains(text(),'Login')]")).Click();
             Thread.Sleep(500);
             _driver.FindElement(By.Id("Input_Email")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
@@ -257,7 +258,7 @@ namespace SeleniumAutomationTests
             Thread.Sleep(500);
             _driver.FindElement(By.CssSelector(".form-inline > .dropdown-item")).Click();
             Thread.Sleep(2000);
-            _driver.FindElement(By.LinkText("Login")).Click();
+            _driver.FindElement(By.XPath("//a[contains(text(),'Login')]")).Click();
             Thread.Sleep(500);
             _driver.FindElement(By.Id("Input_Email")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronmc@gmail.com");
@@ -267,7 +268,7 @@ namespace SeleniumAutomationTests
             Thread.Sleep(500);
             _driver.FindElement(By.CssSelector(".form-inline > .dropdown-item")).Click();
             Thread.Sleep(500);
-            _driver.FindElement(By.LinkText("Login")).Click();
+            _driver.FindElement(By.XPath("//a[contains(text(),'Login')]")).Click();
             Thread.Sleep(500);
             _driver.FindElement(By.Id("Input_Email")).Click();
             Thread.Sleep(500);
