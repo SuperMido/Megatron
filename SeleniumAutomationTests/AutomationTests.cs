@@ -22,7 +22,7 @@ namespace SeleniumAutomationTests
             options.AddArguments("start-maximized");
             options.AddArguments("--disable-gpu");
             options.AddArguments("--headless");
-            _driver = new ChromeDriver("/usr/local/bin/chromedriver", options);
+            _driver = new ChromeDriver(options);
             Vars = new Dictionary<string, object>();
         }
 
