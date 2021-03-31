@@ -246,7 +246,9 @@ namespace SeleniumAutomationTests
         {
             _driver.Navigate().GoToUrl(Url);
 
+            Thread.Sleep(1000);
             _driver.FindElement(By.LinkText("Login")).Click();
+            Thread.Sleep(500);
             _driver.FindElement(By.Id("Input_Email")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys("megatronadmin@gmail.com");
             _driver.FindElement(By.Id("Input_Password")).SendKeys("Password@123");
@@ -254,7 +256,7 @@ namespace SeleniumAutomationTests
             _driver.FindElement(By.XPath("//span[contains(.,\'megatronadmin@gmail.com\')]")).Click();
             Thread.Sleep(500);
             _driver.FindElement(By.CssSelector(".form-inline > .dropdown-item")).Click();
-            Thread.Sleep(500);
+            Thread.Sleep(2000);
             _driver.FindElement(By.LinkText("Login")).Click();
             Thread.Sleep(500);
             _driver.FindElement(By.Id("Input_Email")).Click();
