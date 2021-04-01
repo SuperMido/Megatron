@@ -1,5 +1,3 @@
-﻿@model Megatron.Models.Article
-
 @{
     ViewData["Title"] = "Article";
     Layout = "_Authenticated_Layout";
@@ -16,10 +14,16 @@
         </a>
     </div>
 </div>
-<table id="studentArticleTable" class="table table-bordered table-hover" style="width:100%">
-    <thead class="thead-light">
-    </thead>
-</table>
+<div class="card shadow">
+    <div class="card-body">
+        <div class="table-responsive-xl table mt-2">
+            <table class="table my-0 table-hover" id="studentArticleTable">
+                <thead class="thead-light">
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
 
 @section scripts{
     <script>
@@ -30,12 +34,15 @@
                     url: '/Student/GetPersonalArticles',
                     dataSrc: ''
                 },
-                rowId: "id",
+                rowId: "article.id",
                 columns: [
-                    { data: 'title', title: 'Title' },
-                    { data: 'faculty.facultyName' , title: 'Faculty'  },
+                    { data: 'article.id',title: 'id', visible: false},
+                    { data: 'article.status',title: 'id', visible: false},
+                    { data: 'article.title', title: 'Title' },
+                    { data: 'faculties.facultyName' , title: 'Faculty'  },
                     {
-                        data: 'status', title: 'Status', render: function (data) {
+
+                        data: 'article.status', title: 'Status', render: function (data) {
                             if (data === false) {
                                 return '<span>&nbsp;&nbsp;&nbsp;</span><div class="spinner-border text-warning" role="status"></div ><span style="color:#ffb400">&nbsp;&nbsp;&nbsp;Pending</span>';
                             } else {
@@ -43,27 +50,24 @@
                             }
                         }
                     },
-                    {data: 'createAt', title: 'Create At', render: function (data){
+                    {data: 'article.createAt', title: 'Create At', render: function (data){
                         return moment(data).format("HH:mm - DD/MM/YYYY");
                     }},
                     {
-                        data: 'updateAt', title: 'Update At', render: function (data) {
+                        data: 'article.updateAt', title: 'Update At', render: function (data) {
                             return moment(data).format("HH:mm - DD/MM/YYYY");
                         }
                     },
                     {
-                        data: 'id',
+                        data: 'checkValidEdit',
                         className: "center",
-                        title: 'Actions',
-                        render: function (data, type, row) {
-                            if (row.status === true)
-                            {
-                                return '<button onclick="('+"Student/EditArticle/"+ data+')" class="btn btn-success mr-1" disabled> Edit </button>';
-                            }
-                            else
-                            {
-                                return '<a href="Student/EditArticle/' + data + '" class="btn btn-success mr-1"> Edit </a>';
-                            }
+                        title: 'Actions',render: function (data, type, row) {
+                            if (data === true && row.article.status === false)
+                                {
+                                   return '<a href="Student/EditArticle/'+row.article.id+'" class="btn btn-success mr-1"> Edit </a>';                                   
+                                } else {
+                                   return '<button onclick="" class="btn btn-success mr-1" disabled> Edit </button>';
+                                }                                                    
                         }                    
                     }
                 ],

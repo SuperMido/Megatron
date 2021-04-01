@@ -137,13 +137,12 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
 @if (@Model.Document.Any())
 {
     <div class="card border-success mb-3">
-        <table class="table table-hover">
+        <table class="table table-hover" id="docTable">
             <thead>
             <tr>
                 <th scope="col">Document Uploaded</th>
                 <th scope="col">Upload At</th>
                 <th scope="col">Update At</th>
-                <th></th>
                 <th></th>
             </tr>
             </thead>
@@ -160,12 +159,13 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
                         @if (User.IsInRole((SystemRoles.Administrator)) && User.IsInRole((SystemRoles.Student)))
                         {
                             <form>
-                                <a onclick="return confirm('Do you want to remove this document?')" type="submit" class="btn btn-danger" asp-action="DeleteDocument" asp-controller="Student" asp-route-name="@item.DocumentFile">
+                                <a class="btn btn-danger" id="DeleteHandleClick" data-toggle="modal" data-target="#delModal">
                                     <span class="material-icons">delete_forever</span>
                                 </a>
                             </form>
                         }
                        
+
                     </td>
                     <td>
                         <form asp-action="ViewDocument" asp-route-fileName="@item.DocumentFile" method="post" target="_blank">
@@ -180,8 +180,12 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
             }
             </tbody>
         </table>
+        <div>
+            <partial name="_DeleteForm"/>
+        </div>
     </div>
 }
+
 @if (User.IsInRole(SystemRoles.Administrator) || User.IsInRole(SystemRoles.Student) || User.IsInRole(SystemRoles.MarketingCoordinator))
 {
     <div id="MessageResult"></div>
@@ -284,5 +288,18 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
                 return console.error(err.toString());
             });
         });
+    </script>
+
+    <script>
+    $('#docTable').on( 'click', 'tr','#DeleteHandleClick' , function () {
+        $.ajax({ 
+            url: '/Student/DeleteDocument/',
+            type: 'POST',
+        });
+                    const doc = $(this).closest('tr').find("td:first a").text();            
+                    document.getElementById('handleDeleteClick').setAttribute('href', '@Url.Action("DeleteDocument", "Student")?name=' + doc);
+                    document.getElementById('modalTitle').innerText ="Are You Sure You Want To Remove This Document?";                   
+                    console.log();
+                });
     </script>
 }

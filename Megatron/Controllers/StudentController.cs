@@ -20,12 +20,13 @@ namespace Megatron.Controllers
         private readonly IDocumentRepository _documentRepository;
         private readonly IEmailSender _emailSender;
         private readonly IFacultyRepository _facultyRepository;
+        private readonly ISemesterRepository _semesterRepository;
         private readonly IStudentRepository _studentRepository;
         private readonly IUserRepository _userRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ILogger<StudentController> _logger;
 
-        public StudentController(IStudentRepository studentRepository,
+        public StudentController(IStudentRepository studentRepository, ISemesterRepository semesterRepository,
             IUserRepository userRepository, IFacultyRepository facultyRepository, IEmailSender emailSender,
             IDocumentRepository documentRepository, IWebHostEnvironment webHostEnvironment,
             ILogger<StudentController> logger)
@@ -33,6 +34,7 @@ namespace Megatron.Controllers
             _studentRepository = studentRepository;
             _userRepository = userRepository;
             _facultyRepository = facultyRepository;
+            _semesterRepository = semesterRepository;
             _emailSender = emailSender;
             _documentRepository = documentRepository;
             _webHostEnvironment = webHostEnvironment;
@@ -116,10 +118,11 @@ namespace Megatron.Controllers
         {
             var articleInDb = _studentRepository.GetArticleById(id);
             if (articleInDb == null) return NotFound();
-
+            var semesterActiveForEdit = _semesterRepository.GetSemesterForArticle(id);
             var articleVm = new ArticleFacultyViewModel()
             {
                 Article = articleInDb,
+                Semester = semesterActiveForEdit,
                 Faculties = _facultyRepository.GetFaculties()
             };
             return View(articleVm);

@@ -83,11 +83,15 @@
                     <div class="col-md-7">
                         @if (User.IsInRole(SystemRoles.Administrator))
                         {
-                            <input type="radio" name="rdUserRole" value="@SystemRoles.Administrator" /> @SystemRoles.Administrator
-                            <input type="radio" name="rdUserRole" value="@SystemRoles.MarketingManager" /> @SystemRoles.MarketingManager
-                            <input type="radio" name="rdUserRole" value="@SystemRoles.MarketingCoordinator" /> @SystemRoles.MarketingCoordinator
-                            <input type="radio" name="rdUserRole" value="@SystemRoles.Guest" /> @SystemRoles.Guest
-                            <input type="radio" name="rdUserRole" value="@SystemRoles.Student" /> @SystemRoles.Student
+                            <div><input type="radio" name="rdUserRole" value="@SystemRoles.Administrator" /> @SystemRoles.Administrator</div>
+
+                            <div><input type="radio" name="rdUserRole" value="@SystemRoles.MarketingManager" /> @SystemRoles.MarketingManager</div>
+
+                            <div><input type="radio" name="rdUserRole" value="@SystemRoles.MarketingCoordinator" /> @SystemRoles.MarketingCoordinator</div>
+
+                            <div><input type="radio" name="rdUserRole" value="@SystemRoles.Guest" /> @SystemRoles.Guest</div>
+
+                            <div><input type="radio" name="rdUserRole" value="@SystemRoles.Student" /> @SystemRoles.Student</div>
                         }
                         else
                         {

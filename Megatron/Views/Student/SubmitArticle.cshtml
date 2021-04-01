@@ -19,7 +19,14 @@
                     <input asp-for="Article.Author" hidden class="form-control" readonly value="@Model.UserFullName"/>
                     <partial name="_StatusMessage" model="@ViewData["Message"]"/>
                     <input asp-for="Article.TermCondition" id="Article_TermCondition" type="text" hidden class="form-control"/>
-                    <input asp-for="Article.Title" class="form-control form-control-lg mb-3" type="text" placeholder="Your Post Title" required>
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="Article.Title" class="col-form-label">Post Title</label>
+                        </div>
+                        <div class="col-10">
+                            <input asp-for="Article.Title" class="form-control form-control-lg mb-3" type="text" placeholder="Your Post Title" required>
+                        </div>
+                    </div>
                     <div class="form-group row">
                         <div class="col-2">
                             <label asp-for="Article.FacultyId" class="col-form-label"></label>
@@ -73,18 +80,18 @@
                             {
                                 @Model.Semester.SemesterName
                             }
-                            <a class="ml-auto" href="#">Edit</a>
+                            <a class="ml-auto" href="#"></a>
                         </span>
                         <span class="d-flex mb-2">
                             <i class="material-icons mr-1">visibility</i>
                             <strong class="mr-1">Visibility:</strong>
                             <strong class="text-success">Public</strong>
-                            <a class="ml-auto" href="#">Edit</a>
+                            <a class="ml-auto" href="#"></a>
                         </span>
                         <span class="d-flex mb-2">
                             <i class="material-icons mr-1">calendar_today</i>
                             <strong class="mr-1">Author:</strong>@Model.UserFullName
-                            <a class="ml-auto" href="#">Edit</a>
+                            <a class="ml-auto" href="#"></a>
                         </span>
                         <span class="d-flex mb-2">
                             <i class="material-icons mr-1">score</i>

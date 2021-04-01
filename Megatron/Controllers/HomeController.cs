@@ -33,31 +33,30 @@ namespace Megatron.Controllers
             return View();
         }
 
-        [Authorize]
+        [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.MarketingCoordinator + "," +
+                           SystemRoles.MarketingManager + "," + SystemRoles.Student + "," + SystemRoles.Guest)]
         public IActionResult Welcome()
         {
-            if(User.IsInRole(SystemRoles.Student))
+            var currentDate = DateTime.Now;
+            var semesterActive = _semesterRepository.GetActiveSemesterForContributor();
+            if (semesterActive != null)
             {
-                var currentDate =  DateTime.Now;
-                var semesterActive = _semesterRepository.GetActiveSemesterForContributor();
-                if (semesterActive != null)
+                if (currentDate > semesterActive.SemesterClosureDate &&
+                    currentDate > semesterActive.SemesterEndDate)
                 {
-                    if (currentDate > semesterActive.SemesterClosureDate &&
-                        currentDate > semesterActive.SemesterEndDate)
-                    {
-                        ViewBag.Results = "Cannot";
-                    }
-                    else if (semesterActive.SemesterClosureDate < currentDate && semesterActive.SemesterEndDate > currentDate)
-                    {
-                        ViewBag.Results = "Edit";
-                    }
-                    else
-                    {
-                        ViewBag.Results = "Submit & Edit";
-                    }
-                    return View(semesterActive);
-                } 
-                return View();
+                    ViewBag.Results = "Cannot";
+                }
+                else if (semesterActive.SemesterClosureDate < currentDate &&
+                         semesterActive.SemesterEndDate > currentDate)
+                {
+                    ViewBag.Results = "Edit";
+                }
+                else
+                {
+                    ViewBag.Results = "Submit & Edit";
+                }
+
+                return View(semesterActive);
             }
             return View();
         }

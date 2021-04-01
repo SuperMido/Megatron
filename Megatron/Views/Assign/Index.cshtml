@@ -16,10 +16,20 @@
     <a asp-action="AssignMc" class="btn btn-info ">&nbsp; Assign Marketing Coordinator</a>
     <a asp-action="AssignGuest" class="btn btn-info  ml-1">&nbsp; Assign Guest</a>
 </div>
-<table class="table table-striped table-bordered dt-responsive flex-nowrap table-hover w-100 mr-1" id="UserFacultyTable">
-    <thead class="thead-light"></thead>
-</table>
+<div class="card shadow">
+    <div class="card-body">
+        <div class="table-responsive-xl table mt-2">
+            <table class="table my-0 table-hover" id="UserFacultyTable">
+                <thead class="thead-light">
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
 
+<div>
+    <partial name="_DeleteForm"/>
+</div>
 
 @section Scripts {
     <script>
@@ -33,9 +43,13 @@
                 },
                 rowId: "id",
                 columns: [
-                    { data: "applicationUser.fullName", title: "Full Name" },
+                    { data: "applicationUser.fullName", title: "Full Name", render: function (data, type, row){             
+                         return '<p id="userName' + row.id +'">'+ data +'</p>'; 
+                    }},
                     { data: "applicationUser.email", title: "Email"},
-                    { data: "faculty.facultyName", title: "Faculty"},
+                    { data: "faculty.facultyName", title: "Faculty", render: function (data, type, row){                                     
+                        return '<p id="falName' + row.id +'">'+ data +'</p>';
+                    }},
                     { data: "createAt", title: "Assign At",
                         render: function(data){
                         return moment(data).format("HH:mm - MM/DD/YYYY");
@@ -44,13 +58,21 @@
                         data: 'id',
                         className: "center",
                         title: 'Actions',
-                        render: function (data) {
-                        return '<a href="Assign/DeleteUserInFaculty/' + data + '" class="btn btn-danger"> Remove </a>';
+                        render: function () {
+                        return '<a id="DeleteHandleClick" class="btn btn-danger mr-1" data-toggle="modal" data-target="#delModal"> Remove </a>';
                         }
                                                             
                     }
                 ],
                 order: [2, 'asc']
+            });
+            $('#UserFacultyTable tbody').on( 'click', 'tr','#DeleteHandleClick' , function () {
+                const userById = $(this).closest('tr').attr('id');
+                document.getElementById('handleDeleteClick').setAttribute("href", "Assign/DeleteUserInFaculty/" + userById);
+                document.getElementById('modalTitle').innerText ="Are You Sure You Want To Remove This Assign?";
+                var title = $("#userName" + userById).text();
+                var fal = $("#falName" + userById).text();
+                document.getElementById('modalBody').innerHTML ="User Full Name: "+title+" "+"From"+" "+ "Faculty: " + fal;                            
             });
         });
     </script>

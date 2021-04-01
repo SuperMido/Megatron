@@ -12,6 +12,9 @@ namespace Megatron.Services
         IEnumerable<Article> GetListArticlesApprovedByFaculty(int facultyId);
         IEnumerable<Article> GetListArticlesApprovedAfterFinalDateByFaculty(int facultyId, int semesterId);
 
+        IEnumerable<Article> GetListArticleWithoutComment();
+        IEnumerable<Article> GetListArticleWithoutComment14Days();
+
         IEnumerable<Faculty> GetFaculties();
 
         IEnumerable<Faculty> GetFacultiesForMC(string id);
