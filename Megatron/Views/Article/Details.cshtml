@@ -116,12 +116,16 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
     <div class="card-body">
         <h5 class="card-title">
             Author: <a class="text-primary">@Html.DisplayFor(m => m.Article.Author)</a>
-            @if (Model.Article.Status == false)
+            @if (User.IsInRole((SystemRoles.Administrator)) && User.IsInRole((SystemRoles.Student)))
             {
-                <a asp-action="EditArticle" asp-controller="Student" asp-route-id="@Model.Article.Id" type="button" class="btn btn-primary float-right">
-                    <i class="material-icons">edit</i>
-                </a>
+                @if (Model.Article.Status == false)
+                {
+                    <a asp-action="EditArticle" asp-controller="Student" asp-route-id="@Model.Article.Id" type="button" class="btn btn-primary float-right">
+                        <i class="material-icons">edit</i>
+                    </a>
+                }
             }
+            
         </h5>
         @if (Model.Article.Content != null)
         {
@@ -152,11 +156,16 @@ else if (Model.Article.Status && Model.Article.ChangeStatusBy != null)
                     <td>@item.CreateAt</td>
                     <td>@Html.DisplayFor(t => t.Article.UpdateAt)</td>
                     <td>
-                        <form>
-                            <a class="btn btn-danger" id="DeleteHandleClick" data-toggle="modal" data-target="#delModal">
-                                <span class="material-icons">delete_forever</span>
-                            </a>
-                        </form>
+                        @if (User.IsInRole((SystemRoles.Administrator)) && User.IsInRole((SystemRoles.Student)))
+                        {
+                            <form>
+                                <a class="btn btn-danger" id="DeleteHandleClick" data-toggle="modal" data-target="#delModal">
+                                    <span class="material-icons">delete_forever</span>
+                                </a>
+                            </form>
+                        }
+                       
+
                     </td>
                     <td>
                         <form asp-action="ViewDocument" asp-route-fileName="@item.DocumentFile" method="post" target="_blank">
