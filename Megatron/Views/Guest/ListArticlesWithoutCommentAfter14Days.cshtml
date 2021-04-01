@@ -7,7 +7,7 @@
         <span class="text-uppercase page-subtitle">Dashboard</span>
         <h3 class="page-title">List Articles Without Any Comment after 14 Days</h3>
     </div>
-    
+
 </div>
 <div class="card shadow">
     <div class="card-body">
@@ -18,7 +18,7 @@
             </table>
         </div>
     </div>
-    <div class="col-12 mb-2">
+    <div class="col-12 mb-4">
         <a asp-controller="Guest" asp-action="Index" class="btn btn-primary">
             Back to Report
         </a>
@@ -42,9 +42,9 @@
                     {
                         data: 'status', title: 'Status', render: function (data) {
                             if (data === false) {
-                                return '<span>&nbsp;&nbsp;&nbsp;</span><div class="spinner-border text-warning" role="status"></div ><span style="color:#ffb400">&nbsp;&nbsp;&nbsp;Pending</span>';
-                            } else { 
-                                return '<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><i class="fa fa-check-circle fa-2x" aria-hidden="true" style="color:green"></i>'; 
+                               return '<img src="/images/PendingIcon.png" height="35" alt="Waiting for approval"><span>&nbsp;Pending</span>';
+                            } else {
+                               return '<img src="/images/ApprovedIcon.png" height="35px" alt="Approved"/>';
                             }
                         }},                                   
                     { data: "createAt", title: "Create At", render: function (data){

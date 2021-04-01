@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Guest Index";
     Layout = "_Authenticated_Layout";
 }
@@ -16,10 +15,18 @@
             <div class="card-body">
                 <div class="row align-items-center no-gutters">
                     <div class="col mr-2">
-                        <div class="text-uppercase text-primary font-weight-bold text-xs mb-1"><a href="/Guest/ListArticlesWithoutComment"><span>Number of Articles without a comment</span></a></div>
-                        <div class="text-dark font-weight-bold h2 mb-0 text-center"><span id="withoutComment"></span></div>
+                        <div class="text-uppercase text-primary font-weight-bold text-xs mb-1">
+                            <a href="/Guest/ListArticlesWithoutComment">
+                                <span>Number of Articles without a comment</span>
+                            </a>
+                        </div>
+                        <div class="text-dark font-weight-bold h2 mb-0 text-center">
+                            <span id="withoutComment"></span>
+                        </div>
                     </div>
-                    <div class="col-auto"><i class="fas fa-comments fa-2x text-gray-300"></i></div>
+                    <div class="col-auto">
+                        <i class="fas fa-comments fa-2x text-gray-300"></i>
+                    </div>
                 </div>
             </div>
         </div>
@@ -29,32 +36,62 @@
             <div class="card-body">
                 <div class="row align-items-center no-gutters">
                     <div class="col mr-2">
-                        <div class="text-uppercase  mb-1"><a class="text-success font-weight-bold text-xs" href="/Guest/ListArticlesWithoutCommentAfter14Days"><span>Articles without any comment after 14 days</span></a></div>
-                        <div class="text-dark font-weight-bold h2 mb-0 text-center"><span id="withoutComment14Days"></span></div>
+                        <div class="text-uppercase  mb-1">
+                            <a class="text-success font-weight-bold text-xs" href="/Guest/ListArticlesWithoutCommentAfter14Days">
+                                <span>Articles without any comment after 14 days</span>
+                            </a>
+                        </div>
+                        <div class="text-dark font-weight-bold h2 mb-0 text-center">
+                            <span id="withoutComment14Days"></span>
+                        </div>
                     </div>
-                    <div class="col-auto"><i class="fas fa-calendar-times fa-2x text-gray-300"></i></div>
+                    <div class="col-auto">
+                        <i class="fas fa-calendar-times fa-2x text-gray-300"></i>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-5 col-md-12 col-12 border border-primary mr-5 ml-3 mt-5 shadow-lg bg-light rounded">
-        <canvas id="articleChart"></canvas>
+    <div class="col-lg-8 col-md-6 col-sm-3 mb-1 mt-2">
+        <div class="card card-small h-100">
+            <div class="card-header border-bottom">
+                <h6 class="m-0">Contributors in each Faculty</h6>
+            </div>
+            <div class="card-body d-flex py-0">
+                <canvas id="articleChart"></canvas>
+            </div>
+        </div>
     </div>
-    <div class="col-lg-5 col-md-12 col-12 mt-5 ml-3 border border-primary shadow-lg bg-light rounded">
-        <form id="myForm" method="post" action="/Guest/Index" class="mt-1">
-            <input name="yearSelected" id="yearSelected" type="number" placeholder="Enter academic year" class="p-1 border-info rounded">
-            <input type="submit" value="View Report" class="btn btn-info mb-1" />
-        </form>
-        <canvas id="percentArticleFacultyChart"></canvas>
+    <div class="col-lg-4 col-md-6 col-sm-3 mb-1 mt-2">
+        <div class="card card-small h-100">
+            <div class="card-header border-bottom">
+                <h6 class="m-0">Articles Approved</h6>
+            </div>
+            <form id="myForm" method="post" action="/Guest/Index" class="ml-3 mt-2">
+                <input name="yearSelected" id="yearSelected" type="number" placeholder="Enter academic year" class="p-1 border-info rounded">
+                <input type="submit" value="View Report" class="btn btn-info mb-1"/>
+            </form>
+            <div class="card-body d-flex py-0">
+                <canvas id="percentArticleFacultyChart"></canvas>
+            </div>
+        </div>
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-5 col-md-12 col-12 border border-primary mr-5 ml-3 mt-5 shadow-lg bg-light rounded">
-        <canvas id="contributorsOfFacultyChart"></canvas>
+    <div class="col-lg-8 col-md-6 col-sm-3 mb-1 mt-2">
+        <div class="card card-small h-100">
+            <div class="card-header border-bottom">
+                <h6 class="m-0">Contributors in each Faculty</h6>
+            </div>
+            <div class="card-body d-flex py-0">
+                <canvas id="contributorsOfFacultyChart"></canvas>
+            </div>
+        </div>
     </div>
 </div>
+
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js" integrity="sha512-hZf9Qhp3rlDJBvAKvmiG+goaaKRZA6LKUO35oK6EsM0/kjPK32Yw7URqrq3Q+Nvbbt8Usss+IekL7CRn83dYmw==" crossorigin="anonymous"></script>
     <script>
@@ -80,7 +117,6 @@
             document.getElementById("yearSelected").value = yearSelected;
             document.getElementById("myForm").submit();
         }
-
 
         var coloR = [];
         var dynamicColors = function () {
@@ -160,10 +196,6 @@
                 }]
             },
             options: {
-                title: {
-                    display: true,
-                    text: 'Contributors in each Faculty'
-                },
                 scales: {
                     yAxes: [{
                         ticks: {
