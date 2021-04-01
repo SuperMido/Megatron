@@ -9,16 +9,19 @@ using System.Threading.Tasks;
 
 namespace Megatron.Controllers
 {
-    [Authorize(Roles = (SystemRoles.Guest))]
+    [Authorize(Roles = SystemRoles.Administrator + "," + SystemRoles.Guest + "," + SystemRoles.MarketingCoordinator +
+                       "," + SystemRoles.MarketingManager)]
     public class GuestController : Controller
     {
         private readonly IChartRepository _chartRepository;
         private readonly IArticleRepository _articleRepository;
+
         public GuestController(IChartRepository chartRepository, IArticleRepository articleRepository)
         {
             _chartRepository = chartRepository;
             _articleRepository = articleRepository;
         }
+
         public IActionResult Index()
         {
             ViewBag.FacultyList = _chartRepository.GetFacultyList();
@@ -28,6 +31,7 @@ namespace Megatron.Controllers
             ViewBag.CountArticle14Days = _chartRepository.GetArticlesWithoutComment14Days();
             return View();
         }
+
         [HttpPost]
         public ActionResult Index(int yearSelected)
         {
@@ -51,6 +55,7 @@ namespace Megatron.Controllers
         {
             return View();
         }
+
         public IActionResult GetArticlesWithoutComment()
         {
             var listArticlesWithoutComment = _articleRepository.GetListArticleWithoutComment();
@@ -62,6 +67,5 @@ namespace Megatron.Controllers
             var listArticlesWithouCommentIn14Days = _articleRepository.GetListArticleWithoutComment14Days();
             return new JsonResult(listArticlesWithouCommentIn14Days);
         }
-
     }
 }
