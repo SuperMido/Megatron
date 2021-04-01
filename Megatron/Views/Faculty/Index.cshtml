@@ -20,25 +20,8 @@
     </thead>
 </table>
 
-<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <i class="material-icons mx-auto" style="font-size:80px;color:red">error</i>
-            <div class="modal-header">
-                <h5 class="modal-title bg-light text-dark badge bg-primary text-wrap" id="delModalTitle" style="font-size:25px;">
-                    Are You Sure You Want To Remove This Faculty?
-                </h5>
-            </div>
-            <div class="modal-title badge bg-warning text-dark">
-                <strong>Warning!</strong> All Articles of Faculty will be removed.
-            </div>
-            <div id="modalBody" class="modal-body badge bg-light text-dark text-wrap" style="font-size:15px;"></div>
-            <div class="modal-footer">
-                <a id="handleDeleteClick" type="button" class="btn btn-primary mx-auto">Remove Faculty</a>
-                <button type="button" class="btn btn-secondary mx-auto" data-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-    </div>
+<div>
+    <partial name="_DeleteForm"/>
 </div>
 
 @section scripts {
@@ -73,6 +56,8 @@
             $('#facultyTable tbody').on( 'click', 'tr','#DeleteHandleClick' , function () {
                 const facultyId = $(this).closest('tr').attr('id');             
                 document.getElementById('handleDeleteClick').setAttribute("href", "Faculty/Delete/" + facultyId);
+                document.getElementById('modalTitle').innerText ="Are You Sure You Want To Remove This Faculty?";
+                document.getElementById('modalWarning').innerText="Warning! All Articles of Faculty will be removed."
                 var title = $("#FacultyName"+facultyId).text();
                 document.getElementById('modalBody').innerHTML ="Faculty Name: " + title;                            
             });
