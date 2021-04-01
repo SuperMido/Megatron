@@ -28,30 +28,35 @@
     </div>
 </div>
 
+<div>
+    <partial name="_DeleteForm"/>
+</div>
+
 @section Scripts {
     <script>
         $(document).ready(function () {
             $('#UserTable').DataTable({
-                processing: true,
-                fixedHeader: true,
+                info: false,
                 ajax: {
                     url: '/User/GetUsers',
                     dataSrc: ''
                 },
-                rowId: "id",
+                rowId: "userId",
                 columns: [
-                    { data: "fullName", title: "Full Name" },
-                    { data: "email", title: "Email" },
+                    { data: "fullName", title: "Full Name"},
+                    { data: "email", title: "Email" , render: function (data, type, row){             
+                        return '<p id="userEmail' + row.userId +'">'+ data +'</p>';  
+                    }},
                     { data: "role", title: "Role"},
                     { data: "dateCreate", title: "Create At",
                     },
-                    {
+                    { 
                         data: 'userId',
                         className: 'text-center',
                         title: 'Actions',
                         render: function (data) {
                             return '<a href="User/EditAccount/' + data + '" class="btn btn-success mr-1"> Edit </a>' 
-                            + '<a href="User/DeleteAccount/' + data + '" class="btn btn-danger mr-1"> Delete </a>'
+                            + '<a id="DeleteHandleClick" class="btn btn-danger mr-1" data-toggle="modal" data-target="#delModal"> Remove </a>'
                             + '<a href="User/Lock/' + data + '" class="btn btn-info mr-1"> Lock </a>'
                             + '<a href="User/UnLock/' + data + '" class="btn btn-warning"> UnLock </a>';
                         }
@@ -64,6 +69,13 @@
                     }}
                 ],
                 order: [2, 'asc']
+            });
+            $('#UserTable tbody').on( 'click', 'tr','#DeleteHandleClick' , function () {
+                var userID = $(this).closest('tr').attr('id');                                        
+                document.getElementById('handleDeleteClick').setAttribute("href", "User/DeleteAccount/" + userID);
+                document.getElementById('modalTitle').innerText ="Are You Sure You Want To Remove This User?";
+                var title = $("#userEmail"+userID).text();
+                document.getElementById('modalBody').innerHTML ="User Email: " + title;                          
             });
         });
     </script>
