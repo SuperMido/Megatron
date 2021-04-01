@@ -20,8 +20,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
-    - name: Setup chromedriver
-      uses: nanasess/setup-chromedriver@master
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
