@@ -26,17 +26,24 @@
     </div>
 </div>
 
+<div>
+    <partial name="_DeleteForm"/>
+</div>
+
 @section scripts {
     <script>
-        $(document).ready(function () {
+        var table = $(document).ready(function () {
             $('#facultyTable').DataTable({
                 info: false,
                 ajax: {
                 url: '/Faculty/GetAllFaculty',
                 dataSrc: ''
                 },
+                rowId: "id",
                 columns: [
-                { data: 'facultyName', title: 'Faculty Name' },
+                { data: 'facultyName', title: 'Faculty Name', render: function (data, type, row){
+                    return '<p id="FacultyName' + row.id +'">'+data+'</p>'; 
+                }},
                 { data: 'createAt', title: "Create At", render: function (data) {
                     return moment(data).format("HH:mm - DD/MM/YYYY");
                 }},
@@ -45,11 +52,20 @@
                     }},
                     {
                         data: 'id', title: 'Action', render: function (data) {
-                            return '<a href="Faculty/Edit/' + data + '"class="btn btn-success mr-1"> Edit </a> ' +  '<a href="Faculty/Delete/' + data + '" class="btn btn-danger mr-1"> Delete </a>'; 
+                            return '<a href="Faculty/Edit/' + data + '"class="btn btn-success mr-1"> Edit </a> ' 
+                            + '<a id="DeleteHandleClick" class="btn btn-danger mr-1" data-toggle="modal" data-target="#delModal"> Remove </a>'; 
                         }
                     }
                 ],
                 order: [1, 'asc']
+            });
+            $('#facultyTable tbody').on( 'click', 'tr','#DeleteHandleClick' , function () {
+                const facultyId = $(this).closest('tr').attr('id');             
+                document.getElementById('handleDeleteClick').setAttribute("href", "Faculty/Delete/" + facultyId);
+                document.getElementById('modalTitle').innerText ="Are You Sure You Want To Remove This Faculty?";
+                document.getElementById('modalWarning').innerText="Warning! All Articles of Faculty will be removed."
+                var title = $("#FacultyName"+facultyId).text();
+                document.getElementById('modalBody').innerHTML ="Faculty Name: " + title;                            
             });
         });
     </script>
