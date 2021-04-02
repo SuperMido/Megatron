@@ -37,15 +37,17 @@
                 rowId: "article.id",
                 columns: [
                     { data: 'article.id',title: 'id', visible: false},
-                    { data: 'article.status',title: 'id', visible: false},
+                    { data: 'article.statusMessage',title: 'statusMessage', visible: false},
                     { data: 'article.title', title: 'Title' },
                     { data: 'faculties.facultyName' , title: 'Faculty'  },
                     {
-
-                        data: 'article.status', title: 'Status', render: function (data) {
-                            if (data === false) {
-                                return '<img src="/images/PendingIcon.png" height="35" alt="Waiting for approval"><span>&nbsp;Pending</span>';
-                            } else {
+                        data: 'article.status', title: 'Status', render: function (data, type, row) {
+                            if (data === false && row.article.statusMessage !== null) {
+                                return '<img src="/images/RejectedIcon.png" height="35px" alt="Rejected"/>';
+                            } else if (data === false && row.article.statusMessage === null ) {
+                                return '<img src="/images/PendingIcon.png" height="35" alt="Waiting for approval"></span>';
+                            }
+                            else {
                                 return '<img src="/images/ApprovedIcon.png" height="35px" alt="Approved"/>';
                             }
                         }
