@@ -13,29 +13,29 @@
     </div>
 </div>
 <partial name="_StatusMessage" model="@ViewData["Message"]"/>
-<div class="card shadow">
+<div class="card shadow col-xl-6">
     <div class="card-body">
         <form method="post" asp-action="AssignMc">
             <div class="backgroundWhite shadowNew">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group row">
-                    <div class="col-md-2">
+                    <div class="col-4 col-lg-2 col-md-2 col-sm-2 p-0">
                         <label asp-for="UserFaculty.UserId" class="col-form-label"></label>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-8 col-lg-10 col-md-10 col-sm-10 p-0">
                         <select asp-for="@Model.UserFaculty.UserId" id="UserId" asp-items="Model.User.Select(u => new SelectListItem() {Text = u.FullName.ToString(), Value = u.Id})" class="form-control"></select>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-md-2">
+                    <div class="col-4 col-lg-2 col-md-2 col-sm-2 p-0">
                         <label asp-for="UserFaculty.FacultyId" class="col-form-label"></label>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-8 col-lg-10 col-md-10 col-sm-10 p-0">
                         <select asp-for="@Model.UserFaculty.FacultyId" id="FacultyId" asp-items="Model.Faculty.Select(f => new SelectListItem() {Text = f.FacultyName.ToString(), Value = f.Id.ToString()})" class="form-control"></select>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-sm-5 offset-md-2">
+                    <div class="col-xl-12">
                         <partial name="_AssignAndBackToListButton"/>
                     </div>
                 </div>
