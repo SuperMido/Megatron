@@ -12,7 +12,7 @@
         <h3 class="page-title">User Management</h3>
     </div>
 </div>
-<div class="card shadow">
+<div class="card shadow col-lg-6">
     <div class="card-header py-3">
         <p class="text-primary m-0 font-weight-bold">
             Create a New Account
@@ -26,7 +26,7 @@
                     <div class="col-md-2">
                         <label asp-for="Input.FullName" class="col-form-label"></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-10">
                         <input asp-for="Input.FullName" class="form-control" />
                     </div>
                     <span asp-validation-for="Input.FullName" class="text-danger"></span>
@@ -35,7 +35,7 @@
                     <div class="col-md-2">
                         <label asp-for="Input.Email" class="col-form-label"></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-10">
                         <input asp-for="Input.Email" class="form-control" />
                     </div>
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
@@ -44,7 +44,7 @@
                     <div class="col-md-2">
                         <label asp-for="Input.ConfirmEmail" class="col-form-label"></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-10">
                         <input asp-for="Input.ConfirmEmail" class="form-control" />
                     </div>
                     <span asp-validation-for="Input.ConfirmEmail" class="text-danger"></span>
@@ -53,7 +53,7 @@
                     <div class="col-md-2">
                         <label asp-for="Input.PhoneNumber" class="col-form-label"></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-10">
                         <input asp-for="Input.PhoneNumber" class="form-control" />
                     </div>
                     <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
@@ -62,7 +62,7 @@
                     <div class="col-md-2">
                         <label asp-for="Input.Password" class="col-form-label"></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-10">
                         <input asp-for="Input.Password" class="form-control" />
                     </div>
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
@@ -71,7 +71,7 @@
                     <div class="col-md-2">
                         <label asp-for="Input.ConfirmPassword" class="col-form-label"></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-10">
                         <input asp-for="Input.ConfirmPassword" class="form-control" />
                     </div>
                     <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
@@ -80,27 +80,27 @@
                     <div class="col-md-2">
                         <label class="col-form-label">Role</label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-10">
                         @if (User.IsInRole(SystemRoles.Administrator))
                         {
-                            <div><input type="radio" name="rdUserRole" value="@SystemRoles.Administrator" /> @SystemRoles.Administrator</div>
-
-                            <div><input type="radio" name="rdUserRole" value="@SystemRoles.MarketingManager" /> @SystemRoles.MarketingManager</div>
-
-                            <div><input type="radio" name="rdUserRole" value="@SystemRoles.MarketingCoordinator" /> @SystemRoles.MarketingCoordinator</div>
-
-                            <div><input type="radio" name="rdUserRole" value="@SystemRoles.Guest" /> @SystemRoles.Guest</div>
-
-                            <div><input type="radio" name="rdUserRole" value="@SystemRoles.Student" /> @SystemRoles.Student</div>
+                            <select name="rdUserRole" id="inputRole" class="form-control">
+                                <option selected>Choose...</option>
+                                <option  value="@SystemRoles.Administrator">@SystemRoles.Administrator</option>
+                                <option  value="@SystemRoles.MarketingManager">@SystemRoles.MarketingManager</option>
+                                <option  value="@SystemRoles.MarketingCoordinator">@SystemRoles.MarketingCoordinator</option>
+                                <option  value="@SystemRoles.Guest">@SystemRoles.Guest</option>
+                                <option  value="@SystemRoles.Student">@SystemRoles.Student</option>
+                            </select>
                         }
-                        else
+                        @if(User.IsInRole(SystemRoles.MarketingManager))
                         {
-                            <input type="radio" name="rdUserRole" value="@SystemRoles.Guest" /> @SystemRoles.Guest
-                            <input type="radio" name="rdUserRole" value="@SystemRoles.Student" /> @SystemRoles.Student
+                            <select name="rdUserRole" id="inputRole" class="form-control">
+                                <option value="@SystemRoles.Guest">@SystemRoles.Guest</option>
+                                <option value="@SystemRoles.Student">@SystemRoles.Student</option>
+                            </select>
                         }
                     </div>
                 </div>
-
                 <div class="form-group row">
                     <div class="col-md-5 offset-md-2">
                         <button type="submit" class="btn btn-primary form-control">Create Account</button>

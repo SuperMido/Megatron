@@ -111,7 +111,7 @@ namespace Megatron.Areas.Identity.Pages.Account
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
                     }
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "User");
                 }
                 foreach (var error in result.Errors)
                 {
