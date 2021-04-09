@@ -38,13 +38,17 @@
                 },
                 columns: [
                     { data: "title", title: "Title" },
+                    { data: "statusMessage", title: "statusMessage", visible: false },
                     { data: "faculty.facultyName", title: "Faculty" },
                     { data: "author", title: "Author" },  
                     {
-                        data: 'status', title: 'Status', render: function (data) {
-                            if (data === false) {
-                                return '<img src="/images/PendingIcon.png" height="35" alt="Waiting for approval"><span>&nbsp;Pending</span>';
-                            } else {
+                        data: 'status', title: 'Status', render: function (data, type, row) {
+                            if (data === false && row.statusMessage !== null) {
+                                return '<img src="/images/RejectedIcon.png" height="35px" alt="Rejected"/>';
+                            } else if (data === false && row.statusMessage === null ) {
+                                return '<img src="/images/PendingIcon.png" height="35" alt="Waiting for approval"></span>';
+                            }
+                            else {
                                 return '<img src="/images/ApprovedIcon.png" height="35px" alt="Approved"/>';
                             }
                         }
